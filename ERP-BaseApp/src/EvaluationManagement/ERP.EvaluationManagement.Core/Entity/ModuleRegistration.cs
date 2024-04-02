@@ -7,6 +7,7 @@ namespace ERP.EvaluationManagement.Core.Entity
         public Guid StudentId { get; set; }
         [ForeignKey("StudentId")]
         public virtual Student Student { get; set; }
+        
         public Guid ModuleOfferingId { get; set; }
         [ForeignKey("ModuleOfferingId")]
         public virtual ModuleOffering ModuleOffering { get; set; }

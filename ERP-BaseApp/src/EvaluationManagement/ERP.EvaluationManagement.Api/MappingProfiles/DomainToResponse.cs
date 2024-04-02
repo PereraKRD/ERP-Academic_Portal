@@ -21,5 +21,12 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.ModuleId,
                 opt => opt.MapFrom(src => src.Id))
             ;
+        
+        CreateMap<ModuleOffering, GetModuleOfferingResponse>()
+            .ForMember(dest => dest.ModuleOfferingId,
+                opt => opt.MapFrom(src => src.Id))
+            ;
+        
+        
     }
 }
