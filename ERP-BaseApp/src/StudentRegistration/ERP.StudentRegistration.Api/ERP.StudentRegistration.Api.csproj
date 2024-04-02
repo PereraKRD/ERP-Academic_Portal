@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Authentication\ERP.Authentication.Jwt\ERP.Authentication.Jwt.csproj" />
+    <ProjectReference Include="..\..\EvaluationManagement\ERP.EvaluationManagement.Core\ERP.EvaluationManagement.Core.csproj" />
     <ProjectReference Include="..\..\_Shared\ERP.Messaging.Core\ERP.Messaging.Core.csproj" />
     <ProjectReference Include="..\ERP.StudentRegistration.Application\ERP.StudentRegistration.Application.csproj" />
     <ProjectReference Include="..\ERP.StudentRegistration.Core\ERP.StudentRegistration.Core.csproj" />

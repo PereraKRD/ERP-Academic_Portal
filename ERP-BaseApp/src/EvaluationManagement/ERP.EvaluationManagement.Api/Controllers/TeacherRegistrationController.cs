@@ -1,5 +1,6 @@
 using AutoMapper;
 using ERP.EvaluationManagement.Core.DTOs.Requests;
+using ERP.EvaluationManagement.Core.DTOs.Responses;
 using ERP.EvaluationManagement.Core.Entity;
 using ERP.EvaluationManagement.DataService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,16 @@ public class TeacherRegistrationController : BaseController
     public TeacherRegistrationController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
-
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAllTeacher()
+    {
+        var teachers = await _unitOfWork.Teachers.GetAllAsync();
+        var results = _mapper.Map<IEnumerable<GetTeacherResponse>>(teachers);
+        return Ok(results);
+    }
+    
+    
     [HttpPost("")]
     public async Task<IActionResult> AddTeacher([FromBody] CreateTeacherRequest teacher)
     {

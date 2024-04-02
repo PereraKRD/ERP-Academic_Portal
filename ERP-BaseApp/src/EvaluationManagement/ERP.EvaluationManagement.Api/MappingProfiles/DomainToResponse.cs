@@ -8,8 +8,18 @@ public class DomainToResponse : Profile
 {
     public DomainToResponse()
     {
-        CreateMap<Teacher, CreateTeacherResponse>()
-           .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
-           .ForMember(dest => dest.TeacherId,opt => opt.MapFrom(src => src.Id));
+        
+        CreateMap<Teacher, GetTeacherResponse>()
+            .ForMember(dest => dest.TeacherId,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.FullName,
+                opt => opt
+                    .MapFrom(src => $"{src.FirstName} {src.LastName}"))
+            ;
+        
+        CreateMap<Module, GetModuleResponse>()
+            .ForMember(dest => dest.ModuleId,
+                opt => opt.MapFrom(src => src.Id))
+            ;
     }
 }
