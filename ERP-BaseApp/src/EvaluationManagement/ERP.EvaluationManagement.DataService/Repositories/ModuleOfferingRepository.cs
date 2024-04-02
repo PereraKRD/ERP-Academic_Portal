@@ -35,7 +35,7 @@ public class ModuleOfferingRepository : GenericRepository<ModuleOffering> , IMod
         {
             return _dbSet
                     .Where(x => x.Coordinator.Id == id)
-                .Include(x => x.Module)
+                    .Include(x => x.Module)
                 ;
         }
         catch (Exception e)
