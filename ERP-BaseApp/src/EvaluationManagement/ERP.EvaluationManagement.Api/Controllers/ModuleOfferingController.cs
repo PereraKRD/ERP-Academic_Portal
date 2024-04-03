@@ -16,8 +16,8 @@ public class ModuleOfferingController : BaseController
     
 
     [HttpGet]
-    [Route("{teacherId:guid}")]
-    public async Task<IActionResult> GetTeacherModuleOffering(Guid teacherId)
+    [Route("{teacherId:guid}/modules")]
+    public async Task<IActionResult> GetTeacherModules(Guid teacherId)
     {
         var modules = await _unitOfWork.ModuleOfferings.GetTeacherModulesAsync(teacherId);
         var results = _mapper.Map<IEnumerable<GetTeacherModulesResponse>>(modules);
@@ -43,6 +43,31 @@ public class ModuleOfferingController : BaseController
 
         var moduleOfferingEntity = _mapper.Map<ModuleOffering>(moduleOffering);
         await _unitOfWork.ModuleOfferings.AddAsync(moduleOfferingEntity);
+        await _unitOfWork.CompleteAsync();
+        return Ok();
+    }
+    
+    [HttpGet]
+    [Route("{moduleOfferingId:guid}")]
+    public async Task<IActionResult> GetModuleOfferingDetailsById(Guid moduleOfferingId)
+    {
+        var moduleOffering = await _unitOfWork.ModuleOfferings.GetAsync(moduleOfferingId);
+        var result = _mapper.Map<GetModuleOfferingDetailsResponse>(moduleOffering);
+        return Ok(result);
+    }
+    
+    [HttpPost]
+    [Route("{moduleOfferingId:guid}")]
+    public async Task<IActionResult> AddEvaluation(Guid moduleOfferingId, [FromBody] CreateEvaluationRequest evaluation)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+        
+        var evaluationEntity = _mapper.Map<Evaluation>(evaluation);
+        evaluationEntity.ModuleOfferingID = moduleOfferingId;
+        await _unitOfWork.Evaluations.AddAsync(evaluationEntity);
         await _unitOfWork.CompleteAsync();
         return Ok();
     }

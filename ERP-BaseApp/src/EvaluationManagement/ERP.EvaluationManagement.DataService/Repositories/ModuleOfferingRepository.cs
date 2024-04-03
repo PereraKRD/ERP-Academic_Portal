@@ -44,4 +44,21 @@ public class ModuleOfferingRepository : GenericRepository<ModuleOffering> , IMod
             throw;
         }
     }
+    
+    public override async Task<ModuleOffering?> GetAsync(Guid id)
+    {
+        try
+        {
+            return await _dbSet
+                .Include(m => m.Module)
+                .Include(m => m.Coordinator)
+                .Include(m => m.Evalutions)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetAsync Error", typeof(ModuleOfferingRepository));
+            throw;
+        }
+    }
 }
