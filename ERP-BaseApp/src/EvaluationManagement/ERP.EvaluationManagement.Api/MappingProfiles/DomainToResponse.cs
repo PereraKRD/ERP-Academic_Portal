@@ -47,7 +47,20 @@ public class DomainToResponse : Profile
                 opt => opt
                     .MapFrom(src => $"{src.Coordinator.FirstName} {src.Coordinator.LastName}"))
             ;
-        
-        
+
+        CreateMap<Evaluation, GetEvaluationDetailsResponse>()
+            .ForMember(dest => dest.EvaluationId,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.EvaluationName,
+                opt => opt.MapFrom(src => src.Name))
+            .ForMember(opt => opt.EvaluationType,
+                opt => opt.MapFrom(src => src.Type))
+            .ForMember(dest => dest.EvaluationMarks,
+                opt => opt.MapFrom(src => src.Marks))
+            .ForMember(dest => dest.EvaluationFinalMarks,
+                opt => opt.MapFrom(src => src.FinalMarks))
+            ;
+
+
     }
 }

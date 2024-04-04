@@ -26,6 +26,6 @@ namespace ERP.EvaluationManagement.Core.Entity
         public virtual ICollection<ModuleOfferingSecondExaminer> SecondExaminers { get; set; } =
             new List<ModuleOfferingSecondExaminer>();
         public virtual ICollection<ModuleRegistration> Registrations { get; set; } = new List<ModuleRegistration>();
-        public virtual ICollection<Evaluation> Evalutions { get; set; } = new List<Evaluation>();
+        public virtual ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
     }
 }

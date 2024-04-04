@@ -52,7 +52,7 @@ public class ModuleOfferingRepository : GenericRepository<ModuleOffering> , IMod
             return await _dbSet
                 .Include(m => m.Module)
                 .Include(m => m.Coordinator)
-                .Include(m => m.Evalutions)
+                .Include(m => m.Evaluations)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
         catch (Exception e)

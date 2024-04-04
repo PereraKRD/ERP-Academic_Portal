@@ -74,7 +74,7 @@ public class AppDbContext : DbContext
             
             // ModuleOffering and Evaluation (One-to-Many)
             modelBuilder.Entity<ModuleOffering>()
-                .HasMany(e => e.Evalutions)
+                .HasMany(e => e.Evaluations)
                 .WithOne(mo => mo.ModuleOffering)
                 .HasForeignKey(mo => mo.ModuleOfferingID); 
             

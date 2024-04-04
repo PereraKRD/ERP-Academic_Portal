@@ -28,4 +28,22 @@ public class EvaluationRepository : GenericRepository<Evaluation>, IEvaluationRe
             throw;
         }
     }
+
+    public override async Task<bool> DeleteAsync(Guid evaluationId)
+    {
+        try
+        {
+            var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == evaluationId);
+
+            if (result == null) return false;
+            result.Status = 0;
+            result.UpdateDate = DateTime.UtcNow;
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
