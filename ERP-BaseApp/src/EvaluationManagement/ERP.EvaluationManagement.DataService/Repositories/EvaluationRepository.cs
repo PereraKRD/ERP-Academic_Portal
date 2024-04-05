@@ -28,6 +28,24 @@ public class EvaluationRepository : GenericRepository<Evaluation>, IEvaluationRe
             throw;
         }
     }
+    
+    public async Task<IEnumerable<Evaluation>> GetByIdAsync(Guid moduleOfferingId)
+    {
+        try
+        {
+            return await _dbSet
+                .Where(x => x.Status == 1 && x.ModuleOfferingID == moduleOfferingId)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .OrderBy(x => x.AddedDate)
+                .ToListAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetAllAsync Error", typeof(EvaluationRepository));
+            throw;
+        }
+    }
 
     public override async Task<bool> DeleteAsync(Guid evaluationId)
     {

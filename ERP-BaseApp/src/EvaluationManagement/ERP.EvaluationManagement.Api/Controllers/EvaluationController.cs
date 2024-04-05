@@ -21,6 +21,15 @@ public class EvaluationController : BaseController
         return Ok(results);
     }
     
+    [HttpGet]
+    [Route("{moduleOfferingId:guid}")]
+    public async Task<IActionResult> GetEvaluationById(Guid moduleOfferingId)
+    {
+        var evaluations = await _unitOfWork.Evaluations.GetByIdAsync(moduleOfferingId);
+        var result = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(evaluations);
+        return Ok(result);
+    }
+    
     [HttpPost]
     [Route("{moduleOfferingId:guid}")]
     public async Task<IActionResult> AddEvaluation(Guid moduleOfferingId, [FromBody] CreateEvaluationRequest evaluation)

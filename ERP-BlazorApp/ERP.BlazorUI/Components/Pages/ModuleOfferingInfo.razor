@@ -1,0 +1,9 @@
+@page "/ModuleManagementTabs/{ModuleOfferingId:guid}"
+
+<ModuleOfferingInformation ModuleOfferingId="ModuleOfferingId"></ModuleOfferingInformation>
+
+@code
+{
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+}

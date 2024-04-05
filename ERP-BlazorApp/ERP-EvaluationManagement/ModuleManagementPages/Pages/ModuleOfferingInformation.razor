@@ -1,0 +1,95 @@
+@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+
+@inject ISnackbar Snackbar
+
+@if (_moduleOffering != null)
+{
+    <div class="pt-4">
+        <h3 class="result-header"> @_moduleOffering.ModuleCode @_moduleOffering.ModuleName</h3>
+    </div>
+        <MudTabs Outlined="true" @ref="tabs">
+            <MudTabPanel Text="Assignments" Icon="@Icons.Material.Filled.Assignment" @ref="panel01">
+                <DisplayEvaluationList ModuleOfferingId="ModuleOfferingId"></DisplayEvaluationList>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Add Assignment" Icon="@Icons.Material.Filled.People" @ref="panel02">
+                <CreateEvaluationDialog onAdded="Activate_01" ModuleOfferingId="ModuleOfferingId"></CreateEvaluationDialog>
+            </MudTabPanel>
+            
+            <MudTabPanel Text="Student List" Icon="@Icons.Material.Filled.People" @ref="panel03">
+                <DisplayStudentList ModuleOfferingId="ModuleOfferingId"></DisplayStudentList>
+            </MudTabPanel>
+
+       
+
+            <MudTabPanel Text="Results" Icon="@Icons.Material.Filled.TableView" @ref="panel04">
+                <MudCard Class="mb-5">
+                    <MudCardContent Style="@($"color:{Colors.Grey.Darken4}; background:{Colors.Grey.Lighten3};")">
+                        <div class="d-flex justify-space-around flex-grow-1 gap-1">
+                            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary">Add Marks</MudButton>
+                            <MudButton StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Primary">Edit</MudButton>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+            </MudTabPanel>
+        </MudTabs>
+    
+
+}
+else
+{
+    <p>Module offering information not found.</p>
+}
+
+
+
+@code {
+    MudTabs tabs;
+    MudTabPanel panel01;
+    MudTabPanel panel02;
+    MudTabPanel panel03;
+    MudTabPanel panel04;
+
+    
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+    
+    private HttpClient Http = new HttpClient();
+
+    private GetModuleOfferingDetailsResponse? _moduleOffering;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModuleOfferingInfoAsync();
+    }
+
+    private async Task LoadModuleOfferingInfoAsync()
+    {
+        try
+        {
+            _moduleOffering = await Http.GetFromJsonAsync<GetModuleOfferingDetailsResponse>($"https://localhost:7007/api/ModuleOffering/{ModuleOfferingId}");
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception
+            Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
+        }
+    }
+    
+    private async Task RefreshEvaluationsAsync()
+    {
+        await LoadModuleOfferingInfoAsync();
+        StateHasChanged();
+    }
+    
+    private async Task Activate_01()
+    {
+        
+        await RefreshEvaluationsAsync();
+        tabs.ActivatePanel(panel01);
+        Snackbar.Add("Evaluation Added Successfully", Severity.Success);
+    }
+
+}
+<link rel="stylesheet" href="styles.css" />
