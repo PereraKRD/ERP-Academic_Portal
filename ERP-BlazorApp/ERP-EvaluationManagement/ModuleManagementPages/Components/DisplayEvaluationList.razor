@@ -5,8 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
-
-<MudTable Items="@_evaluations">
+    <MudTable Items="@_evaluations">
         <HeaderContent>
             <MudTh>Name</MudTh>
             <MudTh>Type</MudTh>
@@ -16,18 +15,18 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">
-                <MudButton > @context.EvaluationName</MudButton>
+                <MudButton OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
             </MudTd>
             <MudTd DataLabel="Type">@context.EvaluationType</MudTd>
             <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
             <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
             <MudTd>
                 <MudIconButton Icon="@Icons.Material.Filled.Edit" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
             </MudTd>
         </RowTemplate>
     </MudTable>
-    </MudContainer>
+</MudContainer>
 
 @code {
     [Parameter]
@@ -41,44 +40,28 @@
         _evaluations = await Http.GetFromJsonAsync<List<GetEvaluationDetailsResponse>>($"http://localhost:5007/api/Evaluation/{ModuleOfferingId}");
     }
     
+    async Task DeleteEvaluation(Guid evaluationId)
+    {
+        var parameters = new DialogParameters { ["EvaluationId"] = evaluationId };
+        var dialog = DialogService.Show<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
+        var result = await dialog.Result;
+    } 
+    
+    private void ViewEvaluationInformation(Guid moduleOfferingId,Guid evaluationId)
+    {
+        NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}/{evaluationId}");
+    }
+
+}
+
+
 @*    
     async Task EditEvaluation(Evaluation evaluation)
     {
         var parameters = new DialogParameters { ["evaluation"] = evaluation };
         var dialog = DialogService.Show<EditEvaluationdialog>("Edit Evaluation", parameters);
         var result = await dialog.Result;
-
-        if (!result.Canceled && result.Data is true)
-        {
-             await RefreshEvaluations();
-        }
-    }
-    
-     async Task RefreshEvaluations()
-    {
-        ModuleOffering = await GetModuleOfferingByIdUseCase.ExecuteAsync(ModuleOfferingId);
-        _evaluations = ModuleOffering.Evalutions.ToList();
-        StateHasChanged(); 
-    }
-
-    async Task DeleteEvaluation(int evaluationId)
-    {
-        var parameters = new DialogParameters { ["EvaluationId"] = evaluationId };
-        var dialog = DialogService.Show<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
-        var result = await dialog.Result;
-
-        if (!result.Canceled && result.Data is true)
-        {
-            await RefreshEvaluations();
-        }
-    }
-    
-    private void ViewEvaluationInformation(int moduleOfferingId,int evaluationId)
-    {
-        NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}/{evaluationId}");
+        
     }
 
 *@
-}
-
-<link rel="stylesheet" href="styles.css" />

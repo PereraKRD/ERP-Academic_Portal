@@ -14,7 +14,7 @@
             </MudTabPanel>
 
             <MudTabPanel Text="Add Assignment" Icon="@Icons.Material.Filled.People" @ref="panel02">
-                <CreateEvaluationDialog onAdded="Activate_01" ModuleOfferingId="ModuleOfferingId"></CreateEvaluationDialog>
+                <AddEvaluationComponent onAdded="Activate_01" ModuleOfferingId="ModuleOfferingId"></AddEvaluationComponent>
             </MudTabPanel>
             
             <MudTabPanel Text="Student List" Icon="@Icons.Material.Filled.People" @ref="panel03">
@@ -77,19 +77,12 @@ else
         }
     }
     
-    private async Task RefreshEvaluationsAsync()
-    {
-        await LoadModuleOfferingInfoAsync();
-        StateHasChanged();
-    }
-    
     private async Task Activate_01()
     {
         
-        await RefreshEvaluationsAsync();
+        await LoadModuleOfferingInfoAsync();
         tabs.ActivatePanel(panel01);
         Snackbar.Add("Evaluation Added Successfully", Severity.Success);
     }
 
 }
-<link rel="stylesheet" href="styles.css" />

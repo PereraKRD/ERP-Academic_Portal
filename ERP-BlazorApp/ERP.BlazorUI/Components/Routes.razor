@@ -1,4 +1,11 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly" >
+﻿<Router AppAssembly="@typeof(Program).Assembly"
+        AdditionalAssemblies="new[] { 
+            typeof(ERP_StudentRegistration.StudentPages.StudentTabs).Assembly,
+            typeof(ERP_EvaluationManagement.ModuleManagementPages.Pages.ModuleManagementTabs).Assembly,
+            typeof(ERP_EvaluationManagement.ModuleManagementPages.Pages.ModuleOfferingInformation).Assembly,
+            typeof(ERP_EvaluationManagement.ModuleManagementPages.Components.DisplayEvaluationList).Assembly,
+            typeof(ERP_EvaluationManagement.ModuleManagementPages.Components.ModuleListComponent).Assembly
+                }">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
