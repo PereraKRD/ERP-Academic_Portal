@@ -36,4 +36,21 @@ public class TeacherRegistrationController : BaseController
         await _unitOfWork.CompleteAsync();
         return Ok();
     }
+    
+
+    [HttpDelete]
+    [Route("{teacherId:guid}")]
+    public async Task<IActionResult> DeleteTeacher(Guid teacherId)
+    {
+        var teacher = await _unitOfWork.Teachers.GetAsync(teacherId);
+        
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+        
+        await _unitOfWork.Teachers.DeleteAsync(teacherId);
+        await _unitOfWork.CompleteAsync();
+        return NoContent();
+    }
 }

@@ -71,4 +71,21 @@ public class ModuleOfferingController : BaseController
         await _unitOfWork.CompleteAsync();
         return Ok();
     }
+    
+
+    [HttpDelete]
+    [Route("{moduleOfferingId:guid}")]
+    public async Task<IActionResult> DeleteModuleOffering(Guid moduleOfferingId)
+    {
+        var moduleOffering = await _unitOfWork.ModuleOfferings.GetAsync(moduleOfferingId);
+        
+        if (moduleOffering == null)
+        {
+            return NotFound();
+        }
+        
+        await _unitOfWork.ModuleOfferings.DeleteAsync(moduleOfferingId);
+        await _unitOfWork.CompleteAsync();
+        return NoContent();
+    }
 }

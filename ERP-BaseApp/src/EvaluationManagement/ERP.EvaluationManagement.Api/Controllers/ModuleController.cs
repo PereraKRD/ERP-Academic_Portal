@@ -36,4 +36,20 @@ public class ModuleController : BaseController
         return Ok();
 
     }
+
+    [HttpDelete]
+    [Route("{moduleId:guid}")]
+    public async Task<IActionResult> DeleteModule(Guid moduleId)
+    {
+        var module = await _unitOfWork.Modules.GetAsync(moduleId);
+
+        if (module == null)
+        {
+            return NotFound();
+        }
+
+        await _unitOfWork.Modules.DeleteAsync(moduleId);
+        await _unitOfWork.CompleteAsync();
+        return NoContent();
+    }
 }
