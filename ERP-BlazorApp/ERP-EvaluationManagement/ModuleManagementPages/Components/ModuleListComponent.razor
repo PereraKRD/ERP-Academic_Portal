@@ -1,0 +1,52 @@
+@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json;
+@inject NavigationManager NavigationManager
+
+<MudContainer Class="result-container">
+    <h3 class="result-header">Module Offerings</h3>
+
+    <MudExpansionPanels MultiExpansion="true">
+        @foreach (var semester in Enumerable.Range(1, 8))
+        {
+            <MudExpansionPanel Text=@($"Semester {semester:D2}") MaxHeight="1000">
+                <div class="mt-4">
+                    @foreach (var moduleOffering in _moduleOfferings)
+                    {
+                        if (moduleOffering.Semester == $"semester {semester:00}")
+                        {
+                            <div>
+                                <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
+                                    @moduleOffering.Name
+                                </button>
+                            </div>
+                        }
+                    }
+                </div>
+            </MudExpansionPanel>
+        }
+    </MudExpansionPanels>
+</MudContainer>
+
+@code {
+    private HttpClient Http = new HttpClient();
+    private List<GetTeacherModulesResponse>? _moduleOfferings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModulesAsync();
+    }
+
+    private async Task LoadModulesAsync()
+    {
+        string teacherId = "af8ad6c4-46f2-4bf8-9628-9cf34e122893";
+        _moduleOfferings =  await Http.GetFromJsonAsync<List<GetTeacherModulesResponse>>("https://localhost:7003/api/ModuleOffering/{teacherId}/modules");
+        
+    }
+    
+    private void ViewModuleInformation(Guid moduleOfferingId)
+    {
+        NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}");
+    }
+}
+
+<link rel="stylesheet" href="styles.css" />

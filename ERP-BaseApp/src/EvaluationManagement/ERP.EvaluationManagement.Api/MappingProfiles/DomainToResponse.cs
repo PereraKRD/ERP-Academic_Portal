@@ -34,6 +34,8 @@ public class DomainToResponse : Profile
                 opt => opt.MapFrom(src => src.Module.Name))
             .ForMember(dest => dest.Code,
                 opt => opt.MapFrom(src => src.Module.Code))
+            .ForMember(dest => dest.Semester,
+                opt => opt.MapFrom(src => src.Module.Semester))
             ;
         
         CreateMap<ModuleOffering, GetModuleOfferingDetailsResponse>()

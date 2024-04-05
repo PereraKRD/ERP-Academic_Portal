@@ -15,6 +15,7 @@
 
   
   <ItemGroup>
+    <ProjectReference Include="..\ERP-EvaluationManagement\ERP-EvaluationManagement.csproj" />
     <ProjectReference Include="..\Lib\ERP-StudentRegistration\ERP-StudentRegistration.csproj" />
   </ItemGroup>
   

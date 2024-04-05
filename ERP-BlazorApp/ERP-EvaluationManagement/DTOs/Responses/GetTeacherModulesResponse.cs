@@ -1,6 +1,4 @@
-using ERP.EvaluationManagement.Core.Entity;
-
-namespace ERP.EvaluationManagement.Core.DTOs.Responses;
+namespace ERP_EvaluationManagement.DTOs.Responses;
 
 public class GetTeacherModulesResponse
 {
@@ -8,6 +6,5 @@ public class GetTeacherModulesResponse
     public Guid ModuleId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
-
     public string Semester { get; set; } = string.Empty;
 }
