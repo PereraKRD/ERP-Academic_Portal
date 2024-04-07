@@ -1,0 +1,25 @@
+
+<h3>AddEditEvaluationMarks</h3>
+
+    <MudCard>
+        <MudContainer>
+            <MudCardContent Style="height: 400px;  background-color: lightgray;">
+            </MudCardContent>
+        </MudContainer>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary">Generate Excel</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+
+@code {
+    [Parameter] 
+    public Guid ModuleOfferingId { get; set; }
+    
+    [Parameter]
+    public Guid EvaluationId { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}

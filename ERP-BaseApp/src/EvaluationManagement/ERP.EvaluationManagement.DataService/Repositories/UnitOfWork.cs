@@ -10,8 +10,10 @@ public class UnitOfWork : IUnitOfWork
     public IEvaluationRepository Evaluations { get; }
     public IModuleOfferingRepository ModuleOfferings { get; }
     public ITeacherRepository Teachers { get; }
-    
     public IModuleRepository Modules { get; }
+    public IStudentRepository Students { get; }
+    public IModuleRegistrationRepository ModuleRegistrations { get; }
+    public IStudentResultRepository StudentResults { get; }
     
     public UnitOfWork(AppDbContext context , ILoggerFactory loggerFactory)
     {
@@ -22,6 +24,9 @@ public class UnitOfWork : IUnitOfWork
         ModuleOfferings = new ModuleOfferingRepository(_context,logger);
         Teachers = new TeacherRepository(_context,logger);
         Modules = new ModuleRepository(_context,logger);
+        Students = new StudentRepository(_context, logger);
+        ModuleRegistrations = new ModuleRegistrationRepository(_context, logger);
+        StudentResults = new StudentResultRepository(_context, logger);
     }
     
     public async Task<bool> CompleteAsync()

@@ -1,0 +1,12 @@
+@page "/ModuleManagementTabs/{ModuleOfferingId:guid}/{EvaluationId:guid}"
+@rendermode InteractiveServer
+
+<EvaluationManagementPage ModuleOfferingId="ModuleOfferingId" EvaluationId="EvaluationId" />
+
+@code {
+    [Parameter] 
+    public Guid ModuleOfferingId { get; set; }
+
+    [Parameter] 
+    public Guid EvaluationId { get; set; }
+}

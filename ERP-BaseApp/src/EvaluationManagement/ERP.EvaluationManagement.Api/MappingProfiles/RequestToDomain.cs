@@ -43,5 +43,32 @@ public class RequestToDomain : Profile
             .ForMember(dest => dest.UpdateDate,
                 opt => opt.MapFrom(src => DateTime.UtcNow))
             ;
+        
+        CreateMap<CreateStudentRequest, Student>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => 1))
+            .ForMember(dest => dest.AddedDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
+        
+        CreateMap<CreateModuleRegistrationRequest, ModuleRegistration>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => 1))
+            .ForMember(dest => dest.AddedDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
+        
+        CreateMap<CreateStudentResultRequest, StudentResult>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => 1))
+            .ForMember(dest => dest.AddedDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
     }
 }
