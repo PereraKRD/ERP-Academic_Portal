@@ -37,14 +37,55 @@
     
     protected override async Task OnInitializedAsync()
     {
-        _evaluations = await Http.GetFromJsonAsync<List<GetEvaluationDetailsResponse>>($"http://localhost:5007/api/Evaluation/{ModuleOfferingId}");
+        await LoadEvaluationsAsync();
+    }
+    
+    private async Task LoadEvaluationsAsync()
+    {
+        try
+        {
+            _evaluations = await Http.GetFromJsonAsync<List<GetEvaluationDetailsResponse>>($"http://localhost:5007/api/Evaluation/{ModuleOfferingId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while loading evaluations: {ex.Message}");
+        }
     }
     
     async Task DeleteEvaluation(Guid evaluationId)
     {
+        try
+        {
+            // request message
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri($"https://localhost:7007/api/Evaluation/{evaluationId}")
+            };
+
+            // Send the request and await the response
+            var response = await Http.SendAsync(request);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Evaluation Deleted Successfully", Severity.Error);
+                await LoadEvaluationsAsync();
+            }
+            else
+            {
+
+                Snackbar.Add("Failed to delete evaluation", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
+        }
+        /*
         var parameters = new DialogParameters { ["EvaluationId"] = evaluationId };
-        var dialog = DialogService.Show<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
         var result = await dialog.Result;
+        */
     } 
     
     private void ViewEvaluationInformation(Guid moduleOfferingId,Guid evaluationId)
