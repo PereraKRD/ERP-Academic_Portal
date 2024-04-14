@@ -39,7 +39,6 @@
     private async Task LoadModulesAsync()
     {
         _moduleOfferings =  await Http.GetFromJsonAsync<List<GetTeacherModulesResponse>>($"https://localhost:7007/api/ModuleOffering/af8ad6c4-46f2-4bf8-9628-9cf34e122893/modules");
-        
     }
     
     private void ViewModuleInformation(Guid moduleOfferingId)

@@ -47,4 +47,19 @@ public class ModuleRegistrationRepository : GenericRepository<ModuleRegistration
             throw;
         }
     }
+
+    public async Task<IEnumerable<ModuleRegistration>> GetModuleRegistrationByModuleOfferingAsync(Guid moduleOfferingId)
+    {
+        try
+        {
+            return _dbSet
+                .Where(x => x.ModuleOfferingId == moduleOfferingId)
+                .Include(x => x.Student);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetModuleRegistrationByModuleOfferingAsync Error", typeof(ModuleRegistrationRepository));
+            throw;
+        }
+    }
 }

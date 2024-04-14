@@ -10,6 +10,8 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
     public StudentResultRepository(AppDbContext context, ILogger logger) : base(context, logger)
     {
     }
+    
+    
 
     public override async Task<IEnumerable<StudentResult>> GetAllAsync()
     {
@@ -44,6 +46,21 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
         catch (Exception e)
         {
             _logger.LogError(e, "{Repo} DeleteAsync Error", typeof(ModuleRegistrationRepository));
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<StudentResult>> GetEvaluationResultAsync(Guid evaluationId)
+    {
+        try
+        {
+            return _dbSet
+                .Where(x => x.EvaluationId == evaluationId)
+                .Include(x => x.Student);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetEvaluationResultAsync Error", typeof(StudentResultRepository));
             throw;
         }
     }

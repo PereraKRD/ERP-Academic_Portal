@@ -53,4 +53,13 @@ public class StudentResultController : BaseController
         await _unitOfWork.CompleteAsync();
         return NoContent();
     }
+    
+    [HttpGet]
+    [Route("{evaluationId:guid}/results")]
+    public async Task<IActionResult> GetEvaluationResults(Guid evaluationId)
+    {
+        var studentResults = await _unitOfWork.StudentResults.GetEvaluationResultAsync(evaluationId);
+        var results = _mapper.Map<IEnumerable<GetEvaluationResultListResponse>>(studentResults);
+        return Ok(results);
+    }
 }

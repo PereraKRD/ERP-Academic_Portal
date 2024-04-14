@@ -52,4 +52,14 @@ public class ModuleRegistrationController : BaseController
         await _unitOfWork.CompleteAsync();
         return NoContent();
     }
+    
+    [HttpGet]
+    [Route("{moduleOfferingId:guid}/registrations")]
+    public async Task<IActionResult> GetModuleRegistrationByModuleOffering(Guid moduleOfferingId)
+    {
+        var moduleRegistrations = await _unitOfWork.ModuleRegistrations
+            .GetModuleRegistrationByModuleOfferingAsync(moduleOfferingId);
+        var results = _mapper.Map<IEnumerable<GetModuleOfferingStudentsResponse>>(moduleRegistrations);
+        return Ok(results);
+    }
 }

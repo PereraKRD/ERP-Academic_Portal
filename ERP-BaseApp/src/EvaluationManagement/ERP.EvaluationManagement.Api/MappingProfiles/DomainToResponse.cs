@@ -94,6 +94,25 @@ public class DomainToResponse : Profile
                 opt => opt
                     .MapFrom(src => $"{src.Student.FirstName} {src.Student.LastName}"))
             ;
+        
+        CreateMap<StudentResult, GetEvaluationResultListResponse>()
+            .ForMember(dest => dest.RegistrationNum,
+                opt => opt.MapFrom(src => src.Student.RegistrationNum))
+            .ForMember(dest => dest.FullName,
+                opt => opt
+                    .MapFrom(src => $"{src.Student.FirstName} {src.Student.LastName}"))
+            ;
+        
+        CreateMap<ModuleRegistration, GetModuleOfferingStudentsResponse>()
+            .ForMember(dest => dest.RegistrationNum,
+                opt => opt.MapFrom(src => src.Student.RegistrationNum))
+            .ForMember(dest => dest.FullName,
+                opt => opt
+                    .MapFrom(src => $"{src.Student.FirstName} {src.Student.LastName}"))
+            .ForMember(dest => dest.Email,
+                opt => opt
+                    .MapFrom(src => src.Student.Email))
+            ;
 
 
     }
