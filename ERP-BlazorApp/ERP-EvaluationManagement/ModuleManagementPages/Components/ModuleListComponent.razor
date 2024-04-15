@@ -8,18 +8,16 @@
     <MudExpansionPanels MultiExpansion="true">
         @foreach (var semester in Enumerable.Range(1, 8))
         {
-            <MudExpansionPanel Text=@($"Semester {semester:D2}") MaxHeight="1000">
+            var moduleOfferingsForSemester = _moduleOfferings.Where(m => m.Semester == $"Semester {semester:00}").ToList();
+            <MudExpansionPanel Text=@($"Semester {semester:D2} - ({moduleOfferingsForSemester.Count})") MaxHeight="1000">
                 <div class="mt-4">
-                    @foreach (var moduleOffering in _moduleOfferings)
+                    @foreach (var moduleOffering in moduleOfferingsForSemester)
                     {
-                        if (moduleOffering.Semester == $"Semester {semester:00}")
-                        {
-                            <div>
-                                <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
-                                    @moduleOffering.Name
-                                </button>
-                            </div>
-                        }
+                        <div>
+                            <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
+                                @moduleOffering.Name
+                            </button>
+                        </div>
                     }
                 </div>
             </MudExpansionPanel>
@@ -38,7 +36,7 @@
 
     private async Task LoadModulesAsync()
     {
-        _moduleOfferings =  await Http.GetFromJsonAsync<List<GetTeacherModulesResponse>>($"https://localhost:7007/api/ModuleOffering/af8ad6c4-46f2-4bf8-9628-9cf34e122893/modules");
+        _moduleOfferings = await Http.GetFromJsonAsync<List<GetTeacherModulesResponse>>($"https://localhost:7007/api/ModuleOffering/af8ad6c4-46f2-4bf8-9628-9cf34e122893/modules");
     }
     
     private void ViewModuleInformation(Guid moduleOfferingId)
