@@ -1,8 +1,14 @@
 @using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
+@using ERP.EvaluationManagement.Core.DTOs.Requests
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
 
 <MudContainer Class="result-container">
     <MudTable Items="@_evaluations">
@@ -54,38 +60,11 @@
     
     async Task DeleteEvaluation(Guid evaluationId)
     {
-        try
-        {
-            // request message
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Delete,
-                RequestUri = new Uri($"https://localhost:7007/api/Evaluation/{evaluationId}")
-            };
-
-            // Send the request and await the response
-            var response = await Http.SendAsync(request);
-            
-            if (response.IsSuccessStatusCode)
-            {
-                Snackbar.Add("Evaluation Deleted Successfully", Severity.Error);
-                await LoadEvaluationsAsync();
-            }
-            else
-            {
-
-                Snackbar.Add("Failed to delete evaluation", Severity.Warning);
-            }
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
-        }
-        /*
         var parameters = new DialogParameters { ["EvaluationId"] = evaluationId };
         var dialog = await DialogService.ShowAsync<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
         var result = await dialog.Result;
-        */
+        await LoadEvaluationsAsync();
+        
     } 
     
     private void ViewEvaluationInformation(Guid moduleOfferingId,Guid evaluationId)
@@ -93,16 +72,13 @@
         NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}/{evaluationId}");
     }
 
-}
-
-
-@*    
-    async Task EditEvaluation(Evaluation evaluation)
+    
+    async Task EditEvaluation(UpdateEvaluationRequest evaluation)
     {
         var parameters = new DialogParameters { ["evaluation"] = evaluation };
-        var dialog = DialogService.Show<EditEvaluationdialog>("Edit Evaluation", parameters);
+        var dialog =await DialogService.ShowAsync<EditEvaluationdialog>("Edit Evaluation", parameters);
         var result = await dialog.Result;
-        
-    }
 
-*@
+    }
+}
+  

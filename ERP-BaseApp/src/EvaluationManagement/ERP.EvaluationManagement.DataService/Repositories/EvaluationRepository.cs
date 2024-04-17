@@ -64,4 +64,31 @@ public class EvaluationRepository : GenericRepository<Evaluation>, IEvaluationRe
             throw;
         }
     }
+    
+    public override async Task<bool> UpdateAsync(Evaluation entity)
+    {
+        try
+        {
+            var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == entity.Id);
+
+            if (result == null)
+                return false;
+            
+            result.Name = entity.Name;
+            result.Type = entity.Type;
+            result.Marks = entity.Marks;
+            result.FinalMarks = entity.FinalMarks;
+            result.Status = entity.Status;
+            result.UpdateDate = DateTime.UtcNow;
+
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "{Repo} Update function error",
+                typeof(EvaluationRepository));
+            throw;
+        }
+    }
 }

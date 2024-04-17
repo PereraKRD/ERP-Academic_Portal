@@ -61,4 +61,18 @@ public class EvaluationController : BaseController
         await _unitOfWork.CompleteAsync();
         return NoContent();
     }
+    
+    [HttpPut("")]
+    public async Task<IActionResult> UpdateEvaluation([FromBody] UpdateEvaluationRequest evaluation)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var result = _mapper.Map<Evaluation>(evaluation);
+        await _unitOfWork.Evaluations.UpdateAsync(result);
+        await _unitOfWork.CompleteAsync();
+        return NoContent();
+    }
 }

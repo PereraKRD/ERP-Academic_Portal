@@ -70,5 +70,10 @@ public class RequestToDomain : Profile
             .ForMember(dest => dest.UpdateDate,
                 opt => opt.MapFrom(src => DateTime.UtcNow))
             ;
+        
+        CreateMap<UpdateEvaluationRequest, Evaluation>()
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
     }
 }
