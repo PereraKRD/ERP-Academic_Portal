@@ -21,10 +21,13 @@
                               Immediate="true"
                               Label="Name" />
 
-                <MudNumericField @bind-Value="model.Type"
-                                 For="@(() => model.Type)"
-                                 Immediate="true"
-                                 Label="Type" />
+                <MudSelect @bind-Value="model.Type" Label="Type">
+                    <MudSelectItem Value="1">Inclass</MudSelectItem>
+                    <MudSelectItem Value="2">Quiz</MudSelectItem>
+                    <MudSelectItem Value="3">Assignment</MudSelectItem>
+                    <MudSelectItem Value="4">Take Home</MudSelectItem>
+                    <MudSelectItem Value="5">Other</MudSelectItem>
+                </MudSelect>
 
                 <MudNumericField @bind-Value="model.FinalMarks"
                                  For="@(() => model.FinalMarks)"
