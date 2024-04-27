@@ -1,5 +1,6 @@
 using AutoMapper;
 using ERP.EvaluationManagement.Core.DTOs.Requests;
+using ERP.EvaluationManagement.Core.DTOs.Responses;
 using ERP.EvaluationManagement.Core.Entity;
 using ERP.EvaluationManagement.DataService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -25,5 +26,15 @@ public class SecondExaminerModuleOfferingController : BaseController
         await _unitOfWork.SecondExaminerModuleOfferings.AddAsync(secondExaminerModuleOfferingEntity);
         await _unitOfWork.CompleteAsync();
         return Ok();
+    }
+    
+    
+    [HttpGet]
+    [Route("")]
+    public async Task<IActionResult> GetAllSecondExaminerModuleOffering()
+    {
+        var secondExaminerModuleOfferings = await _unitOfWork.SecondExaminerModuleOfferings.GetAllAsync();
+        var results = _mapper.Map<IEnumerable<GetSecondExaminerModuleOfferingResponse>>(secondExaminerModuleOfferings);
+        return Ok(results);
     }
 }
