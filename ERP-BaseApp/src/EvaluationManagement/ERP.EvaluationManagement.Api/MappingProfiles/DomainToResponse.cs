@@ -114,7 +114,7 @@ public class DomainToResponse : Profile
                     .MapFrom(src => src.Student.Email))
             ;
         
-        CreateMap<ModuleOfferingFirstExaminer, GetFirstExaminerModuleOfferingResponse>()
+        CreateMap<ModuleOfferingFirstExaminer, GetAllFirstExaminerModuleOfferingResponse>()
             .ForMember(dest => dest.ModuleOfferingId,
                 opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.ModuleName,
@@ -126,7 +126,7 @@ public class DomainToResponse : Profile
                     .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
             ;
         
-        CreateMap<ModuleOfferingSecondExaminer, GetSecondExaminerModuleOfferingResponse>()
+        CreateMap<ModuleOfferingSecondExaminer, GetAllSecondExaminerModuleOfferingResponse>()
             .ForMember(dest => dest.ModuleOfferingId,
                 opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.ModuleName,
@@ -137,7 +137,29 @@ public class DomainToResponse : Profile
                 opt => opt
                     .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
             ;
-
-
+        
+        CreateMap<ModuleOfferingFirstExaminer, GetParticularFirstExaminerModuleOfferingResponse>()
+            .ForMember(dest => dest.ModuleOfferingId,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.ModuleName,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Name))
+            .ForMember(dest => dest.ModuleCode,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Code))
+            .ForMember(dest => dest.FirstExaminerName,
+                opt => opt
+                    .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+            ;
+        
+        CreateMap<ModuleOfferingSecondExaminer, GetParticularSecondExaminerModuleOfferingResponse>()
+            .ForMember(dest => dest.ModuleOfferingId,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.ModuleName,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Name))
+            .ForMember(dest => dest.ModuleCode,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Code))
+            .ForMember(dest => dest.SecondExaminerName,
+                opt => opt
+                    .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+            ;
     }
 }

@@ -34,7 +34,16 @@ public class FirstExaminerModuleOfferingController : BaseController
     public async Task<IActionResult> GetAllFirstExaminerModuleOffering()
     {
         var firstExaminerModuleOfferings = await _unitOfWork.FirstExaminerModuleOfferings.GetAllAsync();
-        var results = _mapper.Map<IEnumerable<GetFirstExaminerModuleOfferingResponse>>(firstExaminerModuleOfferings);
+        var results = _mapper.Map<IEnumerable<GetAllFirstExaminerModuleOfferingResponse>>(firstExaminerModuleOfferings);
+        return Ok(results);
+    }
+    
+    [HttpGet]
+    [Route("{firstExaminerId:guid}/modules")]
+    public async Task<IActionResult> GetFirstExaminerModules(Guid firstExaminerId)
+    {
+        var modules = await _unitOfWork.FirstExaminerModuleOfferings.GetFirstExaminerModulesAsync(firstExaminerId);
+        var results = _mapper.Map<IEnumerable<GetParticularFirstExaminerModuleOfferingResponse>>(modules);
         return Ok(results);
     }
 }

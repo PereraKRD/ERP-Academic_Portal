@@ -34,7 +34,16 @@ public class SecondExaminerModuleOfferingController : BaseController
     public async Task<IActionResult> GetAllSecondExaminerModuleOffering()
     {
         var secondExaminerModuleOfferings = await _unitOfWork.SecondExaminerModuleOfferings.GetAllAsync();
-        var results = _mapper.Map<IEnumerable<GetSecondExaminerModuleOfferingResponse>>(secondExaminerModuleOfferings);
+        var results = _mapper.Map<IEnumerable<GetAllSecondExaminerModuleOfferingResponse>>(secondExaminerModuleOfferings);
+        return Ok(results);
+    }
+    
+    [HttpGet]
+    [Route("{secondExaminerId:guid}/modules")]
+    public async Task<IActionResult> GetSecondExaminerModules(Guid secondExaminerId)
+    {
+        var modules = await _unitOfWork.SecondExaminerModuleOfferings.GetSecondExaminerModulesAsync(secondExaminerId);
+        var results = _mapper.Map<IEnumerable<GetParticularSecondExaminerModuleOfferingResponse>>(modules);
         return Ok(results);
     }
 }

@@ -30,4 +30,21 @@ public class FirstExaminerModuleOfferingRepository : GenericRepository<ModuleOff
             throw;
         }
     }
+
+    public async Task<IEnumerable<ModuleOfferingFirstExaminer>> GetFirstExaminerModulesAsync(Guid FirstExaminerId)
+    {
+        try
+        {
+            return _dbSet
+                    .Where(x => x.TeacherId == FirstExaminerId)
+                    .Include(x => x.ModuleOffering.Module)
+                    .Include(x => x.Teacher)
+                ;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetFirstExaminerModulesAsync Error", typeof(FirstExaminerModuleOfferingRepository));
+            throw;
+        }
+    }
 }

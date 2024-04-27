@@ -1,9 +1,10 @@
 namespace ERP.EvaluationManagement.Core.DTOs.Responses;
 
-public class GetSecondExaminerModuleOfferingResponse
+public class GetAllFirstExaminerModuleOfferingResponse
 {
     public Guid ModuleOfferingId { get; set; }
     public string ModuleName { get; set; }
     public string ModuleCode { get; set; }
-    public string SecondExaminerName { get; set; }
+    public string FirstExaminerName { get; set; }
+    
 }
