@@ -37,6 +37,7 @@ public class FirstExaminerModuleOfferingRepository : GenericRepository<ModuleOff
         {
             return _dbSet
                     .Where(x => x.TeacherId == FirstExaminerId)
+                    .Include(x => x.ModuleOffering)
                     .Include(x => x.ModuleOffering.Module)
                     .Include(x => x.Teacher)
                 ;

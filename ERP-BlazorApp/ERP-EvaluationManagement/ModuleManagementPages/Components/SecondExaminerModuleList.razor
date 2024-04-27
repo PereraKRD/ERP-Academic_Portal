@@ -1,5 +1,6 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json;
+@using ERP.EvaluationManagement.Core.DTOs.Responses
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
@@ -15,7 +16,7 @@
                     {
                         <div>
                             <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
-                                @moduleOffering.Name
+                                @moduleOffering.ModuleName
                             </button>
                         </div>
                     }
@@ -27,7 +28,7 @@
 
 @code {
     private HttpClient Http = new HttpClient();
-    private List<GetTeacherModulesResponse> _moduleOfferings = new List<GetTeacherModulesResponse>();
+    private List<GetParticularSecondExaminerModuleOfferingResponse> _moduleOfferings = new List<GetParticularSecondExaminerModuleOfferingResponse>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,7 +37,7 @@
 
     private async Task LoadModulesAsync()
     {
-        _moduleOfferings = await Http.GetFromJsonAsync<List<GetTeacherModulesResponse>>($"https://localhost:7007/api/ModuleOffering/af8ad6c4-46f2-4bf8-9628-9cf34e122893/modules");
+        _moduleOfferings = await Http.GetFromJsonAsync<List<GetParticularSecondExaminerModuleOfferingResponse>>($"https://localhost:7007/api/SecondExaminerModuleOffering/af8ad6c4-46f2-4bf8-9628-9cf34e122893/modules");
     }
     
     private void ViewModuleInformation(Guid moduleOfferingId)

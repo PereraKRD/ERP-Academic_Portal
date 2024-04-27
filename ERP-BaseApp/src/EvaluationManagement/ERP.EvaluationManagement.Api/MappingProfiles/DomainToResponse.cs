@@ -140,7 +140,7 @@ public class DomainToResponse : Profile
         
         CreateMap<ModuleOfferingFirstExaminer, GetParticularFirstExaminerModuleOfferingResponse>()
             .ForMember(dest => dest.ModuleOfferingId,
-                opt => opt.MapFrom(src => src.Id))
+                opt => opt.MapFrom(src => src.ModuleOfferingId))
             .ForMember(dest => dest.ModuleName,
                 opt => opt.MapFrom(src => src.ModuleOffering.Module.Name))
             .ForMember(dest => dest.ModuleCode,
@@ -148,18 +148,21 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.FirstExaminerName,
                 opt => opt
                     .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+            .ForMember(dest => dest.Semester,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Semester))
             ;
         
         CreateMap<ModuleOfferingSecondExaminer, GetParticularSecondExaminerModuleOfferingResponse>()
             .ForMember(dest => dest.ModuleOfferingId,
-                opt => opt.MapFrom(src => src.Id))
+                opt => opt.MapFrom(src => src.ModuleOfferingId))
             .ForMember(dest => dest.ModuleName,
                 opt => opt.MapFrom(src => src.ModuleOffering.Module.Name))
             .ForMember(dest => dest.ModuleCode,
                 opt => opt.MapFrom(src => src.ModuleOffering.Module.Code))
             .ForMember(dest => dest.SecondExaminerName,
-                opt => opt
-                    .MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+                opt => opt.MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+            .ForMember(dest => dest.Semester,
+                opt => opt.MapFrom(src => src.ModuleOffering.Module.Semester))
             ;
     }
 }
