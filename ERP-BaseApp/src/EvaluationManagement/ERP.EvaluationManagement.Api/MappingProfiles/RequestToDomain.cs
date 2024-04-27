@@ -75,5 +75,23 @@ public class RequestToDomain : Profile
             .ForMember(dest => dest.UpdateDate,
                 opt => opt.MapFrom(src => DateTime.UtcNow))
             ;
+        
+        CreateMap<CreateFirstExaminerModulesRequest, ModuleOfferingFirstExaminer>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => 1))
+            .ForMember(dest => dest.AddedDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
+
+        CreateMap<CreateSecondExaminerModulesRequest, ModuleOfferingSecondExaminer>()
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => 1))
+            .ForMember(dest => dest.AddedDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdateDate,
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            ;
     }
 }

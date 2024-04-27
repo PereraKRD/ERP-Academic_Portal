@@ -7,8 +7,9 @@ public interface IUnitOfWork
     public ITeacherRepository Teachers { get; }
     public IModuleRepository Modules { get; }
     public IStudentRepository Students { get; }
-    
     public IModuleRegistrationRepository ModuleRegistrations { get; }
     public IStudentResultRepository StudentResults { get; }
+    public IFirstExaminerModuleOfferingRepository FirstExaminerModuleOfferings { get; }
+    public ISecondExaminerModuleOfferingRepository SecondExaminerModuleOfferings { get; }
     Task<bool> CompleteAsync();
 }

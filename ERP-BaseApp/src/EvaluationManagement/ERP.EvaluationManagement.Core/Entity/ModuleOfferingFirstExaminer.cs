@@ -2,7 +2,7 @@
 
 namespace ERP.EvaluationManagement.Core.Entity
 {
-    public class ModuleOfferingFirstExaminer
+    public class ModuleOfferingFirstExaminer : BaseEntity
     {
         public Guid ModuleOfferingId { get; set; }
         [ForeignKey("ModuleOfferingId")]

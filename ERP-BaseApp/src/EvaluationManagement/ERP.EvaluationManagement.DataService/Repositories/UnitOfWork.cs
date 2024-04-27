@@ -14,6 +14,8 @@ public class UnitOfWork : IUnitOfWork
     public IStudentRepository Students { get; }
     public IModuleRegistrationRepository ModuleRegistrations { get; }
     public IStudentResultRepository StudentResults { get; }
+    public IFirstExaminerModuleOfferingRepository FirstExaminerModuleOfferings { get; }
+    public ISecondExaminerModuleOfferingRepository SecondExaminerModuleOfferings { get; }
     
     public UnitOfWork(AppDbContext context , ILoggerFactory loggerFactory)
     {
@@ -27,6 +29,8 @@ public class UnitOfWork : IUnitOfWork
         Students = new StudentRepository(_context, logger);
         ModuleRegistrations = new ModuleRegistrationRepository(_context, logger);
         StudentResults = new StudentResultRepository(_context, logger);
+        FirstExaminerModuleOfferings = new FirstExaminerModuleOfferingRepository(_context, logger);
+        SecondExaminerModuleOfferings = new SecondExaminerModuleOfferingRepository(_context, logger);
     }
     
     public async Task<bool> CompleteAsync()
