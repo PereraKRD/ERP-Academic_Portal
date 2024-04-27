@@ -1,5 +1,9 @@
 @using ERP.EvaluationManagement.Core.DTOs.Requests
 @inject ISnackbar Snackbar
+@using FluentValidation
+@using Newtonsoft.Json
+@using Severity = MudBlazor.Severity
+@using System.Text
 
 
 <MudDialog>
@@ -10,26 +14,118 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField @bind-Value="@Evaluation.Name" Label="Name" />
-        <MudTextField @bind-Value="@Evaluation.Type" Label="Type" />
-        <MudTextField @bind-Value="@Evaluation.FinalMarks" Label="Final Marks" />
-        <MudTextField @bind-Value="@Evaluation.Marks" Label="Marks"  />
+                <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
+                         ValidationDelay="0">
+                    <MudCardContent Class="mud-card-content">
+                        <MudTextField @bind-Value="model.Name"
+                                      For="@(() => model.Name)"
+                                      Immediate="true"
+                                      Label="Name" />
+        
+                        <MudNumericField @bind-Value="model.Type"
+                                         For="@(() => model.Type)"
+                                         Immediate="true"
+                                         Label="Type" />
+        
+                        <MudNumericField @bind-Value="model.FinalMarks"
+                                         For="@(() => model.FinalMarks)"
+                                         Immediate="true"
+                                         Label="Final Marks" />
+        
+                        <MudNumericField @bind-Value="model.Marks"
+                                         For="@(() => model.Marks)"
+                                         Immediate="true"
+                                         Label="Marks" />
+                    </MudCardContent>
+                    <MudCardActions Class="mud-card-actions">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Class="mud-button-add"
+                        OnClick="@(async () => await SaveEvaluation())">Add</MudButton>
+                        @*  *@
+                        <MudButton OnClick="@(() => Cancel())" Color="Color.Secondary">Cancel</MudButton>
+                    </MudCardActions>
+                </MudForm>
     </DialogContent>
-    <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Error" OnClick="SaveEvaluation">Save</MudButton>
-    </DialogActions>
 </MudDialog>
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    [Parameter] public UpdateEvaluationRequest Evaluation { get; set; }
+    [Parameter] 
+    public UpdateEvaluationRequest model { get; set; }
+    
+    private HttpClient Http = new HttpClient();
+    
+    EvaluationModelValidator evaluationValidator = new EvaluationModelValidator();
+    MudForm form;
+
+    public class EvaluationModelValidator : AbstractValidator<UpdateEvaluationRequest>
+    {
+        public EvaluationModelValidator()
+        {
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .Length(1, 100);
+
+            RuleFor(x => x.Type)
+                .InclusiveBetween(1, 5);
+
+            RuleFor(x => x.FinalMarks)
+                .InclusiveBetween(0, 100);
+
+            RuleFor(x => x.Marks)
+                .InclusiveBetween(0, 100); 
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<UpdateEvaluationRequest>
+                .CreateWithOptions((UpdateEvaluationRequest)model, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return Array.Empty<string>();
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
 
     private async Task SaveEvaluation()
     {
-        //Update evaluation API call
-        Snackbar.Add("Evaluation Edited Successfully", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(true));
+        try
+        {
+            var evaluationData = new
+            {
+                Name = model.Name,
+                Type = model.Type,
+                FinalMarks = model.FinalMarks,
+                Marks = model.Marks
+            };
+
+            // Convert the evaluation data to JSON
+            var evaluationJson = JsonConvert.SerializeObject(evaluationData);
+            
+            // request message
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"https://localhost:7007/api/Evaluation"),
+                Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
+            };
+            var response = await Http.SendAsync(request);
+            
+            
+            if (response.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Evaluation Edited Successfully", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                Snackbar.Add("Failed to update evaluation. Please try again.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
+        }
     }
 
     private void Cancel()

@@ -27,7 +27,7 @@
             <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
             <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@( () => EditEvaluation(@context) )" />
                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
             </MudTd>
         </RowTemplate>
@@ -35,17 +35,16 @@
 </MudContainer>
 
 @code {
-    [Parameter]
-    public Guid ModuleOfferingId { get; set; }
-    
+    [Parameter] public Guid ModuleOfferingId { get; set; }
+
     private HttpClient Http = new HttpClient();
     private List<GetEvaluationDetailsResponse> _evaluations = new List<GetEvaluationDetailsResponse>();
-    
+
     protected override async Task OnInitializedAsync()
     {
         await LoadEvaluationsAsync();
     }
-    
+
     private async Task LoadEvaluationsAsync()
     {
         try
@@ -57,28 +56,37 @@
             Console.WriteLine($"An error occurred while loading evaluations: {ex.Message}");
         }
     }
-    
+
     async Task DeleteEvaluation(Guid evaluationId)
     {
         var parameters = new DialogParameters { ["EvaluationId"] = evaluationId };
         var dialog = await DialogService.ShowAsync<ConfirmEvaluationDeleteDialog>("Confirm Delete", parameters);
         var result = await dialog.Result;
         await LoadEvaluationsAsync();
-        
-    } 
-    
-    private void ViewEvaluationInformation(Guid moduleOfferingId,Guid evaluationId)
+
+    }
+
+    private void ViewEvaluationInformation(Guid moduleOfferingId, Guid evaluationId)
     {
         NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}/{evaluationId}");
     }
 
-    
-    async Task EditEvaluation(UpdateEvaluationRequest evaluation)
-    {
-        var parameters = new DialogParameters { ["evaluation"] = evaluation };
-        var dialog =await DialogService.ShowAsync<EditEvaluationdialog>("Edit Evaluation", parameters);
-        var result = await dialog.Result;
 
+    private async Task EditEvaluation(GetEvaluationDetailsResponse evaluation)
+    {
+        var updateEvaluationRequest = new UpdateEvaluationRequest
+        {
+            Name = evaluation.EvaluationName,
+            Type = evaluation.EvaluationType,
+            FinalMarks = evaluation.EvaluationFinalMarks,
+            Marks = evaluation.EvaluationMarks
+        };
+
+        var parameters = new DialogParameters { ["model"] = updateEvaluationRequest };
+        var dialog = await DialogService.ShowAsync<EditEvaluationdialog>("Edit Evaluation", parameters);
+        var result = await dialog.Result;
+        await LoadEvaluationsAsync();
     }
+
 }
   
