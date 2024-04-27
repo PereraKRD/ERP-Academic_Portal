@@ -78,7 +78,6 @@ public class EvaluationRepository : GenericRepository<Evaluation>, IEvaluationRe
             result.Type = entity.Type;
             result.Marks = entity.Marks;
             result.FinalMarks = entity.FinalMarks;
-            result.Status = entity.Status;
             result.UpdateDate = DateTime.UtcNow;
 
             return true;
