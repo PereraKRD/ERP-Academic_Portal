@@ -4,3 +4,12 @@
 export function showPrompt(message) {
   return prompt(message, 'Type anything here');
 }
+
+function saveAsFile(fileName, bytesBase64) {
+    var link = document.createElement('a');
+    link.download = fileName;
+    link.href = "data:application/octet-stream;base64," + bytesBase64;
+    document.body.appendChild(link); // Necessary for Firefox
+    link.click();
+    document.body.removeChild(link);
+}

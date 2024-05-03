@@ -1,13 +1,32 @@
+@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
 
-<h3>AddEditEvaluationMarks</h3>
+<h3>Add/Edit Evaluation Marks</h3>
 
     <MudCard>
         <MudContainer>
             <MudCardContent Style="height: 400px;  background-color: lightgray;">
+                <MudTable Items="@_studentResults">
+                    <HeaderContent>
+                        <MudTh>Reg Number</MudTh>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Marks</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="RegNo">@context.RegistrationNum</MudTd>
+                        <MudTd DataLabel="FullName">@context.FullName </MudTd>
+                        <MudTd DataLabel="Marks">@context.StudentScore</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
             </MudCardContent>
         </MudContainer>
         <MudCardActions>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary">Generate Excel</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ExportToExcel">Generate Excel</MudButton>
         </MudCardActions>
     </MudCard>
 
@@ -15,11 +34,59 @@
 @code {
     [Parameter] 
     public Guid ModuleOfferingId { get; set; }
-    
+
     [Parameter]
     public Guid EvaluationId { get; set; }
-    
+    private HttpClient Http = new HttpClient();
+
+    private List<GetEvaluationResultListResponse> _studentResults = new();
+
     protected override async Task OnInitializedAsync()
     {
+        _studentResults = await Http.GetFromJsonAsync<List<GetEvaluationResultListResponse>>($"https://localhost:7007/api/StudentResult/{EvaluationId}/results");
+
+    }
+
+    private async Task<string> GenerateExcelName()
+    {
+        try
+        {
+            var module = await Http.GetFromJsonAsync<GetModuleOfferingDetailsResponse>($"https://localhost:7007/api/ModuleOffering/{ModuleOfferingId}");
+            var evaluation = module.Evaluations.FirstOrDefault(e => e.EvaluationId == EvaluationId);
+            var fileName = $"{module.ModuleCode}_{evaluation.EvaluationName}_Results.xlsx";
+            return fileName;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while generating the Excel file name: {ex.Message}");
+            throw;
+        }
+    }
+
+    private async Task SaveExcelFile(byte[] fileContent, string fileName)
+    {
+        await File.WriteAllBytesAsync($"./wwwroot/exports/{fileName}", fileContent);
+    }
+
+    private async Task DownloadExcel(string fileName)
+    {
+        var fileURL = $"/exports/{fileName}";
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+    }
+
+    private async Task ExportToExcel()
+    {
+        var response = await Http.GetAsync($"https://localhost:7007/api/StudentResult/{EvaluationId}/exports/results", HttpCompletionOption.ResponseHeadersRead);
+        if (response.IsSuccessStatusCode)
+        {
+            var fileContent = await response.Content.ReadAsByteArrayAsync();
+            var fileName = await GenerateExcelName();
+            await SaveExcelFile(fileContent, fileName);
+            await DownloadExcel(fileName);
+        }
+        else
+        {
+            Console.WriteLine("Failed to download file: " + response.StatusCode);
+        }
     }
 }
