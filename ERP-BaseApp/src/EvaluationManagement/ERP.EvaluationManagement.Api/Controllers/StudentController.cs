@@ -21,6 +21,13 @@ public class StudentController : BaseController
         return Ok(results);
     }
 
+    //public async Task<IActionResult> GetAcademicAdvicees(Guid advisorId, Guid batchId)
+    //{
+    //    var students = await _unitOfWork.Students.GetAllAsync();
+    //    var results = _mapper.Map<IEnumerable<GetStudentResponse>>(students);
+    //    return Ok(results);
+    //}
+
     [HttpPost("")]
     public async Task<IActionResult> AddStudent([FromBody] CreateStudentRequest student)
     {

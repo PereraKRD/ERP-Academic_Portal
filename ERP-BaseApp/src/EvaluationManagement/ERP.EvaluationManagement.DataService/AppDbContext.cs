@@ -89,7 +89,20 @@ public class AppDbContext : DbContext
                 .HasMany(mo => mo.Registrations)
                 .WithOne(mr => mr.ModuleOffering)
                 .HasForeignKey(mr => mr.ModuleOfferingId);
-        }
+
+        // Batch and BatchStudent (One-to-Many)
+        modelBuilder.Entity<Batch>()
+            .HasMany(bs => bs.BatchStudents)
+            .WithOne(b => b.Batch)
+            .HasForeignKey(n => n.BatchId);
+
+        // Teacher and Academic Advicee (One-to-Many)
+        modelBuilder.Entity<Teacher>()
+            .HasMany(a => a.AcademicAdvicees)
+            .WithOne(a => a.AcademicAdvisor)
+            .HasForeignKey(n => n.AcademicAdvisorId);
+
+    }
 
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
@@ -101,4 +114,6 @@ public class AppDbContext : DbContext
         public virtual DbSet<Evaluation> Evaluations { get; set; }
         public virtual DbSet<StudentResult> StudentResults { get; set; }
         public virtual DbSet<ModuleRegistration> ModuleRegistrations { get; set; }
+        public virtual DbSet<Batch> Batches { get; set; }
+
 }

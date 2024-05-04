@@ -16,6 +16,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         try
         {
             return await _dbSet.Where(x => x.Status == 1)
+                .Include(x => x.AcademicAdvisor)
+                .Include(x => x.Batch)
                 .AsNoTracking()
                 .AsSplitQuery()
                 .OrderBy(x => x.AddedDate)

@@ -3,6 +3,7 @@ using System;
 using ERP.EvaluationManagement.DataService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.EvaluationManagement.DataService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240504035529_add_batch_table_advisor_column")]
+    partial class add_batch_table_advisor_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.2.24128.4");
@@ -267,9 +270,6 @@ namespace ERP.EvaluationManagement.DataService.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("BatchId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -293,10 +293,6 @@ namespace ERP.EvaluationManagement.DataService.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AcademicAdvisorId");
-
-                    b.HasIndex("BatchId");
 
                     b.ToTable("Students");
                 });
@@ -485,21 +481,6 @@ namespace ERP.EvaluationManagement.DataService.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("ERP.EvaluationManagement.Core.Entity.Student", b =>
-                {
-                    b.HasOne("ERP.EvaluationManagement.Core.Entity.Teacher", "AcademicAdvisor")
-                        .WithMany("AcademicAdvicees")
-                        .HasForeignKey("AcademicAdvisorId");
-
-                    b.HasOne("ERP.EvaluationManagement.Core.Entity.Batch", "Batch")
-                        .WithMany("BatchStudents")
-                        .HasForeignKey("BatchId");
-
-                    b.Navigation("AcademicAdvisor");
-
-                    b.Navigation("Batch");
-                });
-
             modelBuilder.Entity("ERP.EvaluationManagement.Core.Entity.StudentResult", b =>
                 {
                     b.HasOne("ERP.EvaluationManagement.Core.Entity.Evaluation", "Evaluation")
@@ -517,11 +498,6 @@ namespace ERP.EvaluationManagement.DataService.Migrations
                     b.Navigation("Evaluation");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("ERP.EvaluationManagement.Core.Entity.Batch", b =>
-                {
-                    b.Navigation("BatchStudents");
                 });
 
             modelBuilder.Entity("ERP.EvaluationManagement.Core.Entity.Evaluation", b =>
@@ -551,8 +527,6 @@ namespace ERP.EvaluationManagement.DataService.Migrations
 
             modelBuilder.Entity("ERP.EvaluationManagement.Core.Entity.Teacher", b =>
                 {
-                    b.Navigation("AcademicAdvicees");
-
                     b.Navigation("CordinatingModules");
 
                     b.Navigation("FirstExaminersModules");
