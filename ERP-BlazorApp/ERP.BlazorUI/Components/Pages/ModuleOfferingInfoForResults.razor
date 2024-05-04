@@ -1,0 +1,10 @@
+﻿@page "/ResultManagementTabs/{ModuleOfferingId:guid}"
+@rendermode InteractiveServer
+
+<ModuleOfferingInformationForResults ModuleOfferingId="ModuleOfferingId"></ModuleOfferingInformationForResults>
+
+@code
+{
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+}

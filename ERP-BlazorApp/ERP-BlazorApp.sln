@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP.BlazorUI", "ERP.BlazorUI\ERP.BlazorUI.csproj", "{925654CF-7EFF-4D1D-BC98-2B41F5BDC682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP-StudentRegistration", "Lib\ERP-StudentRegistration\ERP-StudentRegistration.csproj", "{B636738C-E120-4B9A-90E4-9172D2A939E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP-StudentRegistration", "Lib\ERP-StudentRegistration\ERP-StudentRegistration.csproj", "{B636738C-E120-4B9A-90E4-9172D2A939E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP-EvaluationManagement", "ERP-EvaluationManagement\ERP-EvaluationManagement.csproj", "{5DE8C78B-6DC9-4461-A844-E1AB1CED2CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP-EvaluationManagement", "ERP-EvaluationManagement\ERP-EvaluationManagement.csproj", "{5DE8C78B-6DC9-4461-A844-E1AB1CED2CC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

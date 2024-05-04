@@ -1,0 +1,41 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+
+<h3>Results</h3>
+
+@if (_studentResults != null && _studentResults.Any())
+{
+	<MudTable Items="@_studentResults">
+		<HeaderContent>
+			<MudTh>Reg Number</MudTh>
+			<MudTh>Name</MudTh>
+			<MudTh>Marks</MudTh>
+		</HeaderContent>
+		<RowTemplate>
+			<MudTd DataLabel="RegNo">@context.RegistrationNum</MudTd>
+			<MudTd DataLabel="FullName">@context.FullName </MudTd>
+			<MudTd DataLabel="Marks">@context.StudentScore</MudTd>
+		</RowTemplate>
+		<PagerContent>
+			<MudTablePager />
+		</PagerContent>
+	</MudTable>
+}
+else
+{
+	<p>No marks have been added to the system.</p>
+}
+
+
+@code {
+	[Parameter]
+	public Guid EvaluationId { get; set; }
+	private HttpClient Http = new HttpClient();
+
+	private List<GetEvaluationResultListResponse> _studentResults = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		_studentResults = await Http.GetFromJsonAsync<List<GetEvaluationResultListResponse>>($"https://localhost:7007/api/StudentResult/{EvaluationId}/results");
+	}
+}
