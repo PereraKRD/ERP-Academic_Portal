@@ -1,0 +1,12 @@
+﻿@page "/MentoringManagementPage/{BatchId:guid}"
+@rendermode InteractiveServer
+
+<DisplayAcademicAdvicees BatchId="BatchId"></DisplayAcademicAdvicees>
+
+
+@code
+{
+    [Parameter]
+    public Guid BatchId { get; set; }
+
+}
