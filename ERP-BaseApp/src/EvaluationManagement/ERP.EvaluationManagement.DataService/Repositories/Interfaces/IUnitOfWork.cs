@@ -11,5 +11,7 @@ public interface IUnitOfWork
     public IStudentResultRepository StudentResults { get; }
     public IFirstExaminerModuleOfferingRepository FirstExaminerModuleOfferings { get; }
     public ISecondExaminerModuleOfferingRepository SecondExaminerModuleOfferings { get; }
+
+    public IBatchRepository Batches { get; }
     Task<bool> CompleteAsync();
 }

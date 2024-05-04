@@ -72,6 +72,8 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.Email,
                 opt => opt
                     .MapFrom(src => src.Email))
+            .ForMember(dest => dest.AcademicAdvisorName, opt => opt.MapFrom(src => $"{src.AcademicAdvisor.FirstName} {src.AcademicAdvisor.LastName}" ))
+            .ForMember(dest => dest.BatchName, opt => opt.MapFrom(src => src.Batch.BatchName))
             ;
         
         CreateMap<ModuleRegistration, GetModuleRegistrationResponse>()
@@ -164,5 +166,11 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.Semester,
                 opt => opt.MapFrom(src => src.ModuleOffering.Module.Semester))
             ;
+
+        CreateMap<Batch, GetBatchResponse>()
+            .ForMember(dest => dest.BatchId,
+                opt => opt.MapFrom(src => src.Id))
+            ;
+
     }
 }
