@@ -29,7 +29,26 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
             throw;
         }
     }
-    
+
+
+    public async Task<IEnumerable<Student>> GetAcademicAdviceeListAsync(Guid batchId, Guid advisorId)
+    {
+        try
+        {
+            return _dbSet
+                    .Where(x => x.BatchId == batchId)
+                    .Where(x => x.AcademicAdvisorId == advisorId)
+                    .Include(x => x.AcademicAdvisor)
+                    .Include(x => x.Batch)
+                ;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetAcademicAdviceeListAsync Error", typeof(StudentRepository));
+            throw;
+        }
+    }
+
     public override async Task<bool> DeleteAsync(Guid id)
     {
         try
