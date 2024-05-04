@@ -1,0 +1,63 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+
+@inject ISnackbar Snackbar
+
+@if (_acadamicAdvicees != null)
+{
+    <div class="pt-4">
+        <h3 class="result-header"> Academic Advicee List </h3>
+    </div>
+
+    <MudTable Items="@_acadamicAdvicees">
+        <HeaderContent>
+            <MudTh>Registration Number</MudTh>
+            <MudTh>Full Name</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>Academic Advisor Name</MudTh>
+            <MudTh>Batch Name</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.RegistrationNum</MudTd>
+            <MudTd>@context.FullName</MudTd>
+            <MudTd>@context.Email</MudTd>
+            <MudTd>@context.AcademicAdvisorName</MudTd>
+            <MudTd>@context.BatchName</MudTd>
+        </RowTemplate>
+    </MudTable>
+
+}
+else
+{
+    <p>Module offering information not found.</p>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public Guid BatchId { get; set; }
+
+    private HttpClient Http = new HttpClient();
+
+    private List<GetAcademicAdviceesResponse> _acadamicAdvicees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModuleOfferingInfoAsync();
+    }
+
+    private async Task LoadModuleOfferingInfoAsync()
+    {
+        try
+        {
+            _acadamicAdvicees = await Http.GetFromJsonAsync<List<GetAcademicAdviceesResponse>>($"https://localhost:7007/api/Student/{BatchId}/ad13816d-59c4-4ecf-8ecd-987f6eadd324");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
+        }
+    }
+
+}
