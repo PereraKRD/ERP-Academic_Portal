@@ -52,9 +52,10 @@ public class ModuleRegistrationRepository : GenericRepository<ModuleRegistration
     {
         try
         {
-            return _dbSet
+            return await _dbSet
                 .Where(x => x.ModuleOfferingId == moduleOfferingId)
-                .Include(x => x.Student);
+                .Include(x => x.Student)
+                .ToListAsync();
         }
         catch (Exception e)
         {
