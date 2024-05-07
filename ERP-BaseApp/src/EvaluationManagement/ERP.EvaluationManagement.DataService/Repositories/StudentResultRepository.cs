@@ -54,13 +54,52 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
     {
         try
         {
-            return _dbSet
+            return await _dbSet
                 .Where(x => x.EvaluationId == evaluationId)
-                .Include(x => x.Student);
+                .Include(x => x.Student)
+                .Include(x => x.Evaluation)
+                .OrderBy(x => x.AddedDate)
+                .ToListAsync();
         }
         catch (Exception e)
         {
             _logger.LogError(e, "{Repo} GetEvaluationResultAsync Error", typeof(StudentResultRepository));
+            throw;
+        }
+    }
+
+    public async Task<StudentResult> GetStudentResultIdAsync(Guid evaluationId, Guid studentId)
+    {
+        try
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(x => x.EvaluationId == evaluationId && x.StudentId == studentId);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetStudentResultIdAsync Error", typeof(StudentResultRepository));
+            throw;
+        }
+    }
+
+    public override async Task<bool> UpdateAsync(StudentResult entity)
+    {
+        try
+        {
+            var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (result == null) return false;
+
+            result.StudentId = entity.StudentId;
+            result.EvaluationId = entity.EvaluationId;
+            result.StudentScore = entity.StudentScore;
+            result.UpdateDate = DateTime.UtcNow;
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "{Repo} Update function error",
+                typeof(StudentResultRepository));
             throw;
         }
     }

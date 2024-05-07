@@ -1,5 +1,6 @@
 using AutoMapper;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2016.Presentation.Command;
 using ERP.EvaluationManagement.Core.DTOs.Requests;
 using ERP.EvaluationManagement.Core.DTOs.Responses;
 using ERP.EvaluationManagement.Core.Entity;
@@ -21,23 +22,74 @@ public class StudentResultController : BaseController
         var results = _mapper.Map<IEnumerable<GetStudentResultResponse>>(studentResults);
         return Ok(results);
     }
-    
-    
-    [HttpPost("")]
-    public async Task<IActionResult> AddStudentResult([FromBody] CreateStudentResultRequest studentResult)
+
+    [HttpPost]
+    [Route("{moduleOfferingId:guid}/{evaluationId:guid}")]
+    public async Task<IActionResult> AddStudentResult(Guid evaluationId, Guid moduleOfferingId)
     {
-        if (!ModelState.IsValid)
+        var moduleRegistrations = await _unitOfWork.ModuleRegistrations.GetModuleRegistrationByModuleOfferingAsync(moduleOfferingId);
+        foreach (var registration in moduleRegistrations)
         {
-            return BadRequest();
+            var resultEntity = new StudentResult();
+            resultEntity.StudentId = registration.Student.Id;
+            resultEntity.EvaluationId = evaluationId;
+            resultEntity.StudentScore = 0;
+            resultEntity.Status = 1;
+            await _unitOfWork.StudentResults.AddAsync(resultEntity);
         }
-
-        var studentResultEntity = _mapper.Map<StudentResult>(studentResult);
-
-        await _unitOfWork.StudentResults.AddAsync(studentResultEntity);
         await _unitOfWork.CompleteAsync();
         return Ok();
     }
-    
+
+    [HttpPut]
+    [Route("{evaluationId:guid}/importexcel")]
+    public async Task<IActionResult> UpdateResult([FromRoute] Guid evaluationId, [FromForm] IFormFile formFile)
+    {
+        try
+        {
+            var list = new List<StudentResult>();
+            using (var stream = new MemoryStream())
+            {
+                await formFile.OpenReadStream().CopyToAsync(stream);
+                using (var workbook = new XLWorkbook(stream))
+                {
+                    var worksheet = workbook.Worksheet(1);
+                    var rowCount = worksheet.RangeUsed().RowCount();
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        string registrationNumber = worksheet.Cell(row, 1).GetValue<String>();
+                        double studentScore = Convert.ToDouble(worksheet.Cell(row, 3).GetValue<String>());
+
+                        var student = await _unitOfWork.Students.GetStudentByRegNum(registrationNumber);
+                        var studentResult = await _unitOfWork.StudentResults.GetStudentResultIdAsync(evaluationId, student.Id);
+
+                        if (student != null)
+                        {
+                            list.Add(new StudentResult
+                            {
+                                Id = studentResult.Id,
+                                StudentId = student.Id,
+                                EvaluationId = evaluationId,
+                                StudentScore = studentScore,
+                            });
+                        }
+                    }
+                }
+            }
+            foreach (var result in list)
+            {
+                await _unitOfWork.StudentResults.UpdateAsync(result);
+                
+            }
+            await _unitOfWork.CompleteAsync();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the Excel file.");
+        }
+    }
+
 
     [HttpDelete]
     [Route("{teacherId:guid}")]
@@ -66,11 +118,11 @@ public class StudentResultController : BaseController
 
     [HttpGet]
     [Route("{evaluationId:guid}/exports/results")]
-    public async Task<IActionResult> GenerateAndDownloadExcel()
+    public async Task<IActionResult> GenerateAndDownloadExcel(Guid evaluationId)
     {
         try
         {
-            var studentResults = await _unitOfWork.StudentResults.GetAllAsync();
+            var studentResults = await _unitOfWork.StudentResults.GetEvaluationResultAsync(evaluationId);
             var results = _mapper.Map<IEnumerable<GetStudentResultResponse>>(studentResults);
 
             using var workbook = new XLWorkbook();

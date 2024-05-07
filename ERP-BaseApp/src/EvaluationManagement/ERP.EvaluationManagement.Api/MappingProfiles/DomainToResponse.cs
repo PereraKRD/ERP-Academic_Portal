@@ -75,7 +75,7 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.AcademicAdvisorName, opt => opt.MapFrom(src => $"{src.AcademicAdvisor.FirstName} {src.AcademicAdvisor.LastName}" ))
             .ForMember(dest => dest.BatchName, opt => opt.MapFrom(src => src.Batch.BatchName))
             ;
-        
+
         CreateMap<ModuleRegistration, GetModuleRegistrationResponse>()
             .ForMember(dest => dest.ModuleName,
                 opt => opt.MapFrom(src => src.ModuleOffering.Module.Name))
