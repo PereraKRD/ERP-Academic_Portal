@@ -27,7 +27,6 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.Email,
                 opt => opt
                     .MapFrom(src => src.Email))
-            .ForMember(dest => dest.AcademicAdvisorName, opt => opt.MapFrom(src => $"{src.AcademicAdvisor.FirstName} {src.AcademicAdvisor.LastName}" ))
             ;
         
 
