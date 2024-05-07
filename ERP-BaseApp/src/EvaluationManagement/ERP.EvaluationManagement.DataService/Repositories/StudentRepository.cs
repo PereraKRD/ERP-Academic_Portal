@@ -30,7 +30,6 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         }
     }
 
-
     public async Task<IEnumerable<Student>> GetAcademicAdviceeListAsync(Guid batchId, Guid advisorId)
     {
         try
@@ -45,6 +44,20 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         catch (Exception e)
         {
             _logger.LogError(e, "{Repo} GetAcademicAdviceeListAsync Error", typeof(StudentRepository));
+            throw;
+        }
+    }
+
+    public async Task<Student> GetStudentByRegNum(string RegNum)
+    {
+        try
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(x => x.RegistrationNum == RegNum);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} DeleteAsync Error", typeof(StudentRepository));
             throw;
         }
     }
