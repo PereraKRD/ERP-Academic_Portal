@@ -4,7 +4,7 @@
 @if (_students != null && _students.Any())
 {
     <MudContainer Class="result-container">
-    <MudTable Items="@_students">
+        <MudTable Items="@_students" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Reg Number</MudTh>
             <MudTh>Name</MudTh>
