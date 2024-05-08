@@ -120,7 +120,7 @@
 
     private async Task ExportToExcel()
     {
-        var response = await Http.GetAsync($"https://localhost:7007/api/StudentResult/{EvaluationId}/exports/results", HttpCompletionOption.ResponseHeadersRead);
+        var response = await Http.GetAsync($"https://localhost:7007/api/StudentResult/{ModuleOfferingId}/{EvaluationId}/exports/results", HttpCompletionOption.ResponseHeadersRead);
         if (response.IsSuccessStatusCode)
         {
             var fileContent = await response.Content.ReadAsByteArrayAsync();

@@ -1,6 +1,5 @@
 using ERP.BlazorUI.Components;
 using MudBlazor.Services;
-using Tewr.Blazor.FileReader;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddMudServices();
-builder.Services.AddFileReaderService(options =>
-{
-    options.UseWasmSharedBuffer = true;
-});
+
 
 var app = builder.Build();
 
