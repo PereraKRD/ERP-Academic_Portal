@@ -3,14 +3,14 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
-    <h3 class="result-header">Batches</h3>
+    <h3 class="result-header">Student Requests</h3>
 
     <div class="mt-4">
-        @foreach (var batch in _batches)
+        @foreach (var request in _studentRequests)
         {
             <div>
-                <button @onclick="() => ViewModuleInformation(batch.BatchId)">
-                    @batch.BatchName
+                <button @onclick="() => ViewModuleInformation(request.SenderId , request.RequestId)">
+                    @request.Message
                 </button>
             </div>
         }
@@ -21,7 +21,7 @@
 @code {
 
     private HttpClient Http = new HttpClient();
-    private List<GetBatchResponse> _batches = new List<GetBatchResponse>();
+    private List<GetStudentMessagesResponse> _studentRequests = new List<GetStudentMessagesResponse>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,12 +30,12 @@
 
     private async Task LoadModulesAsync()
     {
-        _batches = await Http.GetFromJsonAsync<List<GetBatchResponse>>($"https://localhost:7007/api/Batch");
+        _studentRequests = await Http.GetFromJsonAsync<List<GetStudentMessagesResponse>>($"https://localhost:7256/requests/af8ad6c4-46f2-4bf8-9628-9cf34e122893");
     }
 
-    private void ViewModuleInformation(Guid batchId)
+    private void ViewModuleInformation(Guid senderId ,Guid requestId)
     {
-        NavigationManager.NavigateTo($"/MentoringManagementPage/{batchId}");
+        NavigationManager.NavigateTo($"/RequestManagementTabs/{requestId}/{senderId}");
     }
 }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP.RequestManagement.Core.DTOs.Responses
+namespace ERP_EvaluationManagement.DTOs.Responses
 {
     public class GetStudentMessagesResponse
     {
@@ -14,6 +14,5 @@ namespace ERP.RequestManagement.Core.DTOs.Responses
         public string RecieverName { get; set; }
         public Guid SenderId { get; set; }
         public Guid RecieverId { get; set; }
-
     }
 }

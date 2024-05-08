@@ -45,11 +45,20 @@ namespace ERP.RequestManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{teacherId:guid}")]
+        [Route("/requests/{teacherId:guid}")]
         public async Task<IActionResult> GetStudentRequestsByTeacherId(Guid teacherId)   // teacher is the reciever
         {
             var studentRequests = await _unitOfWork.StudentRequests.GetStudentRequestsByTeacherIdAsync(teacherId);
             var results = _mapper.Map<IEnumerable<GetStudentMessagesResponse>>(studentRequests);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("{requestId:guid}/")]
+        public async Task<IActionResult> GetStudentRequestByRequestId(Guid requestId)   // teacher is the reciever
+        {
+            var studentRequest = await _unitOfWork.StudentRequests.GetStudentRequestByRequestIdAsync(requestId);
+            var results = _mapper.Map<GetStudentMessagesResponse>(studentRequest);
             return Ok(results);
         }
 
