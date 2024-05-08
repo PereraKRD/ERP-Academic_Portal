@@ -3,6 +3,7 @@ using System;
 using ERP.RequestManagement.DataService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.RequestManagement.DataService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240508093419_add_batch_Fk")]
+    partial class add_batch_Fk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4");
@@ -111,14 +114,20 @@ namespace ERP.RequestManagement.DataService.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieverId");
+                    b.HasIndex("StudentId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("StudentRequests");
                 });
@@ -168,6 +177,7 @@ namespace ERP.RequestManagement.DataService.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("RecieverId")
@@ -179,14 +189,20 @@ namespace ERP.RequestManagement.DataService.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieverId");
+                    b.HasIndex("StudentId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("TeacherRequests");
                 });
@@ -208,40 +224,24 @@ namespace ERP.RequestManagement.DataService.Migrations
 
             modelBuilder.Entity("ERP.RequestManagement.Core.Entity.StudentRequest", b =>
                 {
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", "Reciever")
-                        .WithMany("TIncomingRequests")
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", "Sender")
+                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", null)
                         .WithMany("SOutgoingRequests")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentId");
 
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
+                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", null)
+                        .WithMany("TIncomingRequests")
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("ERP.RequestManagement.Core.Entity.TeacherRequest", b =>
                 {
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", "Reciever")
+                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", null)
                         .WithMany("SIncomingRequests")
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentId");
 
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", "Sender")
+                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", null)
                         .WithMany("TOutgoingRequests")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("ERP.RequestManagement.Core.Entity.Batch", b =>

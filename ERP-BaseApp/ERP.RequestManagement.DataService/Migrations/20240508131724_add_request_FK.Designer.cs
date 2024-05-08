@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.RequestManagement.DataService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240508062903_add_batch_request_Fk")]
-    partial class add_batch_request_Fk
+    [Migration("20240508131724_add_request_FK")]
+    partial class add_request_FK
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,7 +171,6 @@ namespace ERP.RequestManagement.DataService.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("RecieverId")

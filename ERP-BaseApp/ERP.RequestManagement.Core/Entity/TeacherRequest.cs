@@ -9,7 +9,7 @@ namespace ERP.RequestManagement.Core.Entity
 {
     public class TeacherRequest : BaseEntity
     {
-        public string Message { get; set; }
+        public string? Message { get; set; }
         public Guid SenderId { get; set; }
         [ForeignKey("SenderId")]
         public Teacher Sender { get; set; }
