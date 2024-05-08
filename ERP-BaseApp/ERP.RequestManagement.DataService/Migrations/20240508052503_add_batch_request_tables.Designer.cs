@@ -3,6 +3,7 @@ using System;
 using ERP.RequestManagement.DataService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.RequestManagement.DataService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240508052503_add_batch_request_tables")]
+    partial class add_batch_request_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4");
@@ -116,10 +119,6 @@ namespace ERP.RequestManagement.DataService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieverId");
-
-                    b.HasIndex("SenderId");
-
                     b.ToTable("StudentRequests");
                 });
 
@@ -185,10 +184,6 @@ namespace ERP.RequestManagement.DataService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieverId");
-
-                    b.HasIndex("SenderId");
-
                     b.ToTable("TeacherRequests");
                 });
 
@@ -199,7 +194,7 @@ namespace ERP.RequestManagement.DataService.Migrations
                         .HasForeignKey("AcademicAdvisorId");
 
                     b.HasOne("ERP.RequestManagement.Core.Entity.Batch", "Batch")
-                        .WithMany("BatchStudents")
+                        .WithMany()
                         .HasForeignKey("BatchId");
 
                     b.Navigation("AcademicAdvisor");
@@ -207,63 +202,9 @@ namespace ERP.RequestManagement.DataService.Migrations
                     b.Navigation("Batch");
                 });
 
-            modelBuilder.Entity("ERP.RequestManagement.Core.Entity.StudentRequest", b =>
-                {
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", "Reciever")
-                        .WithMany("TIncomingRequests")
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", "Sender")
-                        .WithMany("SOutgoingRequests")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("ERP.RequestManagement.Core.Entity.TeacherRequest", b =>
-                {
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Student", "Reciever")
-                        .WithMany("SIncomingRequests")
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ERP.RequestManagement.Core.Entity.Teacher", "Sender")
-                        .WithMany("TOutgoingRequests")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("ERP.RequestManagement.Core.Entity.Batch", b =>
-                {
-                    b.Navigation("BatchStudents");
-                });
-
-            modelBuilder.Entity("ERP.RequestManagement.Core.Entity.Student", b =>
-                {
-                    b.Navigation("SIncomingRequests");
-
-                    b.Navigation("SOutgoingRequests");
-                });
-
             modelBuilder.Entity("ERP.RequestManagement.Core.Entity.Teacher", b =>
                 {
                     b.Navigation("AcademicAdvicees");
-
-                    b.Navigation("TIncomingRequests");
-
-                    b.Navigation("TOutgoingRequests");
                 });
 #pragma warning restore 612, 618
         }

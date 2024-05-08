@@ -10,7 +10,9 @@ namespace ERP.RequestManagement.Core.Entity
         public string LastName { get; set; } = string.Empty; 
         public string Email { get; set; } = string.Empty; 
         
-        public virtual ICollection<Student> AcademicAdvicees { get; set; } 
+        public virtual ICollection<Student> AcademicAdvicees { get; set; }
+        public ICollection<TeacherRequest> TOutgoingRequests { get; }
+        public ICollection<StudentRequest> TIncomingRequests { get; }
 
     }
 }

@@ -17,7 +17,7 @@ public class DomainToResponse : Profile
                     .MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
             ;
-        
+
         CreateMap<Student, GetStudentResponse>()
             .ForMember(dest => dest.StudentId,
                 opt => opt.MapFrom(src => src.Id))
@@ -27,8 +27,13 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.Email,
                 opt => opt
                     .MapFrom(src => src.Email))
+            .ForMember(dest => dest.AcademicAdvisorName, opt => opt.MapFrom(src => $"{src.AcademicAdvisor.FirstName} {src.AcademicAdvisor.LastName}"))
+            .ForMember(dest => dest.BatchName, opt => opt.MapFrom(src => src.Batch.BatchName))
             ;
-        
 
+        CreateMap<Batch, GetBatchResponse>()
+            .ForMember(dest => dest.BatchId,
+                opt => opt.MapFrom(src => src.Id))
+            ;
     }
 }

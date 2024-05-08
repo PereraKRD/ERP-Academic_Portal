@@ -13,6 +13,12 @@ namespace ERP.RequestManagement.Core.Entity
         public Guid? AcademicAdvisorId { get; set; }
         [ForeignKey("AcademicAdvisorId")]
         public Teacher? AcademicAdvisor { get; set; }
-        
+        public Guid? BatchId { get; set; }
+        [ForeignKey("BatchId")]
+        public Batch? Batch { get; set; }
+
+        public ICollection<StudentRequest> SOutgoingRequests { get; }
+        public ICollection<TeacherRequest> SIncomingRequests { get; }
+
     }
 }

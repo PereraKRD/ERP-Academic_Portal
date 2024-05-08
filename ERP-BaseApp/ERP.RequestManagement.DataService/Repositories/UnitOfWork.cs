@@ -1,4 +1,7 @@
+
 using ERP.RequestManagement.DataService.Repositories.Interfaces;
+using ERP.RequestManagement.DataService.Repositories.Interfaces;
+
 using Microsoft.Extensions.Logging;
 
 namespace ERP.RequestManagement.DataService.Repositories;
@@ -8,7 +11,8 @@ public class UnitOfWork : IUnitOfWork
     private readonly AppDbContext _context;
     public ITeacherRepository Teachers { get; }
     public IStudentRepository Students { get; }
-    
+    public IBatchRepository Batches { get; }
+
     public UnitOfWork(AppDbContext context , ILoggerFactory loggerFactory)
     {
         _context = context;
@@ -16,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
         
         Teachers = new TeacherRepository(_context,logger);
         Students = new StudentRepository(_context, logger);
+        Batches = new BatchRepository(_context, logger);
 
     }
     
