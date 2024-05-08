@@ -55,6 +55,22 @@ namespace ERP.RequestManagement.DataService.Repositories
             }
         }
 
+        public async Task<IEnumerable<TeacherRequest>> GetTeacherRequestsByTeacherIdAsync(Guid teacherId)
+        {
+            try
+            {
+                return _dbSet
+                        .Where(x => x.SenderId == teacherId)
+                        .Include(x => x.Sender)
+                        .Include(x => x.Reciever)
+                    ;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "{Repo} GetAcademicAdviceeListAsync Error", typeof(TeacherRequestRepository));
+                throw;
+            }
+        }
 
     }
 }

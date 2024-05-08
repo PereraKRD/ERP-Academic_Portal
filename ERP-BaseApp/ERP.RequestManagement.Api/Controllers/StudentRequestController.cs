@@ -44,5 +44,14 @@ namespace ERP.RequestManagement.Api.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("{teacherId:guid}")]
+        public async Task<IActionResult> GetStudentRequestsByTeacherId(Guid teacherId)   // teacher is the reciever
+        {
+            var studentRequests = await _unitOfWork.StudentRequests.GetStudentRequestsByTeacherIdAsync(teacherId);
+            var results = _mapper.Map<IEnumerable<GetStudentMessagesResponse>>(studentRequests);
+            return Ok(results);
+        }
+
     }
 }

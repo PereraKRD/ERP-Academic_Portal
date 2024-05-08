@@ -9,5 +9,6 @@ namespace ERP.RequestManagement.DataService.Repositories.Interfaces
 {
     public interface ITeacherRequestRepository : IGenericRepository<TeacherRequest>
     {
+        Task<IEnumerable<TeacherRequest>> GetTeacherRequestsByTeacherIdAsync(Guid teacherId);
     }
 }
