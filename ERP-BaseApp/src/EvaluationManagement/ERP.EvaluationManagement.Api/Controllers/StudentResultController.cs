@@ -42,11 +42,14 @@ public class StudentResultController : BaseController
     }
 
     [HttpPut]
-    [Route("{evaluationId:guid}/importexcel")]
-    public async Task<IActionResult> UpdateResult([FromRoute] Guid evaluationId, [FromForm] IFormFile formFile)
+    [Route("{moduleOfferingId}/{evaluationId:guid}/importexcel")]
+    public async Task<IActionResult> UpdateResult([FromRoute] Guid moduleOfferingId, [FromRoute] Guid evaluationId, [FromForm] IFormFile formFile)
     {
         try
         {
+            var moduleOffering = await _unitOfWork.ModuleOfferings.GetAsync(moduleOfferingId);
+            var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
+
             var list = new List<StudentResult>();
             using (var stream = new MemoryStream())
             {
@@ -55,10 +58,23 @@ public class StudentResultController : BaseController
                 {
                     var worksheet = workbook.Worksheet(1);
                     var rowCount = worksheet.RangeUsed().RowCount();
+
+                    var moduleCode = worksheet.Cell(3,3).GetValue<String>();
+                    var evaluationName = worksheet.Cell(6,3).GetValue<String>();
+
+                    if (moduleOffering.Module.Code != moduleCode && evaluation.Name != evaluationName)
+                    {
+                        return StatusCode(StatusCodes.Status406NotAcceptable, "Uploaded file does not matched to this module or evaluation.");
+                    }
                     for (int row = 10; row <= rowCount; row++)
                     {
                         string registrationNumber = worksheet.Cell(row, 1).GetValue<String>();
                         double studentScore = Convert.ToDouble(worksheet.Cell(row, 3).GetValue<String>());
+
+                        if (studentScore <= 0 || studentScore > evaluation.Marks)
+                        {
+                            return StatusCode(StatusCodes.Status406NotAcceptable, "Marks are not in the valid range.");
+                        }
 
                         var student = await _unitOfWork.Students.GetStudentByRegNum(registrationNumber);
                         var studentResult = await _unitOfWork.StudentResults.GetStudentResultIdAsync(evaluationId, student.Id);
@@ -175,7 +191,7 @@ public class StudentResultController : BaseController
 
             worksheet.Columns().AdjustToContents();
 
-            var range = worksheet.Range("A9:C" + (row - 1)); // Define the range for the table
+            var range = worksheet.Range("A9:C" + (row - 1));
             var table = range.CreateTable();
 
             table.ShowAutoFilter = true;
