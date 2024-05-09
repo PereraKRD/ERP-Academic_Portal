@@ -1,0 +1,56 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+
+<h3>Evaluation Information</h3>
+
+<p>Module</p>
+<p>@module.ModuleName</p>
+<p>Module Code</p>
+<p>@module.ModuleCode</p>
+<p>Evaluation Name</p>
+<p>@evaluation.EvaluationName</p>
+<p>Evaluation Type</p>
+<p>@evaluationType</p>
+<p>Marks</p>
+<p>@evaluation.EvaluationMarks</p>
+<p>Final Marks</p>
+<p>@evaluation.EvaluationFinalMarks</p>
+
+@code {
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+    [Parameter]
+    public Guid EvaluationId { get; set; }
+
+    private HttpClient Http = new HttpClient();
+
+    private GetEvaluationDetailsResponse evaluation = new();
+    private GetModuleOfferingDetailsResponse module = new();
+    private string evaluationType;
+
+    protected override async Task OnInitializedAsync()
+    {
+        evaluation = await Http.GetFromJsonAsync<GetEvaluationDetailsResponse>($"https://localhost:7007/api/Evaluation/{EvaluationId}/evaluation");
+        module = await Http.GetFromJsonAsync<GetModuleOfferingDetailsResponse>($"https://localhost:7007/api/ModuleOffering/{ModuleOfferingId}");
+        evaluationType = GetEvaluationType(evaluation.EvaluationType);
+    }
+
+    public string GetEvaluationType(int type)
+    {
+        switch (type)
+        {
+            case 1:
+                return "Inclass";
+            case 2:
+                return "Quiz";
+            case 3:
+                return "Assignment";
+            case 4:
+                return "TakeHome";
+            case 5:
+                return "Other";
+            default:
+                return "Unknown";
+        }
+    }
+}

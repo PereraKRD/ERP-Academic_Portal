@@ -8,6 +8,7 @@
 @using Newtonsoft.Json
 @using System.Net.Http.Headers
 @using Severity = MudBlazor.Severity
+@using System.Net
 @inject IJSRuntime JS
 @inject ISnackbar Snackbar
 
@@ -74,10 +75,6 @@
     private List<GetEvaluationResultListResponse> _studentResults = new();
     private List<GetModuleOfferingStudentsResponse> _students = new();
 
-    ElementReference inputReference;
-    string message = string.Empty;
-    string filePath = null;
-
 
 
     protected override async Task OnInitializedAsync()
@@ -120,7 +117,7 @@
 
     private async Task ExportToExcel()
     {
-        var response = await Http.GetAsync($"https://localhost:7007/api/StudentResult/{EvaluationId}/exports/results", HttpCompletionOption.ResponseHeadersRead);
+        var response = await Http.GetAsync($"https://localhost:7007/api/StudentResult/{ModuleOfferingId}/{EvaluationId}/exports/results", HttpCompletionOption.ResponseHeadersRead);
         if (response.IsSuccessStatusCode)
         {
             var fileContent = await response.Content.ReadAsByteArrayAsync();
@@ -130,7 +127,7 @@
         }
         else
         {
-            Console.WriteLine("Failed to download file: " + response.StatusCode);
+            Snackbar.Add("Failed to download file: " + response.StatusCode, Severity.Error);
         }
     }
 
@@ -209,16 +206,32 @@
 
                 content.Add(new StreamContent(stream), "formFile", fileName);
 
-                var response = await client.PutAsync($"api/StudentResult/{EvaluationId}/importexcel", content);
+                var response = await client.PutAsync($"api/StudentResult/{ModuleOfferingId}/{EvaluationId}/importexcel", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     RefreshDataTable();
                     Snackbar.Add("Results Updated Successfully", Severity.Success);
                 }
+                else if (response.StatusCode == HttpStatusCode.NotAcceptable)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    if (errorMessage.Contains("Marks are not in the valid range."))
+                    {
+                        Snackbar.Add("Failed to update results: Marks are not in the valid range.", Severity.Error);
+                    }
+                    else if (errorMessage.Contains("Uploaded file does not matched to this module or evaluation."))
+                    {
+                        Snackbar.Add("Failed to update results: Uploaded file does not matched to this module or evaluation.", Severity.Error);
+                    }
+                    else
+                    {
+                        Snackbar.Add("Failed to update results. Check the File again.", Severity.Error);
+                    }
+                }
                 else
                 {
-                    Snackbar.Add("Failed to update results. Please try again.", Severity.Error);
+                    Snackbar.Add("Failed to update results. Check the File again.", Severity.Error);
                 }
             }
         }

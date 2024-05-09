@@ -47,6 +47,20 @@ public class EvaluationRepository : GenericRepository<Evaluation>, IEvaluationRe
         }
     }
 
+    public async Task<Evaluation> GetByEvaluationIdAsync(Guid evaluationId)
+    {
+        try
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(x => x.Id == evaluationId);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetByEvaluationIdAsync Error", typeof(EvaluationRepository));
+            throw;
+        }
+    }
+
     public override async Task<bool> DeleteAsync(Guid evaluationId)
     {
         try
