@@ -6,10 +6,10 @@
 @if (_acadamicAdvicees != null)
 {
     <div class="pt-4">
-        <h3 class="result-header"> Academic Advicee List </h3>
+        <h3 class="result-header pb-4"> Academic Advicee List </h3>
     </div>
 
-    <MudTable Items="@_acadamicAdvicees">
+    <MudTable Items="@_acadamicAdvicees" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>

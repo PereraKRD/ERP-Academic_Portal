@@ -3,23 +3,34 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
-    <h3 class="result-header">Batches</h3>
+    <h2 class="result-header pb-3">Batches</h2>
 
-    <div class="mt-4">
-        @foreach (var batch in _batches)
-        {  
-            <div>
-                <button @onclick="() => ViewModuleInformation(batch.BatchId)">
-                    @batch.BatchName
-                </button>
-            </div> 
-        }
-    </div>
-
+    <MudGrid>
+        <MudItem xs="9">
+            <MudCard Outlined="true">
+                <div class="mt-4">
+                    <MudList Clickable="true" Dense="false" DisableGutters="false">
+                        @foreach (var batch in _batches)
+                        {
+                            <MudListItem Text="@batch.BatchName" @onclick="() => ViewModuleInformation(batch.BatchId)" Icon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Primary" />
+                            @* <div>
+                        <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
+                        @moduleOffering.Name
+                        </button>
+                        </div> *@
+                        }
+                    </MudList>
+                </div>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="2" Class="m-0 p-0">
+            <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+        </MudItem>
+    </MudGrid>
 </MudContainer>
 
 @code {
-    
+
     private HttpClient Http = new HttpClient();
     private List<GetBatchResponse> _batches = new List<GetBatchResponse>();
 
