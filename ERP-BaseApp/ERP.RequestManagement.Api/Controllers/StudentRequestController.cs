@@ -45,7 +45,7 @@ namespace ERP.RequestManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/requests/{teacherId:guid}")]
+        [Route("/StudentRequests/{teacherId:guid}")]
         public async Task<IActionResult> GetStudentRequestsByTeacherId(Guid teacherId)   // teacher is the reciever
         {
             var studentRequests = await _unitOfWork.StudentRequests.GetStudentRequestsByTeacherIdAsync(teacherId);

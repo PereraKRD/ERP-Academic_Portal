@@ -1,0 +1,11 @@
+﻿@page "/RequestManagementTabs/StudentRequest/{requestId:guid}/{senderId:guid}"
+@rendermode InteractiveServer
+<ViewStudentRequestPage SenderId="senderId" RequestId="requestId"></ViewStudentRequestPage>
+
+@code
+{
+    [Parameter]
+    public Guid senderId { get; set; }
+    [Parameter]
+    public Guid requestId { get; set; }
+}

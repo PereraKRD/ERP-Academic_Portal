@@ -1,0 +1,94 @@
+﻿@using FluentValidation
+@using ERP_EvaluationManagement.DTOs.Requests
+@using Newtonsoft.Json
+@using System.Text
+@using Severity = MudBlazor.Severity
+@inject ISnackbar Snackbar
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudContainer Class="result-container">
+    <MudCard Class="mud-card">
+        <MudForm Model="@teacherRequest" @ref="@form" 
+                 ValidationDelay="0">
+            <MudCardContent Class="mud-card-content">
+                <h5 style="text-align: center;">ADD ASSIGNMENT</h5>
+                <MudTextField @bind-Value="teacherRequest.Message"
+                              For="@(() => teacherRequest.Message)"
+                              Immediate="true"
+                              Label="Name" />
+
+                @* <MudSelect @bind-Value="model.Type" Label="Type">
+                    <MudSelectItem Value="1">Inclass</MudSelectItem>
+                    <MudSelectItem Value="2">Quiz</MudSelectItem>
+                    <MudSelectItem Value="3">Assignment</MudSelectItem>
+                    <MudSelectItem Value="4">Take Home</MudSelectItem>
+                    <MudSelectItem Value="5">Other</MudSelectItem>
+                </MudSelect> *@
+
+            </MudCardContent>
+            <MudCardActions Class="mud-card-actions">
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="mud-button-add"
+                           OnClick="@(async () => await Submit())">Send</MudButton>
+            </MudCardActions>
+        </MudForm>
+    </MudCard>
+</MudContainer>
+@code {
+    [Parameter]
+    public Guid SenderId { get; set; }
+    [Parameter]
+
+    public EventCallback onAdded { get; set; }
+
+    private CreateTeacherMessageRequest teacherRequest = new CreateTeacherMessageRequest();
+
+    private HttpClient Http = new HttpClient();
+
+    MudForm form;
+
+    private async Task Submit()
+    {
+
+        if (form.IsValid)
+        {
+            try
+            {
+
+                // Convert the evaluation data to JSON
+                var evaluationJson = JsonConvert.SerializeObject(teacherRequest);
+
+                // Set up the request message
+                var request = new HttpRequestMessage
+                    {
+                        Method = HttpMethod.Post,
+                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/d197903e-7ebf-4e8f-b5fe-4d64acf10b5f/{SenderId}"),
+                        Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
+                    };
+
+                // Send the request and await the response
+                var response = await Http.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await onAdded.InvokeAsync();
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to create evaluation. Status code: {response.StatusCode}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+    }
+
+
+}

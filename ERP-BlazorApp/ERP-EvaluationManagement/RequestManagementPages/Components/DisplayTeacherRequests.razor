@@ -3,10 +3,10 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
-    <h3 class="result-header">Student Requests</h3>
+    <h3 class="result-header">Teacher Requests</h3>
 
     <div class="mt-4">
-        @foreach (var request in _studentRequests)
+        @foreach (var request in _teacherRequests)
         {
             <div>
                 <button @onclick="() => ViewModuleInformation(request.SenderId , request.RequestId)">
@@ -21,7 +21,7 @@
 @code {
 
     private HttpClient Http = new HttpClient();
-    private List<GetStudentMessagesResponse> _studentRequests = new List<GetStudentMessagesResponse>();
+    private List<GetTeacherMessagesResponse> _teacherRequests = new List<GetTeacherMessagesResponse>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,12 +30,12 @@
 
     private async Task LoadModulesAsync()
     {
-        _studentRequests = await Http.GetFromJsonAsync<List<GetStudentMessagesResponse>>($"https://localhost:7256/StudentRequests/af8ad6c4-46f2-4bf8-9628-9cf34e122893");
+        _teacherRequests = await Http.GetFromJsonAsync<List<GetTeacherMessagesResponse>>($"https://localhost:7256/TeacherRequests/af8ad6c4-46f2-4bf8-9628-9cf34e122893");
     }
 
-    private void ViewModuleInformation(Guid senderId ,Guid requestId)
+    private void ViewModuleInformation(Guid senderId, Guid requestId)
     {
-        NavigationManager.NavigateTo($"/RequestManagementTabs/StudentRequest/{requestId}/{senderId}");
+        NavigationManager.NavigateTo($"/RequestManagementTabs/TeacherRequest/{requestId}/{senderId}");
     }
 }
 

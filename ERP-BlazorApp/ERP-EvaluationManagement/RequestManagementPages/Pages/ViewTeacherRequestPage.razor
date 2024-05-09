@@ -1,0 +1,61 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+
+@inject ISnackbar Snackbar
+
+@if (_teacherRequest != null)
+{
+    <div class="pt-4">
+        <h3> @_teacherRequest.Message </h3>
+    </div>
+
+    <div>
+        <button @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
+            Reply
+        </button>
+    </div>
+
+}
+else
+{
+    <p>Module offering information not found.</p>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public Guid RequestId { get; set; }
+    [Parameter]
+    public Guid SenderId { get; set; }
+
+    private HttpClient Http = new HttpClient();
+
+    private GetTeacherMessagesResponse? _teacherRequest;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModuleOfferingInfoAsync(RequestId);
+    }
+
+    private async Task LoadModuleOfferingInfoAsync(Guid requestId)
+    {
+        try
+        {
+            _teacherRequest = await Http.GetFromJsonAsync<GetTeacherMessagesResponse>($"https://localhost:7256/api/TeacherRequest/{requestId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
+        }
+    }
+
+    private void ViewModuleInformation(Guid recieverId)
+    {
+        NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{recieverId}");
+    }
+
+}
+
