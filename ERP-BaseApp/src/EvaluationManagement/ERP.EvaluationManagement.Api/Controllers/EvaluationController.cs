@@ -29,6 +29,15 @@ public class EvaluationController : BaseController
         var result = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(evaluations);
         return Ok(result);
     }
+
+    [HttpGet]
+    [Route("{evaluationId:guid}/evaluation")]
+    public async Task<IActionResult> GetByEvaluationId(Guid evaluationId)
+    {
+        var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
+        var result = _mapper.Map<GetEvaluationDetailsResponse>(evaluation);
+        return Ok(result);
+    }
     
     [HttpPost]
     [Route("{moduleOfferingId:guid}")]
