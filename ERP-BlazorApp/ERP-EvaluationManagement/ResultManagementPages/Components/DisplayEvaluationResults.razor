@@ -1,11 +1,11 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
 
-<h3>Results</h3>
+<h3 class="pb-4">Results</h3>
 
 @if (_studentResults != null && _studentResults.Any())
 {
-	<MudTable Items="@_studentResults">
+	<MudTable Items="@_studentResults" Hover="true" Bordered="true" Outlined="true">
 		<HeaderContent>
 			<MudTh>Reg Number</MudTh>
 			<MudTh>Name</MudTh>
