@@ -48,6 +48,17 @@ public class AppDbContext : DbContext
             .WithOne(s => s.Reciever)
             .HasForeignKey(N => N.RecieverId);
 
+        //// Teacher and OutgoingStaffRequests (One-to-Many)
+        //modelBuilder.Entity<Teacher>()
+        //    .HasMany(sr => sr.OutgoingStaffRequests)
+        //    .WithOne(s => s.Sender)
+        //    .HasForeignKey(N => N.SenderId);
+
+        //// Teacher and IncomingStaffRequests (One-to-Many)
+        //modelBuilder.Entity<Teacher>()
+        //    .HasMany(sr => sr.IncomingStaffRequests)
+        //    .WithOne(s => s.Reciever)
+        //    .HasForeignKey(N => N.RecieverId);
 
     }
 
@@ -56,5 +67,6 @@ public class AppDbContext : DbContext
         public virtual DbSet<Batch> Batches { get; set; }
         public virtual DbSet<TeacherRequest> TeacherRequests { get; set; }
         public virtual DbSet<StudentRequest> StudentRequests { get; set; }
+        public virtual DbSet<StaffRequest> StaffRequests { get; set; }
 
 }

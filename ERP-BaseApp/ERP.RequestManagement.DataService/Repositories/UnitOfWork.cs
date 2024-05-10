@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public IBatchRepository Batches { get; }
     public ITeacherRequestRepository TeacherRequests { get; }
     public IStudentRequestRepository StudentRequests { get; }
+    public IStaffRequestRepository StaffRequests { get; }
 
     public UnitOfWork(AppDbContext context , ILoggerFactory loggerFactory)
     {
@@ -25,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
         Batches = new BatchRepository(_context, logger);
         TeacherRequests = new TeacherRequestRepository(_context, logger);
         StudentRequests = new StudentRequestRepository(_context, logger);
+        StaffRequests = new StaffRequestRepository(_context, logger);
     }
     
     public async Task<bool> CompleteAsync()

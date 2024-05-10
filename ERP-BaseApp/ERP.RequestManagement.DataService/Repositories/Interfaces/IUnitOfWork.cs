@@ -9,5 +9,6 @@ public interface IUnitOfWork
     public IBatchRepository Batches { get; }
     public ITeacherRequestRepository TeacherRequests { get; }
     public IStudentRequestRepository StudentRequests { get; }
+    public IStaffRequestRepository StaffRequests { get; }
     Task<bool> CompleteAsync();
 }

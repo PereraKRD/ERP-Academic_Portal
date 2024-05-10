@@ -51,5 +51,12 @@ public class DomainToResponse : Profile
              .ForMember(dest => dest.RecieverName, opt => opt.MapFrom(src => src.Reciever.FirstName))
              .ForMember(dest => dest.RecieverRegistrationNum, opt => opt.MapFrom(src => src.Reciever.RegistrationNum))
              ;
+
+        CreateMap<StaffRequest, GetStaffMessageResponse>()
+             .ForMember(dest => dest.RequestId,
+                 opt => opt.MapFrom(src => src.Id))
+             .ForMember(dest => dest.SenderName, opt => opt.MapFrom(src => src.Sender.FirstName))
+             .ForMember(dest => dest.RecieverName, opt => opt.MapFrom(src => src.Reciever.FirstName))
+             ;
     }
 }
