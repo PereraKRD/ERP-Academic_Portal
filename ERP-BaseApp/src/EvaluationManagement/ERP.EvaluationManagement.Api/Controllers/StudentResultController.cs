@@ -42,11 +42,15 @@ public class StudentResultController : BaseController
     }
 
     [HttpPut]
-    [Route("{evaluationId:guid}/importexcel")]
-    public async Task<IActionResult> UpdateResult([FromRoute] Guid evaluationId, [FromForm] IFormFile formFile)
+    [Route("{moduleOfferingId}/{evaluationId:guid}/importexcel")]
+    public async Task<IActionResult> UpdateResult([FromRoute] Guid moduleOfferingId, [FromRoute] Guid evaluationId, [FromBody] IFormFile formFile)
     {
         try
         {
+            var moduleOffering = await _unitOfWork.ModuleOfferings.GetAsync(moduleOfferingId);
+            var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
+            string evaluationName;
+
             var list = new List<StudentResult>();
             using (var stream = new MemoryStream())
             {
@@ -55,10 +59,27 @@ public class StudentResultController : BaseController
                 {
                     var worksheet = workbook.Worksheet(1);
                     var rowCount = worksheet.RangeUsed().RowCount();
-                    for (int row = 2; row <= rowCount; row++)
+
+                    var moduleCode = worksheet.Cell(3, 3).GetValue<String>();
+                    evaluationName = worksheet.Cell(6, 3).GetValue<String>();
+
+                    if (moduleOffering.Module.Code != moduleCode)
+                    {
+                        return StatusCode(StatusCodes.Status406NotAcceptable, "Uploaded file does not matched to this module.");
+                    }
+                    if (evaluation.Name != evaluationName)
+                    {
+                        return StatusCode(StatusCodes.Status406NotAcceptable, "Uploaded file does not matched to this evaluation.");
+                    }
+                    for (int row = 10; row <= rowCount; row++)
                     {
                         string registrationNumber = worksheet.Cell(row, 1).GetValue<String>();
                         double studentScore = Convert.ToDouble(worksheet.Cell(row, 3).GetValue<String>());
+
+                        if (studentScore <= 0 || studentScore > evaluation.Marks)
+                        {
+                            return StatusCode(StatusCodes.Status406NotAcceptable, "Marks are not in the valid range.");
+                        }
 
                         var student = await _unitOfWork.Students.GetStudentByRegNum(registrationNumber);
                         var studentResult = await _unitOfWork.StudentResults.GetStudentResultIdAsync(evaluationId, student.Id);
@@ -79,10 +100,10 @@ public class StudentResultController : BaseController
             foreach (var result in list)
             {
                 await _unitOfWork.StudentResults.UpdateAsync(result);
-                
+
             }
             await _unitOfWork.CompleteAsync();
-            return NoContent();
+            return Ok($"{evaluation.Name}, {evaluationName}");
         }
         catch (Exception ex)
         {
@@ -117,12 +138,14 @@ public class StudentResultController : BaseController
     }
 
     [HttpGet]
-    [Route("{evaluationId:guid}/exports/results")]
-    public async Task<IActionResult> GenerateAndDownloadExcel(Guid evaluationId)
+    [Route("{moduleOfferingId}/{evaluationId:guid}/exports/results")]
+    public async Task<IActionResult> GenerateAndDownloadExcel([FromRoute] Guid moduleOfferingId, [FromRoute] Guid evaluationId)
     {
         try
         {
             var studentResults = await _unitOfWork.StudentResults.GetEvaluationResultAsync(evaluationId);
+            var moduleOffering = await _unitOfWork.ModuleOfferings.GetAsync(moduleOfferingId);
+            var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
             var results = _mapper.Map<IEnumerable<GetStudentResultResponse>>(studentResults);
 
             using var workbook = new XLWorkbook();
@@ -131,22 +154,49 @@ public class StudentResultController : BaseController
             headerStyle.Font.Bold = true;
             headerStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-            worksheet.Cell(1, 1).Value = "RegNo.";
-            worksheet.Cell(1, 2).Value = "Name";
-            worksheet.Cell(1, 3).Value = "Marks";
+            worksheet.Range("A1:H1").Merge().Value = "Faculty of Engineering, University of Ruhuna";
+            worksheet.Cell("A1").Style
+                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                .Font.SetBold()
+                .Font.FontSize = 20;
 
-            worksheet.Row(1).Style = headerStyle;
+            worksheet.Cell(3, 2).Value = "Module Code";
+            worksheet.Cell(4, 2).Value = "Module Name";
+            worksheet.Cell(5, 2).Value = "Semester";
+            worksheet.Cell(6, 2).Value = "Evaluation";
+            worksheet.Cell(7, 2).Value = "Cordinator";
 
-            var row = 2;
+            worksheet.Cell(3, 3).Value = moduleOffering.Module.Code;
+            worksheet.Cell(4, 3).Value = moduleOffering.Module.Name;
+            worksheet.Cell(5, 3).Value = moduleOffering.Module.Semester;
+            worksheet.Cell(6, 3).Value = evaluation.Name;
+            worksheet.Cell(7, 3).Value = moduleOffering.Coordinator.FirstName + " " + moduleOffering.Coordinator.LastName;
+
+
+            worksheet.Cell(9, 1).Value = "Reg. No.";
+            worksheet.Cell(9, 2).Value = "Name";
+            worksheet.Cell(9, 3).Value = "Marks";
+
+            worksheet.Row(9).Style = headerStyle;
+
+            var row = 10;
             foreach (var result in results)
             {
                 worksheet.Cell(row, 1).Value = result.RegistrationNum;
                 worksheet.Cell(row, 2).Value = result.FullName;
-                worksheet.Cell(row, 3).Value = result.StudentScore;
+                var cell = worksheet.Cell(row, 3);
+                cell.Value = result.StudentScore;
+                cell.Style.Protection.Locked = false;
                 row++;
             }
 
-            var range = worksheet.Range("A1:C" + (row - 1)); // Define the range for the table
+            worksheet.Column("A").Style.Protection.Locked = true;
+            worksheet.Column("B").Style.Protection.Locked = true;
+            worksheet.Protect("password");
+
+            worksheet.Columns().AdjustToContents();
+
+            var range = worksheet.Range("A9:C" + (row - 1));
             var table = range.CreateTable();
 
             table.ShowAutoFilter = true;

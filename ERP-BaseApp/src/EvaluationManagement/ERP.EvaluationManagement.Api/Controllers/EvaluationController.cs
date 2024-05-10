@@ -29,7 +29,16 @@ public class EvaluationController : BaseController
         var result = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(evaluations);
         return Ok(result);
     }
-    
+
+    [HttpGet]
+    [Route("{evaluationId:guid}/evaluation")]
+    public async Task<IActionResult> GetByEvaluationId(Guid evaluationId)
+    {
+        var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
+        var result = _mapper.Map<GetEvaluationDetailsResponse>(evaluation);
+        return Ok(result);
+    }
+
     [HttpPost]
     [Route("{moduleOfferingId:guid}")]
     public async Task<IActionResult> AddEvaluation(Guid moduleOfferingId, [FromBody] CreateEvaluationRequest evaluation)
@@ -41,6 +50,15 @@ public class EvaluationController : BaseController
         
         var evaluationEntity = _mapper.Map<Evaluation>(evaluation);
         evaluationEntity.ModuleOfferingID = moduleOfferingId;
+
+        var existingEvaluations = await _unitOfWork.Evaluations.GetByIdAsync(moduleOfferingId);
+        var existingEvaluationDetails = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(existingEvaluations);
+
+        if (existingEvaluationDetails.Any(e => e.EvaluationName.Equals(evaluation.Name, StringComparison.OrdinalIgnoreCase)))
+        {
+            return StatusCode(StatusCodes.Status406NotAcceptable, "This evaluation name is already exists.");
+        }
+
         await _unitOfWork.Evaluations.AddAsync(evaluationEntity);
         await _unitOfWork.CompleteAsync();
         return Ok();
