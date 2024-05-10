@@ -3,22 +3,24 @@
 @inject NavigationManager NavigationManager
 
 <MudContainer Class="result-container">
-    <h3 class="result-header">Module Offerings</h3>
-
-    <MudExpansionPanels MultiExpansion="true">
+    <h2 class="result-header pb-3">Module Offerings</h2>
+    <MudExpansionPanels MultiExpansion="true" Class="border-5" Style="font-weight:bold; font-size:16px">
         @foreach (var semester in Enumerable.Range(1, 8))
         {
             var moduleOfferingsForSemester = _moduleOfferings.Where(m => m.Semester == $"Semester {semester:00}").ToList();
             <MudExpansionPanel Text=@($"Semester {semester:D2} - ({moduleOfferingsForSemester.Count})") MaxHeight="1000">
                 <div class="mt-4">
-                    @foreach (var moduleOffering in moduleOfferingsForSemester)
-                    {
-                        <div>
-                            <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
-                                @moduleOffering.Name
-                            </button>
-                        </div>
-                    }
+                    <MudList Clickable="true" Dense="false" DisableGutters="false">
+                        @foreach (var moduleOffering in moduleOfferingsForSemester)
+                        {
+                            <MudListItem Text="@moduleOffering.Name" @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)" Icon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Primary" />
+                            @* <div>
+                    <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
+                    @moduleOffering.Name
+                    </button>
+                    </div> *@
+                        }
+                    </MudList>
                 </div>
             </MudExpansionPanel>
         }

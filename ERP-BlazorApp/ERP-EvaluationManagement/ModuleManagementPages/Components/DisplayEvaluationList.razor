@@ -10,8 +10,8 @@
 <MudSnackbarProvider />
 
 
-<MudContainer Class="result-container">
-    <MudTable Items="@_evaluations">
+<MudContainer>
+    <MudTable Items="@_evaluations" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Name</MudTh>
             <MudTh>Type</MudTh>
@@ -27,8 +27,8 @@
             <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
             <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@( () => EditEvaluation(@context) )" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@( () => EditEvaluation(@context) )" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
             </MudTd>
         </RowTemplate>
     </MudTable>
