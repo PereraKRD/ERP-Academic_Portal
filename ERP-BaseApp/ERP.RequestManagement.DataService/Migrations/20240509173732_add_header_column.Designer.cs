@@ -3,6 +3,7 @@ using System;
 using ERP.RequestManagement.DataService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.RequestManagement.DataService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240509173732_add_header_column")]
+    partial class add_header_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4");
@@ -95,8 +98,9 @@ namespace ERP.RequestManagement.DataService.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Header")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool?>("IsChecked")
                         .HasColumnType("INTEGER");
@@ -167,8 +171,9 @@ namespace ERP.RequestManagement.DataService.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Header")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<bool?>("IsChecked")
                         .HasColumnType("INTEGER");

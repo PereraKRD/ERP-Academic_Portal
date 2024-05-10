@@ -5,18 +5,28 @@
 <MudContainer Class="result-container">
     <h3 class="result-header">Teacher Requests</h3>
 
-    <div class="mt-4">
-        @foreach (var request in _teacherRequests)
-        {
-            <div>
-                <button @onclick="() => ViewModuleInformation(request.SenderId , request.RequestId)">
-                    @request.Message
+    <MudTable Items="_teacherRequests">
+        <HeaderContent>
+            <MudTh>Added Date</MudTh>
+            <MudTh>Receiver Name</MudTh>
+            <MudTh>Receiver Registration Number</MudTh>
+            <MudTh>Header</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate Context="request">
+            <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
+            <MudTd>@request.RecieverName</MudTd>
+            <MudTd>@request.RecieverRegistrationNum</MudTd>
+            <MudTd>@request.Header</MudTd>     
+            <MudTd>
+                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
+                    View Details
                 </button>
-            </div>
-        }
-    </div>
-
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
 </MudContainer>
+
 
 @code {
 

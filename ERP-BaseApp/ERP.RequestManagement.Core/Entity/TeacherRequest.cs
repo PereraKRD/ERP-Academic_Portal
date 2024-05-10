@@ -17,5 +17,6 @@ namespace ERP.RequestManagement.Core.Entity
         [ForeignKey("RecieverId")]
         public Student Reciever { get; set; }
         public bool? IsChecked { get; set; }
+        public int Header { get; set; }
     }
 }

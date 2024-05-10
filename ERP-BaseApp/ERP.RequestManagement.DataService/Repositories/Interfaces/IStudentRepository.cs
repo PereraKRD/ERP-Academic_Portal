@@ -8,4 +8,5 @@ public interface IStudentRepository : IGenericRepository<Student>
 {
     Task<IEnumerable<Student>> GetAcademicAdviceeListAsync(Guid batchId, Guid advisorId);
     Task<Student> GetStudentByRegNum(string RegNum);
+    Task<IEnumerable<Student>> GetBatchStudentsAsync(Guid batchId);
 }

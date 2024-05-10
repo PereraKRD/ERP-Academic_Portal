@@ -42,6 +42,7 @@ public class RequestToDomain : Profile
                 opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForMember(dest => dest.UpdateDate,
                 opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Header, opt => opt.MapFrom(src => src.Header))
             ;
 
         CreateMap<CreateStudentMessageRequest, StudentRequest>()

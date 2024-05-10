@@ -41,6 +41,7 @@ public class DomainToResponse : Profile
                  opt => opt.MapFrom(src => src.Id))
              .ForMember(dest => dest.SenderName, opt => opt.MapFrom(src => src.Sender.FirstName))
              .ForMember(dest => dest.RecieverName, opt => opt.MapFrom(src => src.Reciever.FirstName))
+             .ForMember(dest => dest.SenderRegistrationNum, opt => opt.MapFrom(src => src.Sender.RegistrationNum))
              ;
 
         CreateMap<TeacherRequest, GetTeacherMessagesResponse>()
@@ -48,6 +49,7 @@ public class DomainToResponse : Profile
                  opt => opt.MapFrom(src => src.Id))
              .ForMember(dest => dest.SenderName, opt => opt.MapFrom(src => src.Sender.FirstName))
              .ForMember(dest => dest.RecieverName, opt => opt.MapFrom(src => src.Reciever.FirstName))
+             .ForMember(dest => dest.RecieverRegistrationNum, opt => opt.MapFrom(src => src.Reciever.RegistrationNum))
              ;
     }
 }

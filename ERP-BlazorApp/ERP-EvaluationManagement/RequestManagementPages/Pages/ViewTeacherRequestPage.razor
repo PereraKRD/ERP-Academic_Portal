@@ -4,7 +4,7 @@
 
 @inject ISnackbar Snackbar
 
-@if (_teacherRequest != null)
+@* @if (_teacherRequest != null)
 {
     <div class="pt-4">
         <h3> @_teacherRequest.Message </h3>
@@ -20,8 +20,68 @@
 else
 {
     <p>Module offering information not found.</p>
+} *@
+
+@if (_teacherRequest != null)
+{
+    <MudPaper Elevation="2" Class="email-paper">
+        <div class="email-header">
+            <div class="sender-info">
+                <span class="sender-name">To: @_teacherRequest.SenderName</span><br />
+                <span class="sender-email">(@_teacherRequest.RecieverRegistrationNum)</span>
+            </div>
+            <div class="subject-line">
+                <span>Subject: Teacher Request </span><br />
+                <span>Header: @_teacherRequest.Header </span>
+            </div>
+        </div>
+        <div class="email-content">
+            <p>@_teacherRequest.Message</p>
+        </div>
+        <div class="reply-button">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
+                Reply
+            </MudButton>
+        </div>
+    </MudPaper>
+}
+else
+{
+    <p>Module offering information not found.</p>
 }
 
+<style>
+    .email-paper {
+        margin-bottom: 20px;
+    }
+
+    .email-header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .sender-info {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .sender-name {
+        margin-right: 10px;
+    }
+
+    .subject-line {
+        font-style: italic;
+    }
+
+    .email-content {
+        margin-bottom: 15px;
+    }
+
+    .reply-button {
+        text-align: center;
+    }
+</style>
 
 
 @code {

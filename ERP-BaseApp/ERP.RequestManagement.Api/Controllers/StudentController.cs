@@ -20,7 +20,25 @@ public class StudentController : BaseController
         var results = _mapper.Map<IEnumerable<GetStudentResponse>>(students);
         return Ok(results);
     }
-    
+
+    [HttpGet]
+    [Route("{batchId:guid}/{advisorId:guid}")]
+    public async Task<IActionResult> GetAcademicAdvicees(Guid batchId, Guid advisorId)
+    {
+        var students = await _unitOfWork.Students.GetAcademicAdviceeListAsync(batchId, advisorId);
+        var results = _mapper.Map<IEnumerable<GetStudentResponse>>(students);
+        return Ok(results);
+    }
+
+    [HttpGet]
+    [Route("{batchId:guid}")]
+    public async Task<IActionResult> GetBatchStudents(Guid batchId)
+    {
+        var students = await _unitOfWork.Students.GetBatchStudentsAsync(batchId);
+        var results = _mapper.Map<IEnumerable<GetStudentResponse>>(students);
+        return Ok(results);
+    }
+
 
     [HttpPost("")]
     public async Task<IActionResult> AddStudent([FromBody] CreateStudentRequest student)

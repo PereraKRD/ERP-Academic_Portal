@@ -9,5 +9,7 @@ namespace ERP.RequestManagement.Core.DTOs.Requests
     public class CreateTeacherMessageRequest
     {
         public string? Message { get; set; }
+        public int Header { get; set; }
+
     }
 }

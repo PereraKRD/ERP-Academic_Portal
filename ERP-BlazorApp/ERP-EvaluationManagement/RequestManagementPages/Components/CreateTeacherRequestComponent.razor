@@ -11,22 +11,24 @@
 
 <MudContainer Class="result-container">
     <MudCard Class="mud-card">
-        <MudForm Model="@teacherRequest" @ref="@form" 
+        <MudForm Model="@teacherRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
-                <h5 style="text-align: center;">ADD ASSIGNMENT</h5>
+                <h5 style="text-align: center;">MAKE REQUEST</h5>
+
+                <MudSelect @bind-Value="teacherRequest.Header" Label="Header">
+                    <MudSelectItem Value="1">Module Related</MudSelectItem>
+                    <MudSelectItem Value="2">Medical</MudSelectItem>
+                    <MudSelectItem Value="3">Academic Advisee</MudSelectItem>
+                    <MudSelectItem Value="4">Late Submissions</MudSelectItem>
+                    <MudSelectItem Value="5">Other</MudSelectItem>
+                </MudSelect>
+
                 <MudTextField @bind-Value="teacherRequest.Message"
                               For="@(() => teacherRequest.Message)"
                               Immediate="true"
                               Label="Name" />
 
-                @* <MudSelect @bind-Value="model.Type" Label="Type">
-                    <MudSelectItem Value="1">Inclass</MudSelectItem>
-                    <MudSelectItem Value="2">Quiz</MudSelectItem>
-                    <MudSelectItem Value="3">Assignment</MudSelectItem>
-                    <MudSelectItem Value="4">Take Home</MudSelectItem>
-                    <MudSelectItem Value="5">Other</MudSelectItem>
-                </MudSelect> *@
 
             </MudCardContent>
             <MudCardActions Class="mud-card-actions">
@@ -35,6 +37,7 @@
                            Class="mud-button-add"
                            OnClick="@(async () => await Submit())">Send</MudButton>
             </MudCardActions>
+
         </MudForm>
     </MudCard>
 </MudContainer>
@@ -42,31 +45,61 @@
     [Parameter]
     public Guid SenderId { get; set; }
     [Parameter]
-
     public EventCallback onAdded { get; set; }
 
     private CreateTeacherMessageRequest teacherRequest = new CreateTeacherMessageRequest();
 
     private HttpClient Http = new HttpClient();
 
+    EvaluationModelValidator evaluationValidator = new EvaluationModelValidator();
     MudForm form;
+
+    public class EvaluationModelValidator : AbstractValidator<CreateTeacherMessageRequest>
+    {
+        public EvaluationModelValidator()
+        {
+            RuleFor(x => x.Message)
+                .NotEmpty();
+
+            RuleFor(x => x.Header)
+                .InclusiveBetween(1, 5);
+
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (teacherRequest, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<CreateTeacherMessageRequest>
+                                .CreateWithOptions((CreateTeacherMessageRequest)teacherRequest, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return Array.Empty<string>();
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
 
     private async Task Submit()
     {
+
+        await form.Validate();
 
         if (form.IsValid)
         {
             try
             {
+                // Prepare the evaluation data to be sent to the API
+                var evaluationData = new
+                {
+                    Message = teacherRequest.Message,
+                    Type = teacherRequest.Header,
+                };
 
                 // Convert the evaluation data to JSON
-                var evaluationJson = JsonConvert.SerializeObject(teacherRequest);
+                var evaluationJson = JsonConvert.SerializeObject(evaluationData);
 
                 // Set up the request message
                 var request = new HttpRequestMessage
                     {
                         Method = HttpMethod.Post,
-                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/d197903e-7ebf-4e8f-b5fe-4d64acf10b5f/{SenderId}"),
+                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/af8ad6c4-46f2-4bf8-9628-9cf34e122893/{SenderId}"),
                         Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
                     };
 

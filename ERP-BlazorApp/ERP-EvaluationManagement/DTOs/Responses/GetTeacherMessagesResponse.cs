@@ -14,5 +14,8 @@ namespace ERP_EvaluationManagement.DTOs.Responses
         public string RecieverName { get; set; }
         public Guid SenderId { get; set; }
         public Guid RecieverId { get; set; }
+        public int Header { get; set; }
+        public DateTime AddedDate { get; set; }
+        public string RecieverRegistrationNum { get; set; }
     }
 }

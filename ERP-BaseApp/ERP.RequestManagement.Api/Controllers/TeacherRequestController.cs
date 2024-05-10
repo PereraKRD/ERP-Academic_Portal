@@ -33,6 +33,7 @@ namespace ERP.RequestManagement.Api.Controllers
             var requestEntity = new TeacherRequest()
             {
                 Message = messageRequest.Message,
+                Header = messageRequest.Header,
                 SenderId = senderId,
                 RecieverId = recieverId,
                 IsChecked = true,

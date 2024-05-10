@@ -48,6 +48,24 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         }
     }
 
+    public async Task<IEnumerable<Student>> GetBatchStudentsAsync(Guid batchId)
+    {
+        try
+        {
+            return _dbSet
+                    .Where(x => x.BatchId == batchId)
+                    .Include(x => x.AcademicAdvisor)
+                    .Include(x => x.Batch)
+                ;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetBatchStudentsAsync Error", typeof(StudentRepository));
+            throw;
+        }
+    }
+
+
     public async Task<Student> GetStudentByRegNum(string RegNum)
     {
         try

@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.2" />
     <PackageReference Include="MudBlazor" Version="6.17.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Quill.Delta" Version="1.0.7" />
   </ItemGroup>
 
 </Project>
