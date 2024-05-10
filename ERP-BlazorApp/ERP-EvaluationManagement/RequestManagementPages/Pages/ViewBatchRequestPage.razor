@@ -1,22 +1,24 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
 @inject NavigationManager NavigationManager
+
 @inject ISnackbar Snackbar
 
-@if (_acadamicAdvicees != null)
+
+@if (_batchStudents != null)
 {
     <div class="pt-4">
-        <h3 class="result-header"> Academic Advicee List </h3>
+        <h3 class="result-header"> Batch Student List </h3>
     </div>
 
-    <MudTable Items="@_acadamicAdvicees">
+    <MudTable Items="@_batchStudents">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>
             <MudTh>Email</MudTh>
             <MudTh>Academic Advisor Name</MudTh>
             <MudTh>Batch Name</MudTh>
-            <MudTh></MudTh>
+            <MudTh>Make Request</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.RegistrationNum</MudTd>
@@ -31,12 +33,13 @@
         </RowTemplate>
     </MudTable>
 
+
+
 }
 else
 {
     <p>Module offering information not found.</p>
 }
-
 
 
 @code {
@@ -46,18 +49,18 @@ else
 
     private HttpClient Http = new HttpClient();
 
-    private List<GetAcademicAdviceesResponse> _acadamicAdvicees;
+    private List<GetBatchStudentsResponse>? _batchStudents;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadModuleOfferingInfoAsync();
+        await LoadModuleOfferingInfoAsync(BatchId);
     }
 
-    private async Task LoadModuleOfferingInfoAsync()
+    private async Task LoadModuleOfferingInfoAsync(Guid batchId)
     {
         try
         {
-            _acadamicAdvicees = await Http.GetFromJsonAsync<List<GetAcademicAdviceesResponse>>($"https://localhost:7256/api/Student/{BatchId}/ad13816d-59c4-4ecf-8ecd-987f6eadd324");
+            _batchStudents = await Http.GetFromJsonAsync<List<GetBatchStudentsResponse>>($"https://localhost:7256/api/Student/{batchId}");
         }
         catch (Exception ex)
         {
@@ -71,3 +74,4 @@ else
     }
 
 }
+

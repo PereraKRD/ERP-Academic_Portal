@@ -1,0 +1,10 @@
+﻿@page "/RequestManagementTabse/BatchRequest/{batchId:guid}"
+@rendermode InteractiveServer
+<ViewBatchRequestPage BatchId="batchId"></ViewBatchRequestPage>
+
+@code
+{
+    [Parameter]
+    public Guid batchId { get; set; }
+
+}

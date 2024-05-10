@@ -1,0 +1,140 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+
+@inject ISnackbar Snackbar
+
+@* @if (_teacherRequest != null)
+{
+    <div class="pt-4">
+        <h3> @_teacherRequest.Message </h3>
+    </div>
+
+    <div>
+        <button @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
+            Reply
+        </button>
+    </div>
+
+}
+else
+{
+    <p>Module offering information not found.</p>
+} *@
+
+@if (_teacherRequest != null)
+{
+    <MudPaper Elevation="2" Class="email-paper">
+        <div class="email-header">
+            <div class="sender-info">
+                <span class="sender-name">To: @_teacherRequest.SenderName</span><br />
+                <span class="sender-email">(@_teacherRequest.RecieverRegistrationNum)</span>
+            </div>
+            <div class="subject-line">
+                <span>Subject: Teacher Request </span><br />
+                <span>Header: @GetTypeAsString(@_teacherRequest.Header)</span>
+            </div>
+        </div>
+        <div class="email-content">
+            <p>@_teacherRequest.Message</p>
+        </div>
+        <div class="reply-button">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
+                Reply
+            </MudButton>
+        </div>
+    </MudPaper>
+}
+else
+{
+    <p>Module offering information not found.</p>
+}
+
+<style>
+    .email-paper {
+        margin-bottom: 20px;
+    }
+
+    .email-header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .sender-info {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .sender-name {
+        margin-right: 10px;
+    }
+
+    .subject-line {
+        font-style: italic;
+    }
+
+    .email-content {
+        margin-bottom: 15px;
+    }
+
+    .reply-button {
+        text-align: center;
+    }
+</style>
+
+
+@code {
+
+    [Parameter]
+    public Guid RequestId { get; set; }
+    [Parameter]
+    public Guid SenderId { get; set; }
+
+    private HttpClient Http = new HttpClient();
+
+    private GetTeacherMessagesResponse? _teacherRequest;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModuleOfferingInfoAsync(RequestId);
+    }
+
+    private async Task LoadModuleOfferingInfoAsync(Guid requestId)
+    {
+        try
+        {
+            _teacherRequest = await Http.GetFromJsonAsync<GetTeacherMessagesResponse>($"https://localhost:7256/api/TeacherRequest/{requestId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
+        }
+    }
+
+    private void ViewModuleInformation(Guid recieverId)
+    {
+        NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{recieverId}");
+    }
+
+    private string GetTypeAsString(int type)
+    {
+        switch (type)
+        {
+            case 1:
+                return "Module Related";
+            case 2:
+                return "Medical";
+            case 3:
+                return "Academic Advise";
+            case 4:
+                return "Late Submissions";
+            case 5:
+                return "Other";
+            default:
+                return "Unknown";
+        }
+    }
+
+}
+

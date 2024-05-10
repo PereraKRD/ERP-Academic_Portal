@@ -1,0 +1,44 @@
+﻿@using ERP_EvaluationManagement.RequestManagementPages.Components
+
+<MudPopoverProvider></MudPopoverProvider>
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudTabs Outlined="true" Position="Position.Left" Rounded="true" Border="true"
+         ApplyEffectsToContainer="true" Class="mt-2" PanelClass="pa-6">
+    <MudTabPanel Text="Student Requests">
+        <MudTabs Outlined="true" Rounded="true" Border="true"
+                 ApplyEffectsToContainer="true" PanelClass="pa-6">
+
+            <MudTabPanel Text="Incoming Requests">
+                <DisplayStudentRequests />
+            </MudTabPanel>
+            <MudTabPanel Text="Outgoing Requests">
+                <DisplayTeacherRequests />
+            </MudTabPanel>
+            <MudTabPanel Text="Make Request">
+                <MakeRequestComponent />
+            </MudTabPanel>
+        </MudTabs>
+    </MudTabPanel>
+    <MudTabPanel Text="Staff Requests">
+        <MudTabs Outlined="true" Rounded="true" Border="true"
+                 ApplyEffectsToContainer="true" PanelClass="pa-6">
+
+            <MudTabPanel Text="Incoming Requests">
+                <DisplayIncomingStaffRequests />
+            </MudTabPanel>
+            <MudTabPanel Text="Outgoing Requests">
+                <DisplayOutgoingStaffRequests />
+            </MudTabPanel>
+            <MudTabPanel Text="Make Request">
+                <MakeStaffRequestComponent />
+            </MudTabPanel>
+        </MudTabs>
+    </MudTabPanel>
+</MudTabs>
+
+
+@code {
+
+}

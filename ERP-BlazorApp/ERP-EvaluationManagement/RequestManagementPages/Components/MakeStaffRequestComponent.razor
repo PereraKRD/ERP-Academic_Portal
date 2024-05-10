@@ -1,0 +1,48 @@
+﻿@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json;
+@inject NavigationManager NavigationManager
+
+<MudContainer Class="result-container">
+    <h3 class="result-header">Teachers List</h3>
+
+    <MudTable Items="_teachers">
+        <HeaderContent>
+            <MudTh>Full Name</MudTh>
+            <MudTh>Mail</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate Context="teacher">
+            <MudTd>@teacher.FullName</MudTd>
+            <MudTd>@teacher.Email</MudTd>
+            <MudTd>
+                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(teacher.TeacherId)">
+                    Make Request
+                </button>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudContainer>
+
+
+@code {
+
+    private HttpClient Http = new HttpClient();
+    private List<GetTeacherResponse> _teachers = new List<GetTeacherResponse>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModulesAsync();
+    }
+
+    private async Task LoadModulesAsync()
+    {
+        _teachers = await Http.GetFromJsonAsync<List<GetTeacherResponse>>($"https://localhost:7256/api/TeacherRegistration");
+    }
+
+    private void ViewModuleInformation(Guid recieverId)
+    {
+        NavigationManager.NavigateTo($"/RequestManagementTabs/StaffRequestCreate/{recieverId}");
+    }
+}
+
+<link rel="stylesheet" href="styles.css" />

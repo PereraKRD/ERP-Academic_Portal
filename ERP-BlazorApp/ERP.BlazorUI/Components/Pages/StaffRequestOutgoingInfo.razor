@@ -1,0 +1,11 @@
+﻿@page "/RequestManagementTabs/StaffRequest/Outgoing/{requestId:guid}/{senderId:guid}"
+@rendermode InteractiveServer
+<ViewOutgoingStaffRequestPage SenderId="senderId" RequestId="requestId"></ViewOutgoingStaffRequestPage>
+
+@code
+{
+    [Parameter]
+    public Guid senderId { get; set; }
+    [Parameter]
+    public Guid requestId { get; set; }
+}
