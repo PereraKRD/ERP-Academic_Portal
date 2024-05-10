@@ -1,45 +1,25 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
 @inject NavigationManager NavigationManager
-
 @inject ISnackbar Snackbar
 
-@* @if (_teacherRequest != null)
-{
-    <div class="pt-4">
-        <h3> @_teacherRequest.Message </h3>
-    </div>
-
-    <div>
-        <button @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
-            Reply
-        </button>
-    </div>
-
-}
-else
-{
-    <p>Module offering information not found.</p>
-} *@
-
-@if (_teacherRequest != null)
+@if (_staffOutgoingRequest != null)
 {
     <MudPaper Elevation="2" Class="email-paper">
         <div class="email-header">
             <div class="sender-info">
-                <span class="sender-name">To: @_teacherRequest.SenderName</span><br />
-                <span class="sender-email">(@_teacherRequest.RecieverRegistrationNum)</span>
+                <span class="sender-name">To: @_staffOutgoingRequest.RecieverName</span>
             </div>
             <div class="subject-line">
-                <span>Subject: Teacher Request </span><br />
-                <span>Header: @GetTypeAsString(@_teacherRequest.Header)</span>
+                <span>Subject: Staff Request </span><br />
+                <span>Header: @GetTypeAsString(@_staffOutgoingRequest.Header)</span>
             </div>
         </div>
         <div class="email-content">
-            <p>@_teacherRequest.Message</p>
+            <p>@_staffOutgoingRequest.Message</p>
         </div>
         <div class="reply-button">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="() => ViewModuleInformation(_teacherRequest.RecieverId)">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="() => ViewModuleInformation(_staffOutgoingRequest.RecieverId)">
                 Reply
             </MudButton>
         </div>
@@ -83,7 +63,6 @@ else
     }
 </style>
 
-
 @code {
 
     [Parameter]
@@ -93,7 +72,7 @@ else
 
     private HttpClient Http = new HttpClient();
 
-    private GetTeacherMessagesResponse? _teacherRequest;
+    private GetStaffMessagesResponse? _staffOutgoingRequest;
 
     protected override async Task OnInitializedAsync()
     {
@@ -104,7 +83,7 @@ else
     {
         try
         {
-            _teacherRequest = await Http.GetFromJsonAsync<GetTeacherMessagesResponse>($"https://localhost:7256/api/TeacherRequest/{requestId}");
+            _staffOutgoingRequest = await Http.GetFromJsonAsync<GetStaffMessagesResponse>($"https://localhost:7256/api/StaffRequest/{requestId}");
         }
         catch (Exception ex)
         {
@@ -112,9 +91,9 @@ else
         }
     }
 
-    private void ViewModuleInformation(Guid recieverId)
+    private void ViewModuleInformation(Guid senderId)
     {
-        NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{recieverId}");
+        NavigationManager.NavigateTo($"/RequestManagementTabs/StaffRequestCreate/{senderId}");
     }
 
     private string GetTypeAsString(int type)
@@ -135,6 +114,4 @@ else
                 return "Unknown";
         }
     }
-
 }
-

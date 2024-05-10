@@ -5,17 +5,20 @@
 <MudContainer Class="result-container">
     <h3 class="result-header">Batches</h3>
 
-    <div class="mt-4">
-        @foreach (var batch in _batches)
-        {  
-            <div>
-                <button @onclick="() => ViewModuleInformation(batch.BatchId)">
-                    @batch.BatchName
+    <MudTable Items="_batches">
+        <HeaderContent>
+            <MudTh>Batch</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate Context="batch">
+            <MudTd>@batch.BatchName</MudTd>
+            <MudTd>
+                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(batch.BatchId)">
+                    View Details
                 </button>
-            </div> 
-        }
-    </div>
-
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
 </MudContainer>
 
 @code {

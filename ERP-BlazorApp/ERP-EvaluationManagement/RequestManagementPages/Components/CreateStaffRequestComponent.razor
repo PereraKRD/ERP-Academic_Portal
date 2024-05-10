@@ -5,19 +5,18 @@
 @using Severity = MudBlazor.Severity
 @inject ISnackbar Snackbar
 
-
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudContainer Class="result-container">
     <MudCard Class="mud-card">
-        <MudForm Model="@teacherRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
+        <MudForm Model="@staffRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
                 <h5 style="text-align: center;">MAKE REQUEST</h5>
 
-                <MudSelect @bind-Value="teacherRequest.Header" Label="Header">
+                <MudSelect @bind-Value="staffRequest.Header" Label="Header">
                     <MudSelectItem Value="1">Module Related</MudSelectItem>
                     <MudSelectItem Value="2">Medical</MudSelectItem>
                     <MudSelectItem Value="3">Academic Advisee</MudSelectItem>
@@ -25,8 +24,8 @@
                     <MudSelectItem Value="5">Other</MudSelectItem>
                 </MudSelect>
 
-                <MudTextField @bind-Value="teacherRequest.Message"
-                              For="@(() => teacherRequest.Message)"
+                <MudTextField @bind-Value="staffRequest.Message"
+                              For="@(() => staffRequest.Message)"
                               Immediate="true"
                               Label="Name" />
 
@@ -42,21 +41,20 @@
         </MudForm>
     </MudCard>
 </MudContainer>
-
 @code {
     [Parameter]
     public Guid SenderId { get; set; }
     [Parameter]
     public EventCallback onAdded { get; set; }
 
-    private CreateTeacherMessageRequest teacherRequest = new CreateTeacherMessageRequest();
+    private CreateStaffMessageRequest staffRequest = new CreateStaffMessageRequest();
 
     private HttpClient Http = new HttpClient();
 
     EvaluationModelValidator evaluationValidator = new EvaluationModelValidator();
     MudForm form;
 
-    public class EvaluationModelValidator : AbstractValidator<CreateTeacherMessageRequest>
+    public class EvaluationModelValidator : AbstractValidator<CreateStaffMessageRequest>
     {
         public EvaluationModelValidator()
         {
@@ -68,10 +66,10 @@
 
         }
 
-        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (teacherRequest, propertyName) =>
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (staffRequest, propertyName) =>
         {
-            var result = await ValidateAsync(ValidationContext<CreateTeacherMessageRequest>
-                                .CreateWithOptions((CreateTeacherMessageRequest)teacherRequest, x => x.IncludeProperties(propertyName)));
+            var result = await ValidateAsync(ValidationContext<CreateStaffMessageRequest>
+                                .CreateWithOptions((CreateStaffMessageRequest)staffRequest, x => x.IncludeProperties(propertyName)));
             if (result.IsValid)
                 return Array.Empty<string>();
             return result.Errors.Select(e => e.ErrorMessage);
@@ -90,8 +88,8 @@
                 // Prepare the evaluation data to be sent to the API
                 var evaluationData = new
                 {
-                    Message = teacherRequest.Message,
-                    Type = teacherRequest.Header,
+                    Message = staffRequest.Message,
+                    Type = staffRequest.Header,
                 };
 
                 // Convert the evaluation data to JSON
@@ -101,7 +99,7 @@
                 var request = new HttpRequestMessage
                     {
                         Method = HttpMethod.Post,
-                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/af8ad6c4-46f2-4bf8-9628-9cf34e122893/{SenderId}"),
+                        RequestUri = new Uri($"https://localhost:7256/api/StaffRequest/af8ad6c4-46f2-4bf8-9628-9cf34e122893/{SenderId}"),
                         Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
                     };
 

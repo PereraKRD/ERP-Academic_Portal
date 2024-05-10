@@ -1,6 +1,6 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
-
+@inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 
 @if (_acadamicAdvicees != null)
@@ -16,6 +16,7 @@
             <MudTh>Email</MudTh>
             <MudTh>Academic Advisor Name</MudTh>
             <MudTh>Batch Name</MudTh>
+            <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.RegistrationNum</MudTd>
@@ -23,6 +24,10 @@
             <MudTd>@context.Email</MudTd>
             <MudTd>@context.AcademicAdvisorName</MudTd>
             <MudTd>@context.BatchName</MudTd>
+            <MudTd>
+                <MudButton @onclick="(() => ViewModuleInformation(context.StudentId))">Request</MudButton>
+
+            </MudTd>
         </RowTemplate>
     </MudTable>
 
@@ -58,6 +63,11 @@ else
         {
             Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
         }
+    }
+
+    private void ViewModuleInformation(Guid recieverId)
+    {
+        NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{recieverId}");
     }
 
 }

@@ -13,7 +13,7 @@
             </div>
             <div class="subject-line">
                 <span>Subject: Student Request </span><br />
-                <span>Header: @_studentRequest.Header </span>
+                <span>Header: @GetTypeAsString(@_studentRequest.Header)</span>
             </div>
         </div>
         <div class="email-content">
@@ -95,6 +95,25 @@ else
     private void ViewModuleInformation(Guid senderId)
     {
         NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{senderId}");
+    }
+
+    private string GetTypeAsString(int type)
+    {
+        switch (type)
+        {
+            case 1:
+                return "Module Related";
+            case 2:
+                return "Medical";
+            case 3:
+                return "Academic Advise";
+            case 4:
+                return "Late Submissions";
+            case 5:
+                return "Other";
+            default:
+                return "Unknown";
+        }
     }
 
 }

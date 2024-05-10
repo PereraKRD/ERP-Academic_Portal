@@ -10,7 +10,7 @@
         <HeaderContent>
             <MudTh>Added Date</MudTh>
             <MudTh>Sender Name</MudTh>
-            <MudTh>Sender Registration Number</MudTh>
+            <MudTh>Reg No</MudTh>
             <MudTh>Header</MudTh>
             <MudTh></MudTh>
         </HeaderContent>
@@ -18,7 +18,7 @@
             <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
             <MudTd>@request.SenderName</MudTd>
             <MudTd>@request.SenderRegistrationNum</MudTd>
-            <MudTd>@request.Header</MudTd>
+            <MudTd>@GetTypeAsString(request.Header)</MudTd>
             <MudTd>
                 <button class="btn btn-primary" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
                     View Details
@@ -43,11 +43,31 @@
     private async Task LoadModulesAsync()
     {
         _studentRequests = await Http.GetFromJsonAsync<List<GetStudentMessagesResponse>>($"https://localhost:7256/StudentRequests/af8ad6c4-46f2-4bf8-9628-9cf34e122893");
+        _studentRequests.Sort((x, y) => y.AddedDate.CompareTo(x.AddedDate));
     }
 
     private void ViewModuleInformation(Guid senderId ,Guid requestId)
     {
         NavigationManager.NavigateTo($"/RequestManagementTabs/StudentRequest/{requestId}/{senderId}");
+    }
+
+    private string GetTypeAsString(int type)
+    {
+        switch (type)
+        {
+            case 1:
+                return "Module Related";
+            case 2:
+                return "Medical";
+            case 3:
+                return "Academic Advise";
+            case 4:
+                return "Late Submissions";
+            case 5:
+                return "Other";
+            default:
+                return "Unknown";
+        }
     }
 }
 
