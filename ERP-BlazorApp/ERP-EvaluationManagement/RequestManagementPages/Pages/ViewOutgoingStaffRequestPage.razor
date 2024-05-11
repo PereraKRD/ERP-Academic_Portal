@@ -5,21 +5,21 @@
 
 @if (_staffOutgoingRequest != null)
 {
-    <MudPaper Elevation="2" Class="email-paper">
+    <MudPaper Elevation="2" Class="email-paper" Style="padding:15px;">
         <div class="email-header">
             <div class="sender-info">
-                <span class="sender-name">To: @_staffOutgoingRequest.RecieverName</span>
+                <h1 class="sender-name pb-3" style="color:black">To: @_staffOutgoingRequest.RecieverName</h1>                
             </div>
             <div class="subject-line">
-                <span>Subject: Staff Request </span><br />
-                <span>Header: @GetTypeAsString(@_staffOutgoingRequest.Header)</span>
+                <h3 class="sender-name pb-3" style="color:black">Subject: Staff Request </h3>
+                <h3 class="sender-email pb-3">Header: @GetTypeAsString(@_staffOutgoingRequest.Header)</h3>
             </div>
         </div>
         <div class="email-content">
-            <p>@_staffOutgoingRequest.Message</p>
+            <h3 class="sender-name pb-3" style="color:black">@_staffOutgoingRequest.Message</h3>
         </div>
         <div class="reply-button">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="() => ViewModuleInformation(_staffOutgoingRequest.RecieverId)">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Reply" Color="Color.Primary" @onclick="() => ViewModuleInformation(_staffOutgoingRequest.SenderId)">
                 Reply
             </MudButton>
         </div>
