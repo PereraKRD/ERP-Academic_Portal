@@ -2,10 +2,9 @@
 @using System.Net.Http.Json;
 @inject NavigationManager NavigationManager
 
-<MudContainer Class="result-container">
-    <h3 class="result-header">Teachers List</h3>
-
-    <MudTable Items="_teachers">
+<MudContainer Class="result-container">    
+    <h1 class="result-header pb-3" style="color:blue">Teacher List</h1>
+    <MudTable Items="_teachers" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Full Name</MudTh>
             <MudTh>Mail</MudTh>

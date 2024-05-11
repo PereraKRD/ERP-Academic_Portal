@@ -9,7 +9,6 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-
 <MudContainer Class="result-container">
     <MudTable Items="@_evaluations" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
@@ -30,6 +29,7 @@
 </MudContainer>
 
 @code {
+
     [Parameter] public Guid ModuleOfferingId { get; set; }
 
     private HttpClient Http = new HttpClient();

@@ -14,8 +14,7 @@
         <MudForm Model="@staffRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
-                <h5 style="text-align: center;">MAKE REQUEST</h5>
-
+                <h1 class="result-header pb-3" style="color:blue; text-align:center">MAKE REQUEST</h1>
                 <MudSelect @bind-Value="staffRequest.Header" Label="Header">
                     <MudSelectItem Value="1">Module Related</MudSelectItem>
                     <MudSelectItem Value="2">Medical</MudSelectItem>
