@@ -17,6 +17,10 @@ public class ModuleController : BaseController
     public async Task<IActionResult> GetAllModule()
     {
         var modules = await _unitOfWork.Modules.GetAllAsync();
+        if (modules == null || !modules.Any())
+        {
+            return NotFound();
+        }
         var results = _mapper.Map<IEnumerable<GetModuleResponse>>(modules);
         return Ok(results);
     }

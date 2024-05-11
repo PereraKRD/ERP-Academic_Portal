@@ -19,7 +19,14 @@ namespace ERP.RequestManagement.Api.Controllers
         {
             var batches = await _unitOfWork.Batches.GetAllAsync();
             var results = _mapper.Map<IEnumerable<GetBatchResponse>>(batches);
-            return Ok(results);
+            if (results.Any())
+            {
+                return Ok(results);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost("")]

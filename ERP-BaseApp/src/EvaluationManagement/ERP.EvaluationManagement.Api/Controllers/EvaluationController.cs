@@ -18,7 +18,14 @@ public class EvaluationController : BaseController
     {
         var evaluations = await _unitOfWork.Evaluations.GetAllAsync();
         var results = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(evaluations);
-        return Ok(results);
+        if (results.Any())
+        {
+            return Ok(results);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
     
     [HttpGet]
@@ -26,6 +33,10 @@ public class EvaluationController : BaseController
     public async Task<IActionResult> GetEvaluationById(Guid moduleOfferingId)
     {
         var evaluations = await _unitOfWork.Evaluations.GetByIdAsync(moduleOfferingId);
+        if (evaluations == null || !evaluations.Any())
+        {
+            return NotFound();
+        }
         var result = _mapper.Map<IEnumerable<GetEvaluationDetailsResponse>>(evaluations);
         return Ok(result);
     }
@@ -35,6 +46,10 @@ public class EvaluationController : BaseController
     public async Task<IActionResult> GetByEvaluationId(Guid evaluationId)
     {
         var evaluation = await _unitOfWork.Evaluations.GetByEvaluationIdAsync(evaluationId);
+        if (evaluation == null)
+        {
+            return NotFound();
+        }
         var result = _mapper.Map<GetEvaluationDetailsResponse>(evaluation);
         return Ok(result);
     }
@@ -83,14 +98,21 @@ public class EvaluationController : BaseController
     [HttpPut("")]
     public async Task<IActionResult> UpdateEvaluation([FromBody] UpdateEvaluationRequest evaluation)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return BadRequest();
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        var result = _mapper.Map<Evaluation>(evaluation);
-        await _unitOfWork.Evaluations.UpdateAsync(result);
-        await _unitOfWork.CompleteAsync();
-        return NoContent();
+            var result = _mapper.Map<Evaluation>(evaluation);
+            await _unitOfWork.Evaluations.UpdateAsync(result);
+            await _unitOfWork.CompleteAsync();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An error occurred while updating the evaluation.");
+        }
     }
 }

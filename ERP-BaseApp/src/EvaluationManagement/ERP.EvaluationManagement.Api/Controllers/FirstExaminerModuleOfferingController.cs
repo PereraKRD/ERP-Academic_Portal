@@ -34,6 +34,10 @@ public class FirstExaminerModuleOfferingController : BaseController
     public async Task<IActionResult> GetAllFirstExaminerModuleOffering()
     {
         var firstExaminerModuleOfferings = await _unitOfWork.FirstExaminerModuleOfferings.GetAllAsync();
+        if (firstExaminerModuleOfferings == null || !firstExaminerModuleOfferings.Any())
+        {
+            return NotFound();
+        }
         var results = _mapper.Map<IEnumerable<GetAllFirstExaminerModuleOfferingResponse>>(firstExaminerModuleOfferings);
         return Ok(results);
     }
@@ -43,6 +47,10 @@ public class FirstExaminerModuleOfferingController : BaseController
     public async Task<IActionResult> GetFirstExaminerModules(Guid firstExaminerId)
     {
         var modules = await _unitOfWork.FirstExaminerModuleOfferings.GetFirstExaminerModulesAsync(firstExaminerId);
+        if (modules == null)
+        {
+            return NotFound();
+        }
         var results = _mapper.Map<IEnumerable<GetParticularFirstExaminerModuleOfferingResponse>>(modules);
         return Ok(results);
     }

@@ -8,6 +8,7 @@
     <MudTable Items="_studentRequests" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Added Date</MudTh>
+            <MudTh>Time</MudTh>
             <MudTh>Sender Name</MudTh>
             <MudTh>Reg No</MudTh>
             <MudTh>Header</MudTh>
@@ -15,6 +16,7 @@
         </HeaderContent>
         <RowTemplate Context="request">
             <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
+            <MudTd>@request.AddedDate.ToString("HH:mm:ss")</MudTd>
             <MudTd>@request.SenderName</MudTd>
             <MudTd>@request.SenderRegistrationNum</MudTd>
             <MudTd>@GetTypeAsString(request.Header)</MudTd>
