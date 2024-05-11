@@ -15,7 +15,7 @@
         <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
-                <h2 style="text-align: center;">ADD ASSIGNMENT</h2>
+                <h1 class="result-header pb-3" style="color:blue; text-align:center">ADD ASSIGNMENT</h1>
                 <MudTextField @bind-Value="model.Name"
                               For="@(() => model.Name)"
                               Immediate="true"

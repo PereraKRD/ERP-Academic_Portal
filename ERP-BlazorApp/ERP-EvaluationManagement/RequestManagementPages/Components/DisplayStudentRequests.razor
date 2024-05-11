@@ -4,9 +4,8 @@
 @inject ISnackbar Snackbar
 
 <MudContainer Class="result-container">
-    <h3 class="result-header">Student Requests</h3>
-
-    <MudTable Items="_studentRequests">
+    <h1 class="result-header pb-3" style="color:blue">Student Requests</h1>
+    <MudTable Items="_studentRequests" Hover="true" Bordered="true" Outlined="true">
         <HeaderContent>
             <MudTh>Added Date</MudTh>
             <MudTh>Sender Name</MudTh>

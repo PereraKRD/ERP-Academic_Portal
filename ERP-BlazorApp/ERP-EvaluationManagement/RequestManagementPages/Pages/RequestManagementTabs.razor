@@ -4,20 +4,41 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudTabs Outlined="true" Position="Position.Left" Rounded="true" Border="true"
-         ApplyEffectsToContainer="true" Class="mt-2" PanelClass="pa-6">
+<MudTabs Outlined="true" Rounded="true" Border="true"
+         ApplyEffectsToContainer="true" PanelClass="pa-6" Color="Color.Primary">
     <MudTabPanel Text="Student Requests">
         <MudTabs Outlined="true" Rounded="true" Border="true"
                  ApplyEffectsToContainer="true" PanelClass="pa-6">
 
             <MudTabPanel Text="Incoming Requests">
-                <DisplayStudentRequests />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <DisplayStudentRequests />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
             <MudTabPanel Text="Outgoing Requests">
-                <DisplayTeacherRequests />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <DisplayTeacherRequests />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
             <MudTabPanel Text="Make Request">
-                <MakeRequestComponent />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <MakeRequestComponent />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
         </MudTabs>
     </MudTabPanel>
@@ -26,13 +47,34 @@
                  ApplyEffectsToContainer="true" PanelClass="pa-6">
 
             <MudTabPanel Text="Incoming Requests">
-                <DisplayIncomingStaffRequests />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <DisplayIncomingStaffRequests />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
             <MudTabPanel Text="Outgoing Requests">
-                <DisplayOutgoingStaffRequests />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <DisplayOutgoingStaffRequests />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
             <MudTabPanel Text="Make Request">
-                <MakeStaffRequestComponent />
+                <MudGrid>
+                    <MudItem xs="9">
+                        <MakeStaffRequestComponent />
+                    </MudItem>
+                    <MudItem xs="2" Class="pt-5 mt-5">
+                        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+                    </MudItem>
+                </MudGrid>
             </MudTabPanel>
         </MudTabs>
     </MudTabPanel>

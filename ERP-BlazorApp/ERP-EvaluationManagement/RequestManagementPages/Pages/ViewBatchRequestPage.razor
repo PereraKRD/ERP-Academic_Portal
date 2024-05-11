@@ -8,7 +8,7 @@
 @if (_batchStudents != null)
 {
     <div class="pt-4">
-        <h3 class="result-header"> Batch Student List </h3>
+        <h1 class="result-header pb-3" style="color:blue">Batch Student List</h1>
     </div>
 
     <MudTable Items="@_batchStudents">
@@ -28,7 +28,7 @@
             <MudTd>@context.BatchName</MudTd>
             <MudTd>
                 <MudButton @onclick="(() => ViewModuleInformation(context.StudentId))">Request</MudButton>
-
+                <a href="d:\erp-academic_portal\erp-blazorapp\erp-evaluationmanagement\requestmanagementpages\pages\viewbatchrequestpage.razor">d:\erp-academic_portal\erp-blazorapp\erp-evaluationmanagement\requestmanagementpages\pages\viewbatchrequestpage.razor</a>
             </MudTd>
         </RowTemplate>
     </MudTable>
