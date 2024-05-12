@@ -6,7 +6,7 @@
 @if (_acadamicAdvicees != null)
 {
     <div class="pt-4">
-        <h1 class="result-header pb-3" style="color:blue">Academic Advicee List</h1>
+        <h1 class="result-header pb-3" style="color:purple; text-align:center">Academic Advicee List</h1>
     </div>
 
     <MudTable Items="@_acadamicAdvicees" Hover="true" Bordered="true" Outlined="true">
@@ -26,7 +26,6 @@
             <MudTd>@context.BatchName</MudTd>
             <MudTd>
                 <MudButton @onclick="(() => ViewModuleInformation(context.StudentId))">Request</MudButton>
-
             </MudTd>
         </RowTemplate>
     </MudTable>
@@ -64,8 +63,10 @@ else
             Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
         }
     }
+
     private void ViewModuleInformation(Guid recieverId)
     {
         NavigationManager.NavigateTo($"/RequestManagementTabs/RequestCreate/{recieverId}");
     }
+
 }

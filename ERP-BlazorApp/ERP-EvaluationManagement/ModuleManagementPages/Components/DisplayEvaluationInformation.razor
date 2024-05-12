@@ -1,20 +1,19 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
 
-<h3>Evaluation Information</h3>
-
-<p>Module</p>
-<p>@module.ModuleName</p>
-<p>Module Code</p>
-<p>@module.ModuleCode</p>
-<p>Evaluation Name</p>
-<p>@evaluation.EvaluationName</p>
-<p>Evaluation Type</p>
-<p>@evaluationType</p>
-<p>Marks</p>
-<p>@evaluation.EvaluationMarks</p>
-<p>Final Marks</p>
-<p>@evaluation.EvaluationFinalMarks</p>
+<h1 class="result-header pb-3" style="color:black; text-align:center">Evaluation Information</h1>
+<h3 class="result-header pb-3" style="color:blue">Module</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@module.ModuleName</MudListItem>
+<h3 class="result-header pb-3" style="color:blue">Module Code</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@module.ModuleCode</MudListItem>
+<h3 class="result-header pb-3" style="color:blue">Evaluation Name</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@evaluation.EvaluationName</MudListItem>
+<h3 class="result-header pb-3" style="color:blue">Evaluation Type</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@evaluationType</MudListItem>
+<h3 class="result-header pb-3" style="color:blue">Marks</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@evaluation.EvaluationMarks</MudListItem>
+<h3 class="result-header pb-3" style="color:blue">Final Marks</h3>
+<MudListItem Icon="@Icons.Material.Outlined.List" IconColor="@Color.Primary" Style="font-size:22px;">@evaluation.EvaluationFinalMarks</MudListItem>
 
 @code {
     [Parameter]

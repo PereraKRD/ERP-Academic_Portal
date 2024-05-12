@@ -16,8 +16,7 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<h3>AddEditEvaluationMarks</h3>
-
+<h1 class="result-header pb-3" style="color:black; text-align:center">Add/Edit Evaluation Marks</h1>
     <MudCard>
         <MudContainer>
             <MudCardContent Style="height: 400px;  background-color: lightgray;">
@@ -48,14 +47,14 @@
         <MudCardActions>
             @if (_studentResults != null && _studentResults.Any())
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ExportToExcel">Generate Excel</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ExportToExcel" StartIcon="@Icons.Material.Outlined.FileDownload">Generate Excel</MudButton>
             }
             else
             {               
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddResults">Generate Excel</MudButton>
             }
-            <InputFile OnChange="UploadFiles" Accept=".xlsx"/>
-            <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" Style="width:200px; height:40px;" StartIcon="@Icons.Material.Filled.Save" OnClick="Save">Save</MudButton>
+            <InputFile class="pr-4 pl-4" OnChange="UploadFiles" Accept=".xlsx"/>
+            <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" Style="width:auto; height:40px;" StartIcon="@Icons.Material.Filled.Save" OnClick="Save">Save</MudButton>
         </MudCardActions>
     </MudCard>
 

@@ -19,7 +19,7 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">
-                <MudButton OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
+                <MudButton Color="Color.Primary" OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
             </MudTd>
             <MudTd DataLabel="Type">@GetTypeAsString(context.EvaluationType)</MudTd>
             <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>

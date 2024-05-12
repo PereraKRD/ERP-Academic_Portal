@@ -15,20 +15,19 @@
         <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
-                <h1 class="result-header pb-3" style="color:blue; text-align:center">ADD ASSIGNMENT</h1>
+                <h2 class="result-header pb-3" style="color:black; text-align:center">Add Assignment</h2>
                 <MudTextField @bind-Value="model.Name"
                               For="@(() => model.Name)"
                               Immediate="true"
                               Label="Name" />
 
-                <MudSelect @bind-Value="model.Type" Label="Type">
+                <MudSelect T="int" Label="Type" @bind-Value="model.Type" AnchorOrigin="Origin.TopCenter" TransformOrigin="Origin.BottomCenter" Dense="true">
                     <MudSelectItem Value="1">Inclass</MudSelectItem>
                     <MudSelectItem Value="2">Quiz</MudSelectItem>
                     <MudSelectItem Value="3">Assignment</MudSelectItem>
                     <MudSelectItem Value="4">Take Home</MudSelectItem>
                     <MudSelectItem Value="5">Other</MudSelectItem>
                 </MudSelect>
-
                 <MudNumericField @bind-Value="model.FinalMarks"
                                  For="@(() => model.FinalMarks)"
                                  Immediate="true"
@@ -41,7 +40,7 @@
             </MudCardContent>
             <MudCardActions Class="mud-card-actions">
                 <MudButton Variant="Variant.Filled"
-                           Color="Color.Primary"
+                           Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
                            Class="mud-button-add"
                            OnClick="@(async () => await Submit())">Add</MudButton>
             </MudCardActions>

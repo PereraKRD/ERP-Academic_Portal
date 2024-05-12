@@ -9,56 +9,59 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
-            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-3 mb-n1" />
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3 mb-n1" />
             Edit Evaluation
         </MudText>
     </TitleContent>
     <DialogContent>
-                <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
-                         ValidationDelay="0">
-                    <MudCardContent Class="mud-card-content">
-                        <MudTextField @bind-Value="model.Name"
-                                      For="@(() => model.Name)"
-                                      Immediate="true"
-                                      Label="Name" />
-        
-                        <MudSelect @bind-Value="model.Type" Label="Type">
-                                            <MudSelectItem Value="1">Inclass</MudSelectItem>
-                                            <MudSelectItem Value="2">Quiz</MudSelectItem>
-                                            <MudSelectItem Value="3">Assignment</MudSelectItem>
-                                            <MudSelectItem Value="4">Take Home</MudSelectItem>
-                                            <MudSelectItem Value="5">Other</MudSelectItem>
-                                        </MudSelect>
-        
-                        <MudNumericField @bind-Value="model.FinalMarks"
-                                         For="@(() => model.FinalMarks)"
-                                         Immediate="true"
-                                         Label="Final Marks" />
-        
-                        <MudNumericField @bind-Value="model.Marks"
-                                         For="@(() => model.Marks)"
-                                         Immediate="true"
-                                         Label="Marks" />
-                    </MudCardContent>
-                    <MudCardActions Class="mud-card-actions">
-                        <MudButton Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   Class="mud-button-add"
-                        OnClick="@(async () => await SaveEvaluation())">Save</MudButton>
-                        @*  *@
-                        <MudButton OnClick="@(() => Cancel())" Color="Color.Secondary">Cancel</MudButton>
-                    </MudCardActions>
-                </MudForm>
+        <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
+                 ValidationDelay="0">
+            <MudCardContent Class="mud-card-content">
+                <MudTextField @bind-Value="model.Name"
+                              For="@(() => model.Name)"
+                              Immediate="true"
+                              Label="Name" />
+                <MudSelect T="int" @bind-Value="model.Type" Label="Type" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.CenterRight" AdornmentColor="Color.Primary">
+                    <MudSelectItem Value="1">Inclass</MudSelectItem>
+                    <MudSelectItem Value="2">Quiz</MudSelectItem>
+                    <MudSelectItem Value="3">Assignment</MudSelectItem>
+                    <MudSelectItem Value="4">Take Home</MudSelectItem>
+                    <MudSelectItem Value="5">Other</MudSelectItem>
+                </MudSelect>
+
+                <MudNumericField @bind-Value="model.FinalMarks"
+                                 For="@(() => model.FinalMarks)"
+                                 Immediate="true"
+                                 Label="Final Marks" />
+
+                <MudNumericField @bind-Value="model.Marks"
+                                 For="@(() => model.Marks)"
+                                 Immediate="true"
+                                 Label="Marks" />
+            </MudCardContent>
+            <MudCardActions Class="mud-card-actions">
+                <div style="display: flex; gap: 32px;">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Class="mud-button-add"
+                               StartIcon="@Icons.Material.Filled.Save"
+                               OnClick="@(async () => await SaveEvaluation())">Save</MudButton>
+
+                    <MudButton OnClick="@(() => Cancel())" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Close">Cancel</MudButton>
+                </div>
+
+            </MudCardActions>
+        </MudForm>
     </DialogContent>
 </MudDialog>
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public UpdateEvaluationRequest model { get; set; }
-    
+
     private HttpClient Http = new HttpClient();
-    
+
     EvaluationModelValidator evaluationValidator = new EvaluationModelValidator();
     MudForm form;
 
@@ -77,7 +80,7 @@
                 .InclusiveBetween(0, 100);
 
             RuleFor(x => x.Marks)
-                .InclusiveBetween(0, 100); 
+                .InclusiveBetween(0, 100);
         }
 
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
@@ -94,9 +97,9 @@
     {
         try
         {
-            var evaluationData = new 
+            var evaluationData = new
             {
-                EvaluationId = model.EvaluationId, 
+                EvaluationId = model.EvaluationId,
                 Name = model.Name,
                 Type = model.Type,
                 FinalMarks = model.FinalMarks,
@@ -105,17 +108,17 @@
 
             // Convert the evaluation data to JSON
             var evaluationJson = JsonConvert.SerializeObject(evaluationData);
-            
+
             // request message
             var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Put,
-                RequestUri = new Uri($"https://localhost:7007/api/Evaluation"),
-                Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
-            };
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri($"https://localhost:7007/api/Evaluation"),
+                    Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
+                };
             var response = await Http.SendAsync(request);
-            
-            
+
+
             if (response.IsSuccessStatusCode)
             {
                 Snackbar.Add("Evaluation Edited Successfully", Severity.Success);

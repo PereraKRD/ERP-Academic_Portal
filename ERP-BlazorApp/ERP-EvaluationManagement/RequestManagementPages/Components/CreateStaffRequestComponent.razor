@@ -14,7 +14,7 @@
         <MudForm Model="@staffRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
-                <h1 class="result-header pb-3" style="color:blue; text-align:center">MAKE REQUEST</h1>
+                <h1 class="result-header pb-3" style="color:black; text-align:center">Make Request</h1>
                 <MudSelect @bind-Value="staffRequest.Header" Label="Header">
                     <MudSelectItem Value="1">Module Related</MudSelectItem>
                     <MudSelectItem Value="2">Medical</MudSelectItem>
@@ -33,7 +33,7 @@
             <MudCardActions Class="mud-card-actions">
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
-                           Class="mud-button-add"
+                           Class="mud-button-add" StartIcon="@Icons.Material.Outlined.Send"
                            OnClick="@(async () => await Submit())">Send</MudButton>
             </MudCardActions>
 
