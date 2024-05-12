@@ -43,7 +43,7 @@ public class StudentResultController : BaseController
 
     [HttpPut]
     [Route("{moduleOfferingId}/{evaluationId:guid}/importexcel")]
-    public async Task<IActionResult> UpdateResult([FromRoute] Guid moduleOfferingId, [FromRoute] Guid evaluationId, [FromBody] IFormFile formFile)
+    public async Task<IActionResult> UpdateResult([FromRoute] Guid moduleOfferingId, [FromRoute] Guid evaluationId, [FromForm] IFormFile formFile)
     {
         try
         {
