@@ -75,7 +75,7 @@ namespace ERP.EvaluationManagement.Api.Tests.Controllers
             _unitOfWorkMock.Verify(x => x.Evaluations.GetAllAsync(), Times.Once);
         }
 
-        /*[Fact]
+        [Fact]
         public async Task GetEvaluationById_ShouldReturnOkResponse_WhenDataFound()
         {
             //Arrange
@@ -96,7 +96,7 @@ namespace ERP.EvaluationManagement.Api.Tests.Controllers
             _unitOfWorkMock.Verify(x => x.Evaluations.GetByIdAsync(moduleOfferingId), Times.Once);
             _mapperMock.Verify(x => x.Map<GetEvaluationDetailsResponse>(evaluationMock), Times.Once);
 
-        }*/
+        }
         [Fact]
         public async Task GetEvaluationById_ShouldReturnNotFound_WhenNoDataFound()
         {
@@ -115,7 +115,7 @@ namespace ERP.EvaluationManagement.Api.Tests.Controllers
 
         }
 
-        /*[Fact]
+        [Fact]
         public async Task GetByEvaluationId_ShouldReturnOkResponse_WhenDataFound()
         {
             //Arrange
@@ -136,7 +136,7 @@ namespace ERP.EvaluationManagement.Api.Tests.Controllers
             _unitOfWorkMock.Verify(x => x.Evaluations.GetByEvaluationIdAsync(evaluationId), Times.Once);
             _mapperMock.Verify(x => x.Map<GetEvaluationDetailsResponse>(evaluationMock), Times.Once);
 
-        }*/
+        }
         [Fact]
         public async Task GetByEvaluationId_ShouldReturnNotFound_WhenNoDataFound()
         {
