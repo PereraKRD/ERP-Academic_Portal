@@ -4,7 +4,7 @@
 <h1 class="result-header pb-3" style="color:black; text-align:center">Results</h1>
 @if (_studentResults != null && _studentResults.Any())
 {
-	<MudTable Items="@_studentResults">
+    <MudTable Items="@_studentResults" Dense="true" Hover="true" Bordered="true" Striped="false">
 		<HeaderContent>
 			<MudTh>Reg Number</MudTh>
 			<MudTh>Name</MudTh>
@@ -12,13 +12,13 @@
 		</HeaderContent>
 		<RowTemplate>
 			<MudTd DataLabel="RegNo">@context.RegistrationNum</MudTd>
-			<MudTd DataLabel="FullName">@context.FullName </MudTd>
-			<MudTd DataLabel="Marks">@context.StudentScore</MudTd>
-		</RowTemplate>
-		<PagerContent>
-			<MudTablePager />
-		</PagerContent>
-	</MudTable>
+				<MudTd DataLabel="FullName">@context.FullName </MudTd>
+				<MudTd DataLabel="Marks">@context.StudentScore</MudTd>
+			</RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 }
 else
 {

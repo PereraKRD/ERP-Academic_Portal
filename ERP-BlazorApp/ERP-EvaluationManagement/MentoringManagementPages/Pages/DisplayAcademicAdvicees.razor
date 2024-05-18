@@ -9,7 +9,7 @@
         <h1 class="result-header pb-3" style="color:purple; text-align:center">Academic Advicee List</h1>
     </div>
 
-    <MudTable Items="@_acadamicAdvicees" Hover="true" Bordered="true" Outlined="true">
+    <MudTable Items="@_acadamicAdvicees" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>
@@ -20,15 +20,18 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.RegistrationNum</MudTd>
-            <MudTd>@context.FullName</MudTd>
-            <MudTd>@context.Email</MudTd>
-            <MudTd>@context.AcademicAdvisorName</MudTd>
-            <MudTd>@context.BatchName</MudTd>
-            <MudTd>
-                <MudButton @onclick="(() => ViewModuleInformation(context.StudentId))">Request</MudButton>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>@context.FullName</MudTd>
+                <MudTd>@context.Email</MudTd>
+                <MudTd>@context.AcademicAdvisorName</MudTd>
+                <MudTd>@context.BatchName</MudTd>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="(() => ViewModuleInformation(context.StudentId))"><b><ul style="text-decoration: underline;">Request</ul></b></MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 
 }
 else

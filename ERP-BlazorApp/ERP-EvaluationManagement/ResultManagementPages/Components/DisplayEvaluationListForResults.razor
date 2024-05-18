@@ -10,7 +10,7 @@
 <MudSnackbarProvider />
 
 <MudContainer Class="result-container">
-    <MudTable Items="@_evaluations" Hover="true" Bordered="true" Outlined="true">
+    <MudTable Items="@_evaluations" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Name</MudTh>
             <MudTh>Type</MudTh>
@@ -19,13 +19,17 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">
-                <MudButton Color="Color.Primary" OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
-            </MudTd>
-            <MudTd DataLabel="Type">@GetTypeAsString(context.EvaluationType)</MudTd>
-            <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
-            <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
+                </MudTd>
+                <MudTd DataLabel="Type">@GetTypeAsString(context.EvaluationType)</MudTd>
+                <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
+                <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
+               
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 </MudContainer>
 
 @code {

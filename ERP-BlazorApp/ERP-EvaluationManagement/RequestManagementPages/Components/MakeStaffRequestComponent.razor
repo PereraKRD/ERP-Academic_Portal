@@ -4,22 +4,25 @@
 
 <MudContainer Class="result-container">    
     <h1 class="result-header pb-3" style="color:purple; text-align:center">Teacher List</h1>
-    <MudTable Items="_teachers" Hover="true" Bordered="true" Outlined="true">
+    <MudTable Items="_teachers" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
-            <MudTh>Full Name</MudTh>
-            <MudTh>Mail</MudTh>
+            <MudTh style="font-size: 20px;">Full Name</MudTh>
+            <MudTh style="font-size: 20px;">Mail</MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate Context="teacher">
             <MudTd>@teacher.FullName</MudTd>
-            <MudTd>@teacher.Email</MudTd>
-            <MudTd>
-                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(teacher.TeacherId)">
-                    Make Request
-                </button>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>@teacher.Email</MudTd>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="() => ViewModuleInformation(teacher.TeacherId)">
+                        <b><ul style="text-decoration: underline;">Make Request</ul></b>
+                        </MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 </MudContainer>
 
 

@@ -5,28 +5,31 @@
 <MudContainer Class="result-container">
     
     <h1 class="result-header pb-3" style="color:purple; text-align:center">Teacher Requests</h1>
-    <MudTable Items="_teacherRequests" Hover="true" Bordered="true" Outlined="true">
+    <MudTable Items="_teacherRequests" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Added Date</MudTh>
             <MudTh>Time</MudTh>
-            <MudTh>Receiver Name</MudTh>
+            <MudTh Width="120px">Reciever Name</MudTh>
             <MudTh>Reg No</MudTh>
             <MudTh>Header</MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate Context="request">
             <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
-            <MudTd>@request.AddedDate.ToShortTimeString()</MudTd>
-            <MudTd>@request.RecieverName</MudTd>
-            <MudTd>@request.RecieverRegistrationNum</MudTd>
-            <MudTd>@GetTypeAsString(request.Header)</MudTd>
-            <MudTd>
-                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
-                    View Details
-                </button>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>@request.AddedDate.ToShortTimeString()</MudTd>
+                <MudTd>@request.RecieverName</MudTd>
+                <MudTd>@request.RecieverRegistrationNum</MudTd>
+                <MudTd>@GetTypeAsString(request.Header)</MudTd>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
+                        <b><ul style="text-decoration: underline; font-size: 12px;">View details</ul></b>
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 </MudContainer>
 
 

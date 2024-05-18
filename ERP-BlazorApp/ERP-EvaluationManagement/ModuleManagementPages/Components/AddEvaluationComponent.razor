@@ -21,7 +21,7 @@
                               Immediate="true"
                               Label="Name" />
 
-                <MudSelect T="int" Label="Type" @bind-Value="model.Type" AnchorOrigin="Origin.TopCenter" TransformOrigin="Origin.BottomCenter" Dense="true">
+                <MudSelect Margin="Margin.Dense" Dense="true" T="int" Label="Type" @bind-Value="model.Type" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.BottomRight" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary">
                     <MudSelectItem Value="1">Inclass</MudSelectItem>
                     <MudSelectItem Value="2">Quiz</MudSelectItem>
                     <MudSelectItem Value="3">Assignment</MudSelectItem>
