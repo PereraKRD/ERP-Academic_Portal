@@ -4,20 +4,21 @@
 
 <MudContainer Class="result-container">
     <h1 class="result-header pb-3" style="color:purple; text-align:center">Batches</h1>
-    <MudTable Items="_batches" Hover="true" Bordered="true" Outlined="true">
+    <MudTable Items="_batches" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
-            <MudTh>Batch</MudTh>
+            <MudTh style="font-size: 20px;">Batch</MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate Context="batch">
             <MudTd>@batch.BatchName</MudTd>
-            <MudTd>
-                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(batch.BatchId)">
-                    View Details
-                </button>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="() => ViewModuleInformation(batch.BatchId)"><b><ul style="text-decoration: underline;">View Details</ul></b></MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 </MudContainer>
 
 

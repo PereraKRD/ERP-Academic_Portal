@@ -11,7 +11,7 @@
         <h1 class="result-header pb-3" style="color:purple; text-align:center">Batch Student List</h1>
     </div>
 
-    <MudTable Items="@_batchStudents">
+    <MudTable Items="@_batchStudents" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>
@@ -22,16 +22,19 @@
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.RegistrationNum</MudTd>
-            <MudTd>@context.FullName</MudTd>
-            <MudTd>@context.Email</MudTd>
-            <MudTd>@context.AcademicAdvisorName</MudTd>
-            <MudTd>@context.BatchName</MudTd>
-            <MudTd>
-                <MudButton @onclick="(() => ViewModuleInformation(context.StudentId))">Request</MudButton>
-                <a href="d:\erp-academic_portal\erp-blazorapp\erp-evaluationmanagement\requestmanagementpages\pages\viewbatchrequestpage.razor"></a>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>@context.FullName</MudTd>
+                <MudTd>@context.Email</MudTd>
+                <MudTd>@context.AcademicAdvisorName</MudTd>
+                <MudTd>@context.BatchName</MudTd>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="(() => ViewModuleInformation(context.StudentId))"><b><ul style="text-decoration: underline;">Requests</ul></b></MudButton>
+                    <a href="d:\erp-academic_portal\erp-blazorapp\erp-evaluationmanagement\requestmanagementpages\pages\viewbatchrequestpage.razor"></a>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 
 
 

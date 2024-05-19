@@ -7,10 +7,8 @@
 <div class="page mud-layout">
 
     <div class="sidebar mud-elevation-1">
+
         <div class="top-row mud-drawer-head">
-            <div>
-                <p class="navbar-brand">FOE - Academic Portal</p>
-            </div>
         </div>
 
         <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
@@ -22,7 +20,10 @@
 
      <main>
         <div class="top-row px-4">
-            <MudIconButton Icon="@Icons.Material.Filled.Home" Style="color: white;"  />
+            <div>
+                <MudText Style="@($"color:{Colors.Shades.White};")" Class="pt-1" Typo="Typo.h6" Align="Align.Center">FOE - ACADEMIC PORTAL</MudText>
+            </div>
+            <MudSpacer/>
             <MudIconButton Icon="@Icons.Material.Filled.AccountBox" Style="color: white;"  />
         </div>
 

@@ -15,11 +15,17 @@
                     <MudNavLink Href="/counter" Icon="@Icons.Material.Filled.Security" IconColor="Color.Inherit">Transcripts</MudNavLink>
                 </MudNavGroup>
 
-        <MudNavGroup Title="Academic" Icon="@Icons.Material.Filled.LibraryBooks" Expanded="false">
-            <MudNavLink Href="/ModuleManagementTabs" Icon="@Icons.Material.Filled.ViewModule" IconColor="Color.Inherit">Modules</MudNavLink>
-            <MudNavLink Href="/ResultManagementTabs" Icon="@Icons.Material.Filled.Security" IconColor="Color.Inherit">Results</MudNavLink>
-            <MudNavLink Href="/MentoringManagementPage" Icon="@Icons.Material.Filled.People" IconColor="Color.Inherit">Mentoring</MudNavLink>
-            <MudNavLink Href="/RequestManagementTabs" Icon="@Icons.Material.Filled.RequestPage" IconColor="Color.Inherit">Requests</MudNavLink>
+        <MudNavGroup Title="Academic" Icon="@Icons.Material.Filled.School" IconColor="Color.Primary" Expanded="true">
+
+            <MudNavMenu Rounded="true" Margin="Margin.Normal" Color="Color.Error" Class="pa-2">
+
+                <MudNavLink Href="/ModuleManagementTabs" Icon="@Icons.Material.Filled.Subject" IconColor="Color.Primary">Modules</MudNavLink>
+                <MudNavLink Href="/ResultManagementTabs" Icon="@Icons.Material.Filled.Assessment" IconColor="Color.Primary">Results</MudNavLink>
+                <MudNavLink Href="/MentoringManagementPage" Icon="@Icons.Material.Filled.People" IconColor="Color.Primary">Mentoring</MudNavLink>
+                <MudNavLink Href="/RequestManagementTabs" Icon="@Icons.Material.Filled.CompareArrows" IconColor="Color.Primary">Requests</MudNavLink>
+
+            </MudNavMenu>
+
         </MudNavGroup>
 
         <MudNavGroup Title="Students" Icon="@Icons.Material.Filled.PeopleOutline" Expanded="false">

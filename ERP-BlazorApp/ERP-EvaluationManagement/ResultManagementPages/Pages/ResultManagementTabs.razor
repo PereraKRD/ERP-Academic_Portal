@@ -7,33 +7,33 @@
 <MudTabs Outlined="true" Rounded="true" Border="true"
          ApplyEffectsToContainer="true" PanelClass="pa-6" Color="Color.Primary">
 
-    <MudTabPanel Text="Coordinating Modules" Style="color:white; font-weight:bold; font-size:16px">
+    <MudTabPanel Text="Coordinating Modules" >
         <MudGrid>
             <MudItem xs="9">
                 <ModuleListForResultComponent />
             </MudItem>
-            <MudItem xs="2" Class="pt-5 mt-5">
-                <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+            <MudItem xs="2" Class="mt-15">
+                <MudDatePicker Class="pr-5" PickerVariant="PickerVariant.Static" Rounded="true" Elevation="0" Date="DateTime.Today" />
             </MudItem>
         </MudGrid>
     </MudTabPanel>
-    <MudTabPanel Text="First Examiner Modules" Style="color:white; font-weight:bold; font-size:16px">
+    <MudTabPanel Text="First Examiner Modules" >
         <MudGrid>
             <MudItem xs="9">
                 <FirstExaminarModuleListResultComponent />
             </MudItem>
-            <MudItem xs="2" Class="pt-5 mt-5">
-                <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+            <MudItem xs="2" Class="mt-15">
+                <MudDatePicker Class="pr-5" PickerVariant="PickerVariant.Static" Rounded="true" Elevation="0" Date="DateTime.Today" />
             </MudItem>
         </MudGrid>
     </MudTabPanel>
-    <MudTabPanel Text="Second Examiner Modules" Style="color:white; font-weight:bold; font-size:16px">
+    <MudTabPanel Text="Second Examiner Modules" >
         <MudGrid>
             <MudItem xs="9">
                 <SecondExaminarModuleListResultComponent />
             </MudItem>
-            <MudItem xs="2" Class="pt-5 mt-5">
-                <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+            <MudItem xs="2" Class="mt-15">
+                <MudDatePicker Class="pr-5" PickerVariant="PickerVariant.Static" Rounded="true" Elevation="0" Date="DateTime.Today" />
             </MudItem>
         </MudGrid>
     </MudTabPanel>

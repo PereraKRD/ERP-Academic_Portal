@@ -6,6 +6,7 @@
 @using System.Text
 
 
+
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
@@ -14,46 +15,42 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudForm Model="@model" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
-                 ValidationDelay="0">
-            <MudCardContent Class="mud-card-content">
-                <MudTextField @bind-Value="model.Name"
-                              For="@(() => model.Name)"
-                              Immediate="true"
-                              Label="Name" />
-                <MudSelect T="int" @bind-Value="model.Type" Label="Type" AnchorOrigin="Origin.CenterLeft" TransformOrigin="Origin.CenterRight" AdornmentColor="Color.Primary">
-                    <MudSelectItem Value="1">Inclass</MudSelectItem>
-                    <MudSelectItem Value="2">Quiz</MudSelectItem>
-                    <MudSelectItem Value="3">Assignment</MudSelectItem>
-                    <MudSelectItem Value="4">Take Home</MudSelectItem>
-                    <MudSelectItem Value="5">Other</MudSelectItem>
-                </MudSelect>
-
-                <MudNumericField @bind-Value="model.FinalMarks"
-                                 For="@(() => model.FinalMarks)"
-                                 Immediate="true"
-                                 Label="Final Marks" />
-
-                <MudNumericField @bind-Value="model.Marks"
-                                 For="@(() => model.Marks)"
-                                 Immediate="true"
-                                 Label="Marks" />
-            </MudCardContent>
-            <MudCardActions Class="mud-card-actions">
-                <div style="display: flex; gap: 32px;">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Primary"
-                               Class="mud-button-add"
-                               StartIcon="@Icons.Material.Filled.Save"
-                               OnClick="@(async () => await SaveEvaluation())">Save</MudButton>
-
-                    <MudButton OnClick="@(() => Cancel())" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Close">Cancel</MudButton>
-                </div>
-
-            </MudCardActions>
-        </MudForm>
+        <MudTextField @bind-Value="model.Name"
+                      For="@(() => model.Name)"
+                      Immediate="true"
+                      Label="Name" />
+        <MudSelect Margin="Margin.Dense" Dense="true" T="int" Label="Type" @bind-Value="model.Type" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.BottomRight" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary">
+            <MudSelectItem Value="1">Inclass</MudSelectItem>
+            <MudSelectItem Value="2">Quiz</MudSelectItem>
+            <MudSelectItem Value="3">Assignment</MudSelectItem>
+            <MudSelectItem Value="4">Take Home</MudSelectItem>
+            <MudSelectItem Value="5">Other</MudSelectItem>
+        </MudSelect>
+        <MudNumericField HideSpinButtons="true"
+                         @bind-Value="model.FinalMarks"
+                         Label="Final Marks" 
+                         Variant="Variant.Text" 
+                         Min="0" Max="150" />
+        <MudNumericField HideSpinButtons="true"
+                         @bind-Value="model.Marks"
+                         Label="Marks"
+                         Variant="Variant.Text"
+                         Min="0" Max="150" />
+        
     </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="mud-button-add"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   OnClick="@(async () => await SaveEvaluation())">Save</MudButton>
+
+        <MudButton OnClick="@(() => Cancel())" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Close">Cancel</MudButton>
+    </DialogActions>
 </MudDialog>
+
+
+
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 

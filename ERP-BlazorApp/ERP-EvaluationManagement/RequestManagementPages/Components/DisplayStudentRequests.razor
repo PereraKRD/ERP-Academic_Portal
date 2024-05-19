@@ -5,7 +5,8 @@
 
 <MudContainer Class="result-container">
     <h1 class="result-header pb-3" style="color:purple; text-align:center">Student Requests</h1>
-    <MudTable Items="_studentRequests" Hover="true" Bordered="true" Outlined="true">
+    
+    <MudTable Items="_studentRequests" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Added Date</MudTh>
             <MudTh>Time</MudTh>
@@ -16,17 +17,18 @@
         </HeaderContent>
         <RowTemplate Context="request">
             <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
-            <MudTd>@request.AddedDate.ToShortTimeString()</MudTd>
-            <MudTd>@request.SenderName</MudTd>
-            <MudTd>@request.SenderRegistrationNum</MudTd>
-            <MudTd>@GetTypeAsString(request.Header)</MudTd>
-            <MudTd>
-                <button class="btn btn-primary" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
-                    View Details
-                </button>
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+                <MudTd>@request.AddedDate.ToShortTimeString()</MudTd>
+                <MudTd>@request.SenderName</MudTd>
+                <MudTd>@request.SenderRegistrationNum</MudTd>
+                <MudTd>@GetTypeAsString(request.Header)</MudTd>
+                <MudTd>
+                    <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)"><b><ul style="text-decoration: underline;">View Details</ul></b></MudButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
 </MudContainer>
 
 

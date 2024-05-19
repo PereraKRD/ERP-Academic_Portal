@@ -6,23 +6,47 @@
 @if (_staffIncomingRequest != null)
 {
     <MudPaper Elevation="2" Class="email-paper" Style="padding:15px;">
-        <div class="email-header">
-            <div class="sender-info">
-                <h1 class="sender-name pb-3" style="color:black">From: @_staffIncomingRequest.SenderName</h1>
+        <MudPaper Class="d-flex justify-center flex-grow-1 gap-4 mb-5" Elevation="0" Style="background-color:aliceblue">
+            <h1 style="width:fit-content; font-style:initial">Incoming Staff Request Information</h1>
+        </MudPaper>
+
+        <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.LightBlue.Lighten5};")">
+            <MudList>
+                <h2 style="font-weight:bolder">
+                    Sender
+                </h2>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @_staffIncomingRequest.SenderName
+                </MudListItem>
+                <h3 style="font-weight:bolder">
+                    Subject
+                </h3>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    Staff Request
+                </MudListItem>
+                <h3 style="font-weight:bolder">
+                    Header
+                </h3>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @GetTypeAsString(@_staffIncomingRequest.Header)
+                </MudListItem>
+
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+                <h2 style="font-weight:bolder">
+                    Message
+                </h2>
+                <div class="email-content">
+                    <MudText class="sender-name pb-3" style="color:black">@_staffIncomingRequest.Message</MudText>
+                    </div>
+                </MudList>
+            </MudPaper>
+
+            <div class="reply-button mt-5">
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Reply" Color="Color.Primary" @onclick="() => ViewModuleInformation(_staffIncomingRequest.SenderId)">
+                    Reply
+                </MudButton>
             </div>
-            <div class="subject-line">
-                <h3 class="sender-name pb-3" style="color:black">Subject: Staff Request </h3>
-                <h3 class="sender-email pb-3">Header: @GetTypeAsString(@_staffIncomingRequest.Header)</h3>
-            </div>
-        </div>
-        <div class="email-content">
-            <h3 class="sender-name pb-3" style="color:black">@_staffIncomingRequest.Message</h3>
-        </div>
-        <div class="reply-button">
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Reply" Color="Color.Primary" @onclick="() => ViewModuleInformation(_staffIncomingRequest.SenderId)">
-                Reply
-            </MudButton>
-        </div>
     </MudPaper>
 }
 else
