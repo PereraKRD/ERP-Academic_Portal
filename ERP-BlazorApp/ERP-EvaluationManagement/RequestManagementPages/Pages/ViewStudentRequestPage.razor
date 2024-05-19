@@ -6,20 +6,49 @@
 @if (_studentRequest != null)
 {
     <MudPaper Elevation="2" Class="email-paper" Style="padding:15px;">
-        <div class="email-header">
-            <div class="sender-info">
-                <h1 class="sender-name pb-3" style="color:black">From: @_studentRequest.SenderName</h1>                
-                <h1 class="sender-email pb-3">(@_studentRequest.SenderRegistrationNum)</h1>
-            </div>
-            <div class="subject-line">
-                <h3 class="sender-name pb-3" style="color:black">Subject: Student Request </h3>
-                <h3 class="sender-email pb-3">Header: @GetTypeAsString(@_studentRequest.Header)</h3>
-            </div>
-        </div>
-        <div class="email-content">
-            <h3 class="sender-name pb-3" style="color:black">@_studentRequest.Message</h3>
-        </div>
-        <div class="reply-button">
+        <MudPaper Class="d-flex justify-center flex-grow-1 gap-4 mb-5" Elevation="0" Style="background-color:aliceblue">
+            <h1 style="width:fit-content; font-style:initial">Incoming Student Request Information</h1>
+        </MudPaper>
+
+        <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.LightBlue.Lighten5};")">
+            <MudList>
+                <h2 style="font-weight:bolder">
+                    Sender
+                </h2>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @_studentRequest.SenderName
+                </MudListItem>
+                <h2 style="font-weight:bolder">
+                    Student Registration Number
+                </h2>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @_studentRequest.SenderRegistrationNum
+                </MudListItem>
+                <h3 style="font-weight:bolder">
+                    Subject
+                </h3>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    Student Request
+                </MudListItem>
+                <h3 style="font-weight:bolder">
+                    Header
+                </h3>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @GetTypeAsString(@_studentRequest.Header)
+                </MudListItem>
+
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+                
+                <h2 style="font-weight:bolder">
+                    Message
+                </h2>
+                <div class="email-content">
+                    <MudText class="sender-name pb-3" style="color:black">@_studentRequest.Message</MudText>
+                </div>
+            </MudList>
+        </MudPaper>
+
+        <div class="reply-button mt-5">
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Reply" Color="Color.Primary" @onclick="() => ViewModuleInformation(_studentRequest.SenderId)">
                 Reply
             </MudButton>
