@@ -10,7 +10,7 @@
             <h1 style="width:fit-content; font-style:initial">Incoming Student Request Information</h1>
         </MudPaper>
 
-        <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.LightBlue.Lighten5};")">
+        <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.DeepPurple.Lighten5};")">
             <MudList>
                 <h2 style="font-weight:bolder">
                     Sender
@@ -24,15 +24,15 @@
                 <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
                     @_studentRequest.SenderRegistrationNum
                 </MudListItem>
-                <h3 style="font-weight:bolder">
+                @* <h2 style="font-weight:bolder">
                     Subject
-                </h3>
+                </h2>
                 <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
                     Student Request
-                </MudListItem>
-                <h3 style="font-weight:bolder">
+                </MudListItem> *@
+                <h2 style="font-weight:bolder">
                     Header
-                </h3>
+                </h2>
                 <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
                     @GetTypeAsString(@_studentRequest.Header)
                 </MudListItem>
