@@ -3,44 +3,62 @@
 @inject ISnackbar Snackbar
 
 <MudContainer>
-    <MudTable Items="@_responses" Dense="true" Hover="true" Bordered="true" Striped="false">
+    <MudTable Items="_responses" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>
-            <MudTh>Evaluation Name</MudTh>
-            <MudTh>Student Score</MudTh>
+            @foreach (var evaluation in _evaluations)
+            {
+            <MudTh>@evaluation</MudTh>
+            }
         </HeaderContent>
+
+        <!-- RowTemplate to iterate through _responses -->
         <RowTemplate>
             <MudTd>@context.RegistrationNum</MudTd>
             <MudTd>@context.FullName</MudTd>
-            <MudTd>@context.EvaluationName</MudTd>
-            <MudTd>@context.StudentScore</MudTd>
+            @foreach (var evaluation in _evaluations)
+            {
+            <MudTd>
+                @if (@context.EvaluationScores.ContainsKey(evaluation))
+                {
+                @context.EvaluationScores[evaluation].ToString()
+                }
+            </MudTd>
+            }
         </RowTemplate>
+
     </MudTable>
 </MudContainer>
 
 @code {
-    [Parameter]
-    public Guid ModuleOfferingId { get; set; }
-    private HttpClient Http = new HttpClient();
+[Parameter]
+public Guid ModuleOfferingId { get; set; }
 
-    private List<GetAllEvaluationsMarksForModuleOfferingResponse> _responses = new List<GetAllEvaluationsMarksForModuleOfferingResponse>();
+private HttpClient Http = new HttpClient();
+private List<GetAllEvaluationsMarksForModuleOfferingResponse> _responses = new List<GetAllEvaluationsMarksForModuleOfferingResponse>();
+private List<string> _evaluations = new List<string>();
 
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadData();
-    }
+protected override async Task OnInitializedAsync()
+{
+await LoadData();
+}
 
-    private async Task LoadData()
-    {
-        try
-        {
-            _responses = await Http.GetFromJsonAsync<List<GetAllEvaluationsMarksForModuleOfferingResponse>>($"https://localhost:7007/api/StudentResult/{ModuleOfferingId}/allresults");
+private async Task LoadData()
+{
+try
+{
+_responses = await Http.GetFromJsonAsync<List<GetAllEvaluationsMarksForModuleOfferingResponse>>($"https://localhost:7007/api/StudentResult/{ModuleOfferingId}/allresults");
 
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error loading data: {ex.Message}", Severity.Error);
-        }
-    }
+if (_responses != null && _responses.Count > 0)
+{
+// Get all unique evaluation names
+_evaluations = _responses.SelectMany(r => r.EvaluationScores.Keys).Distinct().ToList();
+}
+}
+catch (Exception ex)
+{
+Snackbar.Add($"Error loading data: {ex.Message}", Severity.Error);
+}
+}
 }
