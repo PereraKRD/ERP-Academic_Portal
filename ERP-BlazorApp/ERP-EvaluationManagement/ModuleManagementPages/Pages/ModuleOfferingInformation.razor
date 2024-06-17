@@ -24,15 +24,8 @@
 
 
 
-        <MudTabPanel Text="Results" Icon="@Icons.Material.Filled.TableView" @ref="panel04">
-            <MudCard Class="mb-5">
-                <MudCardContent Style="@($"color:{Colors.Grey.Darken4}; background:{Colors.Grey.Lighten3};")">
-                    <div class="d-flex justify-space-around flex-grow-1 gap-1">
-                        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary">Add Marks</MudButton>
-                        <MudButton StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Primary">Edit</MudButton>
-                    </div>
-                </MudCardContent>
-            </MudCard>
+        <MudTabPanel Text="All Results" Icon="@Icons.Material.Filled.TableView" @ref="panel04">
+            <DisplayAllResultsComponent ModuleOfferingId="ModuleOfferingId"></DisplayAllResultsComponent>
         </MudTabPanel>
     </MudTabs>
 

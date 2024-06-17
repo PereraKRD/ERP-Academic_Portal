@@ -1,0 +1,26 @@
+@using ERP_EvaluationManagement.DTOs.Responses
+@using System.Net.Http.Json
+@using ERP.EvaluationManagement.Core.DTOs.Requests
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@inject IDialogService Dialog
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+
+<MudContainer>
+    <MudTable Items="@_responses" Dense="true" Hover="true" Bordered="true" Striped="false">
+        
+    </MudTable>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+    
+    private HttpClient Http = new HttpClient();
+    private List<GetAllEvaluationsMarksForModuleOfferingResponse> _responses = new List<GetAllEvaluationsMarksForModuleOfferingResponse>();
+}
