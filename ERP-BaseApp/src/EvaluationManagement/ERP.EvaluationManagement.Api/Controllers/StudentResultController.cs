@@ -136,6 +136,15 @@ public class StudentResultController : BaseController
         var results = _mapper.Map<IEnumerable<GetEvaluationResultListResponse>>(studentResults);
         return Ok(results);
     }
+    
+    [HttpGet]
+    [Route("{moduleOfferingId:guid}/allresults")]
+    public async Task<IActionResult> GetAllEvaluationResultsOfModuleOffering(Guid moduleOfferingId)
+    {
+        var studentResults = await _unitOfWork.StudentResults.GetAllStudentResultsOfParticularModuleOfferingAsync(moduleOfferingId);
+        var results = _mapper.Map<IEnumerable<GetAllEvaluationsMarksForModuleOfferingResponse>>(studentResults);
+        return Ok(results);
+    }
 
     [HttpGet]
     [Route("{moduleOfferingId}/{evaluationId:guid}/exports/results")]

@@ -90,6 +90,7 @@ public class DomainToResponse : Profile
             ;
         
         CreateMap<StudentResult, GetStudentResultResponse>()
+            .ForMember(dest => dest.EvaluationName, opt => opt.MapFrom(src => src.Evaluation.Name))
             .ForMember(dest => dest.RegistrationNum,
                 opt => opt.MapFrom(src => src.Student.RegistrationNum))
             .ForMember(dest => dest.FullName,
@@ -171,6 +172,26 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.BatchId,
                 opt => opt.MapFrom(src => src.Id))
             ;
-
+        
+        CreateMap<StudentResult, GetAllEvaluationsMarksForModuleOfferingResponse>()
+            .ForMember(dest => dest.StudentId,
+                opt => opt.MapFrom(src => src.StudentId))
+            .ForMember(dest => dest.EvaluationId,
+                opt => opt.MapFrom(src => src.EvaluationId))
+            .ForMember(dest => dest.EvaluationName,
+                opt => opt
+                    .MapFrom(src => src.Evaluation.Name))
+            .ForMember(dest => dest.RegistrationNum,
+                opt => opt
+                    .MapFrom(src => src.Student.RegistrationNum))
+            .ForMember(dest => dest.FullName,
+                opt => opt
+                    .MapFrom(src => $"{src.Student.FirstName} {src.Student.LastName}"))
+            .ForMember(dest => dest.StudentScore,
+                opt => opt
+                    .MapFrom(src => src.StudentScore))
+            ;
+        
+        
     }
 }

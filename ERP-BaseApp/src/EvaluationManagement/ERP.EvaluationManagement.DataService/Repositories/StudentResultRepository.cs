@@ -11,8 +11,6 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
     {
     }
     
-    
-
     public override async Task<IEnumerable<StudentResult>> GetAllAsync()
     {
         try
@@ -103,4 +101,23 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
             throw;
         }
     }
+
+    public async Task<IEnumerable<StudentResult>> GetAllStudentResultsOfParticularModuleOfferingAsync(Guid moduleOfferingId)
+    {
+        try
+        {
+            return await _dbSet
+                .Where(x => x.Status == 1 && x.Evaluation.ModuleOfferingID == moduleOfferingId)
+                .Include(x => x.Student)
+                .Include(x => x.Evaluation)
+                .OrderBy(x => x.AddedDate)
+                .ToListAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetAllAsync Error", typeof(StudentResultRepository));
+            throw;
+        }
+    }
+    
 }

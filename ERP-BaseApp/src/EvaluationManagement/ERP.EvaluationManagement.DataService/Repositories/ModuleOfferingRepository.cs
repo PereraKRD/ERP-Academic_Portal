@@ -61,4 +61,5 @@ public class ModuleOfferingRepository : GenericRepository<ModuleOffering> , IMod
             throw;
         }
     }
+    
 }
