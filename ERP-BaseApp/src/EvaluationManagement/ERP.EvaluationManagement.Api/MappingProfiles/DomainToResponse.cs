@@ -190,6 +190,10 @@ public class DomainToResponse : Profile
             .ForMember(dest => dest.StudentScore,
                 opt => opt
                     .MapFrom(src => src.StudentScore))
+            .ForMember(dest => dest.EvaluationScores, opt => opt.MapFrom(src => new Dictionary<string, double>
+            {
+                { src.Evaluation.Name, src.StudentScore }
+            }))
             ;
         
         

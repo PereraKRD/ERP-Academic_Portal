@@ -1,26 +1,46 @@
-@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json
-@using ERP.EvaluationManagement.Core.DTOs.Requests
-@inject IDialogService DialogService
+@using ERP.EvaluationManagement.Core.DTOs.Responses
 @inject ISnackbar Snackbar
-@inject NavigationManager NavigationManager
-@inject IDialogService Dialog
-
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
-
 
 <MudContainer>
     <MudTable Items="@_responses" Dense="true" Hover="true" Bordered="true" Striped="false">
-        
+        <HeaderContent>
+            <MudTh>Registration Number</MudTh>
+            <MudTh>Full Name</MudTh>
+            <MudTh>Evaluation Name</MudTh>
+            <MudTh>Student Score</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.RegistrationNum</MudTd>
+            <MudTd>@context.FullName</MudTd>
+            <MudTd>@context.EvaluationName</MudTd>
+            <MudTd>@context.StudentScore</MudTd>
+        </RowTemplate>
     </MudTable>
 </MudContainer>
 
 @code {
     [Parameter]
     public Guid ModuleOfferingId { get; set; }
-    
     private HttpClient Http = new HttpClient();
+
     private List<GetAllEvaluationsMarksForModuleOfferingResponse> _responses = new List<GetAllEvaluationsMarksForModuleOfferingResponse>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            _responses = await Http.GetFromJsonAsync<List<GetAllEvaluationsMarksForModuleOfferingResponse>>($"https://localhost:7007/api/StudentResult/{ModuleOfferingId}/allresults");
+
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading data: {ex.Message}", Severity.Error);
+        }
+    }
 }
