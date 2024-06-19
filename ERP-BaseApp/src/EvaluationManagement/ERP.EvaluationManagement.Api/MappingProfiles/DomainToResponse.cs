@@ -196,6 +196,14 @@ public class DomainToResponse : Profile
             }))
             ;
         
+        CreateMap<Teacher, GetTeacherDetailsByEmailResponse>()
+            .ForMember(dest => dest.TeacherId,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.FullName,
+                opt => opt
+                    .MapFrom(src => $"{src.FirstName} {src.LastName}"))
+            ;
+        
         
     }
 }

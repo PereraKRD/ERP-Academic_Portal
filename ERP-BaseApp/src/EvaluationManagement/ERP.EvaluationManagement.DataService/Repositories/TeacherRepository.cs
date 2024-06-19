@@ -47,4 +47,18 @@ public class TeacherRepository : GenericRepository<Teacher>, ITeacherRepository
             throw;
         }
     }
+    
+    public async Task<Teacher?> GetTeacherByEmailAsync(string email)
+    {
+        try
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(x => x.Email == email);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "{Repo} GetAsync Error", typeof(TeacherRepository));
+            throw;
+        }
+    }
 }

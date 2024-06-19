@@ -53,4 +53,13 @@ public class TeacherRegistrationController : BaseController
         await _unitOfWork.CompleteAsync();
         return NoContent();
     }
+    
+    [HttpGet]
+    [Route("teachers/{teacherEmail}")]
+    public async Task<IActionResult> GetTeacherByEmail(string teacherEmail)
+    {
+        var teacher = await _unitOfWork.Teachers.GetTeacherByEmailAsync(teacherEmail);
+        var result = _mapper.Map<GetTeacherDetailsByEmailResponse>(teacher);
+        return Ok(result);
+    }
 }
