@@ -4,7 +4,7 @@
 @if (_students != null && _students.Any())
 {
     <MudContainer Class="result-container">
-
+        <h2 class="result-header pb-3" style="color:black; text-align:center">Registered Students</h2>
         <MudTable Items="@_students" Dense="true" Hover="true" Bordered="true" Striped="false">
             <HeaderContent>
                 <MudTh>Reg Number</MudTh>
@@ -13,13 +13,13 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Nr">@context.RegistrationNum</MudTd>
-                    <MudTd DataLabel="Sign">@context.FullName</MudTd>
-                    <MudTd DataLabel="Email">@context.Email</MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    <MudTablePager />
-                </PagerContent>
-            </MudTable>
+                <MudTd DataLabel="Sign">@context.FullName</MudTd>
+                <MudTd DataLabel="Email">@context.Email</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager/>
+            </PagerContent>
+        </MudTable>
 
     </MudContainer>
 }

@@ -3,15 +3,16 @@
 @inject ISnackbar Snackbar
 
 <MudContainer>
+    <h2 class="result-header pb-3" style="color:black; text-align:center">Final Results Out Of 100</h2>
     <MudTable Items="_displayData" Dense="true" Hover="true" Bordered="true" Striped="false">
         <HeaderContent>
             <MudTh>Registration Number</MudTh>
             <MudTh>Full Name</MudTh>
             @foreach (var evaluation in _evaluations)
             {
-                <MudTh>@evaluation Out of </MudTh>
+                <MudTh>@evaluation</MudTh>
             }
-            <MudTh>Total Marks</MudTh>
+            <MudTh>Total Marks of 100%</MudTh>
         </HeaderContent>
 
         <RowTemplate>

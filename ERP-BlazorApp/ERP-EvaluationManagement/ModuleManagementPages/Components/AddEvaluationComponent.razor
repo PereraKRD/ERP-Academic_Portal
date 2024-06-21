@@ -26,6 +26,7 @@
                     <MudSelectItem Value="2">Quiz</MudSelectItem>
                     <MudSelectItem Value="3">Assignment</MudSelectItem>
                     <MudSelectItem Value="4">Take Home</MudSelectItem>
+                    <MudSelectItem Value="6">End Exam</MudSelectItem>
                     <MudSelectItem Value="5">Other</MudSelectItem>
                 </MudSelect>
                 <MudNumericField @bind-Value="model.FinalMarks"
@@ -69,7 +70,7 @@
                 .Length(1, 100);
 
             RuleFor(x => x.Type)
-                .InclusiveBetween(1, 5);
+                .InclusiveBetween(1, 6);
 
             RuleFor(x => x.FinalMarks)
                 .InclusiveBetween(0, 100);

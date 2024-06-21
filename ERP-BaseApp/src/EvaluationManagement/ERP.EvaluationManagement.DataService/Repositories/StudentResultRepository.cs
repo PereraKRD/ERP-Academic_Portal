@@ -107,7 +107,7 @@ public class StudentResultRepository : GenericRepository<StudentResult>, IStuden
         try
         {
             return await _dbSet
-                .Where(x => x.Status == 1 && x.Evaluation.ModuleOfferingID == moduleOfferingId)
+                .Where(x => x.Status == 1 && x.Evaluation.ModuleOfferingID == moduleOfferingId && x.Evaluation.Status == 1)
                 .Include(x => x.Student)
                 .Include(x => x.Evaluation)
                 .OrderBy(x => x.AddedDate)
