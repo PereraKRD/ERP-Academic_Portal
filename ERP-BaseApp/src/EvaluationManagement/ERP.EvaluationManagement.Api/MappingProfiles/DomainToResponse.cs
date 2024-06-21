@@ -192,7 +192,7 @@ public class DomainToResponse : Profile
                     .MapFrom(src => src.StudentScore))
             .ForMember(dest => dest.EvaluationScores, opt => opt.MapFrom(src => new Dictionary<string, double>
             {
-                { src.Evaluation.Name, src.StudentScore }
+                { src.Evaluation.Name, ((src.StudentScore/src.Evaluation.Marks)*src.Evaluation.FinalMarks) }
             }))
             ;
         

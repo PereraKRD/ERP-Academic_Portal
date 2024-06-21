@@ -15,7 +15,7 @@
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
                 <h1 class="result-header pb-3" style="color:black; text-align:center">Make Request</h1>
-                <MudSelect @bind-Value="staffRequest.Header" Label="Header">
+                <MudSelect T="int" @bind-Value="staffRequest.Header" Label="Header">
                     <MudSelectItem Value="1">Module Related</MudSelectItem>
                     <MudSelectItem Value="2">Medical</MudSelectItem>
                     <MudSelectItem Value="3">Academic Advisee</MudSelectItem>

@@ -11,11 +11,15 @@
     <MudTabs Outlined="true" Rounded="true" Border="true"
              ApplyEffectsToContainer="true" PanelClass="pa-6" Color="Color.Primary" @ref="tabs">
         <MudTabPanel Text="Assignments" Icon="@Icons.Material.Filled.Assignment" @ref="panel01">
-            <DisplayEvaluationList ModuleOfferingId="ModuleOfferingId"></DisplayEvaluationList>
+            <MudItem>
+                <DisplayEvaluationList ModuleOfferingId="ModuleOfferingId"></DisplayEvaluationList>
+            </MudItem>
         </MudTabPanel>
 
         <MudTabPanel Text="Add Assignment" Icon="@Icons.Material.Filled.Add" @ref="panel02">
-            <AddEvaluationComponent onAdded="Activate_01" ModuleOfferingId="ModuleOfferingId"></AddEvaluationComponent>
+            <MudItem>
+                <AddEvaluationComponent onAdded="Activate_01" ModuleOfferingId="ModuleOfferingId"></AddEvaluationComponent>
+            </MudItem>>
         </MudTabPanel>
 
         <MudTabPanel Text="Student List" Icon="@Icons.Material.Filled.People" @ref="panel03">
