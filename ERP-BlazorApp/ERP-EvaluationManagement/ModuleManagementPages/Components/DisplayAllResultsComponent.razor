@@ -2,35 +2,42 @@
 @using ERP.EvaluationManagement.Core.DTOs.Responses
 @inject ISnackbar Snackbar
 
-<MudContainer>
-    <h2 class="result-header pb-3" style="color:black; text-align:center">Final Results Out Of 100</h2>
-    <MudTable Items="_displayData" Dense="true" Hover="true" Bordered="true" Striped="false">
-        <HeaderContent>
-            <MudTh>Registration Number</MudTh>
-            <MudTh>Full Name</MudTh>
-            @foreach (var evaluation in _evaluations)
-            {
-                <MudTh>@evaluation</MudTh>
-            }
-            <MudTh>Total Marks of 100%</MudTh>
-        </HeaderContent>
+@if (_responses != null && _responses.Any())
+{
+    <MudContainer>
+        <h2 class="result-header pb-3" style="color:black; text-align:center">Final Results Out Of 100</h2>
+        <MudTable Items="_displayData" Dense="true" Hover="true" Bordered="true" Striped="false">
+            <HeaderContent>
+                <MudTh>Registration Number</MudTh>
+                <MudTh>Full Name</MudTh>
+                @foreach (var evaluation in _evaluations)
+                {
+                    <MudTh>@evaluation</MudTh>
+                }
+                <MudTh>Total Marks of 100%</MudTh>
+            </HeaderContent>
 
-        <RowTemplate>
-            <MudTd>@context.RegistrationNum</MudTd>
-            <MudTd>@context.FullName</MudTd>
-            @foreach (var evaluation in _evaluations)
-            {
-                <MudTd>
-                    @if (context.EvaluationScores.ContainsKey(evaluation))
-                    {
-                        @context.EvaluationScores[evaluation].ToString()
-                    }
-                </MudTd>
-            }
-            <MudTd>@context.TotalMarks</MudTd>
-        </RowTemplate>
-    </MudTable>
-</MudContainer>
+            <RowTemplate>
+                <MudTd>@context.RegistrationNum</MudTd>
+                <MudTd>@context.FullName</MudTd>
+                @foreach (var evaluation in _evaluations)
+                {
+                    <MudTd>
+                        @if (context.EvaluationScores.ContainsKey(evaluation))
+                        {
+                            @context.EvaluationScores[evaluation].ToString()
+                        }
+                    </MudTd>
+                }
+                <MudTd>@context.TotalMarks</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudContainer>
+}
+else
+{
+    <p>No Results to Display</p>
+}
 
 @code {
     [Parameter]

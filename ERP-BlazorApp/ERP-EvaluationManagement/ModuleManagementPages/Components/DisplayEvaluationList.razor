@@ -18,32 +18,39 @@
 </style>
 
 
-<MudContainer>
-    <MudTable Items="@_evaluations" Dense="true" Hover="true" Bordered="true" Striped="false">
-        <HeaderContent>
-            <MudTh>Name</MudTh>
-            <MudTh>Type</MudTh>
-            <MudTh>Out of Final Marks</MudTh>
-            <MudTh>Total Marks Given</MudTh>
-            <MudTh Width="10%">Actions</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Name">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
-            </MudTd>
-            <MudTd DataLabel="Type">@GetTypeAsString(context.EvaluationType)</MudTd>
-            <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
-            <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
-            <MudTd>
-                <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@( () => EditEvaluation(@context) )" />
-                <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
-            </MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager />
-        </PagerContent>
-    </MudTable>
-</MudContainer>
+@if (_evaluations != null && _evaluations.Any())
+{
+    <MudContainer>
+        <MudTable Items="@_evaluations" Dense="true" Hover="true" Bordered="true" Striped="false">
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Out of Final Marks</MudTh>
+                <MudTh>Total Marks Given</MudTh>
+                <MudTh Width="10%">Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ViewEvaluationInformation(ModuleOfferingId, @context.EvaluationId))"> @context.EvaluationName</MudButton>
+                </MudTd>
+                <MudTd DataLabel="Type">@GetTypeAsString(context.EvaluationType)</MudTd>
+                <MudTd DataLabel="Out of Final Marks">@context.EvaluationFinalMarks</MudTd>
+                <MudTd DataLabel="Total Marks Given">@context.EvaluationMarks</MudTd>
+                <MudTd>
+                    <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@( () => EditEvaluation(@context) )" />
+                    <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@( () => DeleteEvaluation(context.EvaluationId) )" />
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </MudContainer>
+}
+else
+{
+    <p>No Evaluations to Display</p>
+}
 
 @code {
 
