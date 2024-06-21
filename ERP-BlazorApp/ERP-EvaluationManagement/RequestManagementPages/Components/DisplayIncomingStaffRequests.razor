@@ -31,7 +31,7 @@
 
 
 @code {
-
+    public String teacherId = "af8ad6c4-46f2-4bf8-9628-9cf34e122893";
     private HttpClient Http = new HttpClient();
     private List<GetStaffMessagesResponse> _incomingStaffRequests = new List<GetStaffMessagesResponse>();
 
@@ -42,7 +42,7 @@
 
     private async Task LoadModulesAsync()
     {
-        _incomingStaffRequests = await Http.GetFromJsonAsync<List<GetStaffMessagesResponse>>($"https://localhost:7256/StaffRequests/Incoming/af8ad6c4-46f2-4bf8-9628-9cf34e122893");
+        _incomingStaffRequests = await Http.GetFromJsonAsync<List<GetStaffMessagesResponse>>($"https://localhost:7256/StaffRequests/Incoming/{teacherId}");
         _incomingStaffRequests.Sort((x, y) => y.AddedDate.CompareTo(x.AddedDate));
     }
 

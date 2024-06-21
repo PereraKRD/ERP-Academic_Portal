@@ -46,6 +46,8 @@
     [Parameter]
     public EventCallback onAdded { get; set; }
 
+    public String teacherId = "af8ad6c4-46f2-4bf8-9628-9cf34e122893";
+
     private CreateStaffMessageRequest staffRequest = new CreateStaffMessageRequest();
 
     private HttpClient Http = new HttpClient();
@@ -88,7 +90,7 @@
                 var evaluationData = new
                 {
                     Message = staffRequest.Message,
-                    Type = staffRequest.Header,
+                    Header = staffRequest.Header,
                 };
 
                 // Convert the evaluation data to JSON
@@ -98,7 +100,7 @@
                 var request = new HttpRequestMessage
                     {
                         Method = HttpMethod.Post,
-                        RequestUri = new Uri($"https://localhost:7256/api/StaffRequest/af8ad6c4-46f2-4bf8-9628-9cf34e122893/{SenderId}"),
+                        RequestUri = new Uri($"https://localhost:7256/api/StaffRequest/{teacherId}/{SenderId}"),
                         Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
                     };
 

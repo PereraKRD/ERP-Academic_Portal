@@ -49,6 +49,8 @@
     [Parameter]
     public EventCallback onAdded { get; set; }
 
+    public String teacherId = "af8ad6c4-46f2-4bf8-9628-9cf34e122893";
+
     private CreateTeacherMessageRequest teacherRequest = new CreateTeacherMessageRequest();
 
     private HttpClient Http = new HttpClient();
@@ -91,7 +93,7 @@
                 var evaluationData = new
                 {
                     Message = teacherRequest.Message,
-                    Type = teacherRequest.Header,
+                    Header = teacherRequest.Header,
                 };
 
                 // Convert the evaluation data to JSON
@@ -101,7 +103,7 @@
                 var request = new HttpRequestMessage
                     {
                         Method = HttpMethod.Post,
-                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/af8ad6c4-46f2-4bf8-9628-9cf34e122893/{SenderId}"),
+                        RequestUri = new Uri($"https://localhost:7256/api/TeacherRequest/{teacherId}/{SenderId}"),
                         Content = new StringContent(evaluationJson, Encoding.UTF8, "application/json")
                     };
 
