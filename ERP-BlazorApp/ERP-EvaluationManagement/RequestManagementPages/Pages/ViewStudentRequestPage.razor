@@ -5,50 +5,50 @@
 
 @if (_studentRequest != null)
 {
-    <MudPaper Elevation="2" Class="email-paper" Style="padding:15px;">
-        <MudPaper Class="d-flex justify-center flex-grow-1 gap-4 mb-5" Elevation="0" Style="background-color:aliceblue">
-            <h1 style="width:fit-content; font-style:initial">Incoming Student Request Information</h1>
+    <MudPaper Elevation="4" Class="email-paper" Style="padding:20px;">
+        <MudPaper Class="d-flex justify-center mb-5" Elevation="0" Style="background-color:#e3f2fd;">
+            <h1 class="title">Incoming Student Request</h1>
         </MudPaper>
 
-        <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.DeepPurple.Lighten5};")">
-            <MudList>
-                <h2 style="font-weight:bolder">
-                    Sender
-                </h2>
-                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
-                    @_studentRequest.SenderName
+        <MudPaper Class="p-5" Elevation="4" Style="background-color:#e3f2fd;">
+            <MudList Dense>
+                <MudListItem>
+                    <MudListItemIcon Icon="@Icons.Material.Filled.Person" Color="Color.Primary" />
+                    <MudListItemText>
+                        <MudText Typo="Typo.h6" Class="header-text">Sender</MudText>
+                        <MudText Typo="Typo.body1">@_studentRequest.SenderName</MudText>
+                    </MudListItemText>
                 </MudListItem>
-                <h2 style="font-weight:bolder">
-                    Student Registration Number
-                </h2>
-                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
-                    @_studentRequest.SenderRegistrationNum
+                
+                <MudListItem>
+                    <MudListItemIcon Icon="@Icons.Material.Filled.Badge" Color="Color.Secondary" />
+                    <MudListItemText>
+                        <MudText Typo="Typo.h6" Class="header-text">Student Registration Number</MudText>
+                        <MudText Typo="Typo.body1">@_studentRequest.SenderRegistrationNum</MudText>
+                    </MudListItemText>
                 </MudListItem>
-                @* <h2 style="font-weight:bolder">
-                    Subject
-                </h2>
-                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
-                    Student Request
-                </MudListItem> *@
-                <h2 style="font-weight:bolder">
-                    Header
-                </h2>
-                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
-                    @GetTypeAsString(@_studentRequest.Header)
+                
+                <MudListItem>
+                    <MudListItemIcon Icon="@Icons.Material.Filled.Subject" Color="Color.Info" />
+                    <MudListItemText>
+                        <MudText Typo="Typo.h6" Class="header-text">Header</MudText>
+                        <MudText Typo="Typo.body1">@GetTypeAsString(@_studentRequest.Header)</MudText>
+                    </MudListItemText>
                 </MudListItem>
 
-                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
-                
-                <h2 style="font-weight:bolder">
-                    Message
-                </h2>
-                <div class="email-content">
-                    <MudText class="sender-name pb-3" style="color:black">@_studentRequest.Message</MudText>
-                </div>
+                <MudDivider Class="my-4" />
+
+                <MudListItem>
+                    <MudListItemIcon Icon="@Icons.Material.Filled.Message" Color="Color.Warning" />
+                    <MudListItemText>
+                        <MudText Typo="Typo.h6" Class="header-text">Message</MudText>
+                        <MudText Typo="Typo.body1" Class="message-text">@_studentRequest.Message</MudText>
+                    </MudListItemText>
+                </MudListItem>
             </MudList>
         </MudPaper>
 
-        <div class="reply-button mt-5">
+        <div class="d-flex justify-center mt-5">
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Outlined.Reply" Color="Color.Primary" @onclick="() => ViewModuleInformation(_studentRequest.SenderId)">
                 Reply
             </MudButton>
@@ -57,44 +57,61 @@
 }
 else
 {
-    <p>Module offering information not found.</p>
+    <p class="text-center">Module offering information not found.</p>
 }
 
 <style>
     .email-paper {
         margin-bottom: 20px;
+        background-color: #fff;
     }
 
-    .email-header {
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
+    .title {
+        font-size: 2rem;
+        font-weight: 500;
+        color: #594AE2;
     }
 
-    .sender-info {
-        font-weight: bold;
-        margin-bottom: 5px;
+    .header-text {
+        font-weight: 500;
+        color: #424242;
     }
 
-    .sender-name {
-        margin-right: 10px;
+    .message-text {
+        color: #616161;
     }
 
-    .subject-line {
-        font-style: italic;
+    .d-flex {
+        display: flex;
     }
 
-    .email-content {
-        margin-bottom: 15px;
+    .justify-center {
+        justify-content: center;
     }
 
-    .reply-button {
+    .mt-5 {
+        margin-top: 2rem;
+    }
+
+    .mb-5 {
+        margin-bottom: 2rem;
+    }
+
+    .p-5 {
+        padding: 2rem;
+    }
+
+    .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .text-center {
         text-align: center;
     }
 </style>
 
 @code {
-
     [Parameter]
     public Guid RequestId { get; set; }
     [Parameter]
@@ -117,7 +134,7 @@ else
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"An error occurred while loading module offering: {ex.Message}");
+            Snackbar.Add($"An error occurred while loading module offering: {ex.Message}", Severity.Error);
         }
     }
 
@@ -128,21 +145,14 @@ else
 
     private string GetTypeAsString(int type)
     {
-        switch (type)
+        return type switch
         {
-            case 1:
-                return "Module Related";
-            case 2:
-                return "Medical";
-            case 3:
-                return "Academic Advise";
-            case 4:
-                return "Late Submissions";
-            case 5:
-                return "Other";
-            default:
-                return "Unknown";
-        }
+            1 => "Module Related",
+            2 => "Medical",
+            3 => "Academic Advice",
+            4 => "Late Submissions",
+            5 => "Other",
+            _ => "Unknown"
+        };
     }
-
 }

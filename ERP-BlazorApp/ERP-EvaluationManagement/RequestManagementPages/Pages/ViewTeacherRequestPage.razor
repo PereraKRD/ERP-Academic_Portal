@@ -31,23 +31,23 @@ else
 
         <MudPaper Class="pl-5 pt-5" Elevation="4" Style="@($"background:{Colors.LightBlue.Lighten5};")">
             <MudList>
-                <h2 style="font-weight:bolder">
-                    Reciever
+                @* <h2 style="font-weight:bolder">
+                    Sender
                 </h2>
                 <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
                     @_teacherRequest.SenderName
+                </MudListItem> *@
+                <h3 style="font-weight:bolder">
+                    Reciever
+                </h3>
+                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
+                    @_teacherRequest.RecieverName
                 </MudListItem>
                 <h2 style="font-weight:bolder">
-                    Student Registration Number
+                    Registration Number
                 </h2>
                 <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
                     @_teacherRequest.RecieverRegistrationNum
-                </MudListItem>
-                <h3 style="font-weight:bolder">
-                    Subject
-                </h3>
-                <MudListItem Icon="@Icons.Material.Filled.Circle" IconSize="Size.Small">
-                    Teacher Request
                 </MudListItem>
                 <h3 style="font-weight:bolder">
                     Header
