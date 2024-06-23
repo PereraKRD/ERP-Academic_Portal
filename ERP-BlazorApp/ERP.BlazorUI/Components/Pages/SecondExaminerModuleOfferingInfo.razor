@@ -1,0 +1,9 @@
+@page "/SecondExaminerModuleOfferingInfo/{ModuleOfferingId:guid}"
+@rendermode InteractiveServer
+<SecondExaminerModuleOfferingInformation ModuleOfferingId="ModuleOfferingId"></SecondExaminerModuleOfferingInformation>
+
+@code
+{
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+}

@@ -16,11 +16,6 @@
                         @foreach (var moduleOffering in moduleOfferingsForSemester)
                         {
                             <MudListItem Text="@moduleOffering.ModuleName" @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)" Icon="@Icons.Material.Filled.FormatListBulleted" IconColor="Color.Primary" />
-                            @* <div>
-                    <button @onclick="() => ViewModuleInformation(moduleOffering.ModuleOfferingId)">
-                    @moduleOffering.Name
-                    </button>
-                    </div> *@
                         }
                     </MudList>
                 </div>
@@ -31,11 +26,12 @@
 
 <style>
     .result-container {
-        width: 130%; /* or any specific width you desire, e.g., 80%, 1200px, etc. */
+        width: 130%; 
     }
 </style>
 
 @code {
+
     private HttpClient Http = new HttpClient();
     private List<GetParticularSecondExaminerModuleOfferingResponse> _moduleOfferings = new List<GetParticularSecondExaminerModuleOfferingResponse>();
 
@@ -51,7 +47,7 @@
 
     private void ViewModuleInformation(Guid moduleOfferingId)
     {
-        NavigationManager.NavigateTo($"/ModuleManagementTabs/{moduleOfferingId}");
+        NavigationManager.NavigateTo($"/SecondExaminerModuleOfferingInfo/{moduleOfferingId}");
     }
 }
 

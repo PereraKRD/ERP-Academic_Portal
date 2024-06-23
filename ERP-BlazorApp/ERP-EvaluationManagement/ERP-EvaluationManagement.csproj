@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="ModuleManagementPages\Components\SecondExaminer\" />
       <Folder Include="wwwroot\NewFolder1\" />
       <Folder Include="wwwroot\NewFolder\" />
     </ItemGroup>

@@ -1,0 +1,9 @@
+@page "/FirstExaminerModuleOfferingInfo/{ModuleOfferingId:guid}"
+@rendermode InteractiveServer
+<FirstExaminerModuleOfferingInformation ModuleOfferingId="ModuleOfferingId"></FirstExaminerModuleOfferingInformation>
+
+@code
+{
+    [Parameter]
+    public Guid ModuleOfferingId { get; set; }
+}
