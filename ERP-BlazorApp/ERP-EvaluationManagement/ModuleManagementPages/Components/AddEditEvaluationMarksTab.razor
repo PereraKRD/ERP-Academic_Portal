@@ -44,18 +44,23 @@
                 }
             </MudCardContent>
         </MudContainer>
-        <MudCardActions>
+    <MudCardActions Style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
             @if (_studentResults != null && _studentResults.Any())
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ExportToExcel" StartIcon="@Icons.Material.Outlined.FileDownload">Generate Excel</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ExportToExcel" StartIcon="@Icons.Material.Outlined.FileDownload" Style="margin-left: 16px;">Generate Excel</MudButton>
             }
             else
-            {               
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddResults">Generate Excel</MudButton>
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddResults" Style="margin-left: 16px;">Generate Excel</MudButton>
             }
-            <InputFile class="pr-4 pl-4" OnChange="UploadFiles" Accept=".xlsx"/>
-            <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" Style="width:auto; height:40px;" StartIcon="@Icons.Material.Filled.Save" OnClick="Save">Save</MudButton>
-        </MudCardActions>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <InputFile class="pr-4 pl-0" OnChange="UploadFiles" Accept=".xlsx" />
+            <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" Style="width:auto; height:40px; margin-right: 16px;" StartIcon="@Icons.Material.Filled.Save" OnClick="Save">Save</MudButton>
+        </div>
+    </MudCardActions>
+
     </MudCard>
 
 

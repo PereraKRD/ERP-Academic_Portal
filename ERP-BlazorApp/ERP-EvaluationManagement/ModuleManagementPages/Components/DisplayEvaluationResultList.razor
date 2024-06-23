@@ -4,7 +4,8 @@
 <h1 class="result-header pb-3" style="color:black; text-align:center">Results</h1>
 @if (_studentResults != null && _studentResults.Any())
 {
-	<MudTable Items="@_studentResults" Dense="true" Hover="true" Bordered="true" Striped="false" Style="background-color: lightcyan;">
+	<MudCardContent Class="border-solid border-2 mud-border-primary pa-4" Elevation="0" Style="height: 400px;  background-color: lightcyan;">
+	<MudTable Items="@_studentResults" Dense="true" Hover="true" Bordered="true" Striped="false" Style="background-color: white;">
 		<HeaderContent>
 			<MudTh>Reg Number</MudTh>
 			<MudTh>Name</MudTh>
@@ -19,6 +20,7 @@
                 <MudTablePager />
             </PagerContent>
         </MudTable>
+		</MudCardContent>
 }
 else
 {
