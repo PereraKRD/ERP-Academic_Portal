@@ -2,6 +2,9 @@
 @using System.Net.Http.Json;
 @inject NavigationManager NavigationManager
 
+
+<div style="display: flex; gap: 16px;">
+    <MudPaper Elevation="2" Class="pa-4" Style="@($"background:{Colors.LightBlue.Lighten5}; width: 80%; height: auto;")">
 <MudContainer Class="result-container">
     <h1 class="result-header pb-3" style="color:purple; text-align:center">BATCHES</h1>
     <MudGrid>
@@ -22,11 +25,17 @@
                 </div>
             </MudCard>
         </MudItem>
-        <MudItem xs="2" Class="m-0 p-0">
+        @* <MudItem xs="2" Class="m-0 p-0">
             <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
-        </MudItem>
+        </MudItem> *@
     </MudGrid>
 </MudContainer>
+</MudPaper>
+
+<MudPaper>
+        <MudDatePicker PickerVariant="PickerVariant.Static" Rounded="true" Elevation="12" Date="DateTime.Today" />
+</MudPaper>
+</div>
 
 @code {
 

@@ -14,7 +14,12 @@
         <MudForm Model="@staffRequest" @ref="@form" Validation="@(evaluationValidator.ValidateValue)"
                  ValidationDelay="0">
             <MudCardContent Class="mud-card-content">
+                
                 <h1 class="result-header pb-3" style="color:black; text-align:center">Make Request</h1>
+
+                <div style="display: flex; gap: 16px;">
+                    <MudPaper Style="@($"background:{Colors.LightBlue.Lighten5}; width: 70%; height: auto; padding: 16px;")">
+
                 <MudSelect T="int" @bind-Value="staffRequest.Header" Label="Header">
                     <MudSelectItem Value="1">Module Related</MudSelectItem>
                     <MudSelectItem Value="2">Medical</MudSelectItem>
@@ -27,12 +32,27 @@
                               For="@(() => staffRequest.Message)"
                               Immediate="true"
                               Label="Message" />
+                
+                 @* <MudTextArea @bind="staffRequest.Message"
+             For="@(() => staffRequest.Message)"
+             Immediate="true"
+             Label="Message"
+             Rows="5" /> *@
 
+ 
+
+                </MudPaper>
+
+                    <MudPaper Style="@($"background:{Colors.LightBlue.Lighten5}; width: 30%;")">
+                        <img src="https://cdn-icons-png.flaticon.com/256/9821/9821106.png" alt="Placeholder Image" style=" width: 300px; height: 300px;" />
+                </MudPaper>
+                </div>
 
             </MudCardContent>
             <MudCardActions Class="mud-card-actions">
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
+                           Style="margin-left: 16px;"
                            Class="mud-button-add" StartIcon="@Icons.Material.Outlined.Send"
                            OnClick="@(async () => await Submit())">Send</MudButton>
             </MudCardActions>

@@ -28,6 +28,12 @@
     </MudExpansionPanels>
 </MudContainer>
 
+<style>
+    .result-container {
+        width: 130%; /* or any specific width you desire, e.g., 80%, 1200px, etc. */
+    }
+</style>
+
 @code {
     private HttpClient Http = new HttpClient();
     private List<GetTeacherModulesResponse> _moduleOfferings = new List<GetTeacherModulesResponse>();

@@ -15,25 +15,32 @@
                 <MudListItem>
                     <MudListItemIcon Icon="@Icons.Material.Filled.Person" Color="Color.Primary" />
                     <MudListItemText>
-                        <MudText Typo="Typo.h6" Class="header-text">Sender</MudText>
-                        <MudText Typo="Typo.body1">@_studentRequest.SenderName</MudText>
+                     <MudText Typo="Typo.h6" Class="header-text">
+                         <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Primary" Style="vertical-align: middle; margin-right: 4px;" />
+                         Sender : @_studentRequest.SenderName
+                     </MudText>
+                     @* <MudText Typo="Typo.body1" Style="margin-left: 35px;">@_studentRequest.SenderName</MudText> *@
                     </MudListItemText>
                 </MudListItem>
                 
                 <MudListItem>
                     <MudListItemIcon Icon="@Icons.Material.Filled.Badge" Color="Color.Secondary" />
                     <MudListItemText>
-                        <MudText Typo="Typo.h6" Class="header-text">Student Registration Number</MudText>
-                        <MudText Typo="Typo.body1">@_studentRequest.SenderRegistrationNum</MudText>
+                            <MudText Typo="Typo.h6" Class="header-text">
+                                <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Color="Color.Primary" Style="vertical-align: middle; margin-right: 4px;" />
+                            Registration Number : @_studentRequest.SenderRegistrationNum
+                            </MudText>
+                            @* <MudText Typo="Typo.body1" Style="margin-left: 35px;">@_studentRequest.SenderRegistrationNum</MudText> *@
                     </MudListItemText>
                 </MudListItem>
                 
                 <MudListItem>
-                    <MudListItemIcon Icon="@Icons.Material.Filled.Subject" Color="Color.Info" />
-                    <MudListItemText>
-                        <MudText Typo="Typo.h6" Class="header-text">Header</MudText>
-                        <MudText Typo="Typo.body1">@GetTypeAsString(@_studentRequest.Header)</MudText>
-                    </MudListItemText>
+                        <MudText Typo="Typo.h6" Class="header-text">
+                            <MudIcon Icon="@Icons.Material.Filled.Topic" Color="Color.Primary" Style="vertical-align: middle; margin-right: 4px;" />
+                        Header : @GetTypeAsString(@_studentRequest.Header)
+                        </MudText>
+                        @* <MudText Typo="Typo.body1" Style="margin-left: 35px;">@GetTypeAsString(@_studentRequest.Header)</MudText> *@
+                    
                 </MudListItem>
 
                 <MudDivider Class="my-4" />
@@ -41,8 +48,12 @@
                 <MudListItem>
                     <MudListItemIcon Icon="@Icons.Material.Filled.Message" Color="Color.Warning" />
                     <MudListItemText>
-                        <MudText Typo="Typo.h6" Class="header-text">Message</MudText>
-                        <MudText Typo="Typo.body1" Class="message-text">@_studentRequest.Message</MudText>
+
+                            <MudText Typo="Typo.h6" Class="header-text">
+                                <MudIcon Icon="@Icons.Material.Filled.Message" Color="Color.Primary" Style="vertical-align: middle; margin-right: 4px;" />
+                                Message
+                            </MudText>
+                            <MudText Typo="Typo.body1" Style="margin-left: 35px;">@_studentRequest.Message</MudText>
                     </MudListItemText>
                 </MudListItem>
             </MudList>
@@ -73,7 +84,7 @@ else
     }
 
     .header-text {
-        font-weight: 500;
+        font-weight: 400;
         color: #424242;
     }
 
