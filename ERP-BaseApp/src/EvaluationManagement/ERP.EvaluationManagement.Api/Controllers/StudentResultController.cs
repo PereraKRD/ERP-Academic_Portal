@@ -61,7 +61,7 @@ public class StudentResultController : BaseController
                     var rowCount = worksheet.RangeUsed().RowCount();
 
                     var moduleCode = worksheet.Cell(3, 3).GetValue<String>();
-                    evaluationName = worksheet.Cell(6, 3).GetValue<String>();
+                    evaluationName = worksheet.Cell(3, 6).GetValue<String>();
 
                     if (moduleOffering.Module.Code != moduleCode)
                     {
@@ -71,10 +71,10 @@ public class StudentResultController : BaseController
                     {
                         return StatusCode(StatusCodes.Status406NotAcceptable, "Uploaded file does not matched to this evaluation.");
                     }
-                    for (int row = 10; row <= rowCount; row++)
+                    for (int row = 8; row <= rowCount; row++)
                     {
-                        string registrationNumber = worksheet.Cell(row, 1).GetValue<String>();
-                        double studentScore = Convert.ToDouble(worksheet.Cell(row, 3).GetValue<String>());
+                        string registrationNumber = worksheet.Cell(row, 3).GetValue<String>();
+                        double studentScore = Convert.ToDouble(worksheet.Cell(row, 5).GetValue<String>());
 
                         if (studentScore <= 0 || studentScore > evaluation.Marks)
                         {
@@ -163,7 +163,7 @@ public class StudentResultController : BaseController
             headerStyle.Font.Bold = true;
             headerStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-            worksheet.Range("A1:H1").Merge().Value = "Faculty of Engineering, University of Ruhuna";
+            worksheet.Range("A1:I1").Merge().Value = "Faculty of Engineering, University of Ruhuna";
             worksheet.Cell("A1").Style
                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
                 .Font.SetBold()
@@ -172,40 +172,41 @@ public class StudentResultController : BaseController
             worksheet.Cell(3, 2).Value = "Module Code";
             worksheet.Cell(4, 2).Value = "Module Name";
             worksheet.Cell(5, 2).Value = "Semester";
-            worksheet.Cell(6, 2).Value = "Evaluation";
-            worksheet.Cell(7, 2).Value = "Cordinator";
+            worksheet.Cell(3, 5).Value = "Evaluation";
+            worksheet.Cell(4, 5).Value = "Cordinator";
 
             worksheet.Cell(3, 3).Value = moduleOffering.Module.Code;
             worksheet.Cell(4, 3).Value = moduleOffering.Module.Name;
             worksheet.Cell(5, 3).Value = moduleOffering.Module.Semester;
-            worksheet.Cell(6, 3).Value = evaluation.Name;
-            worksheet.Cell(7, 3).Value = moduleOffering.Coordinator.FirstName + " " + moduleOffering.Coordinator.LastName;
+            worksheet.Cell(3, 6).Value = evaluation.Name;
+            worksheet.Cell(4, 6).Value = moduleOffering.Coordinator.FirstName + " " + moduleOffering.Coordinator.LastName;
 
 
-            worksheet.Cell(9, 1).Value = "Reg. No.";
-            worksheet.Cell(9, 2).Value = "Name";
-            worksheet.Cell(9, 3).Value = "Marks";
+            worksheet.Cell(7, 3).Value = "Reg. No.";
+            worksheet.Cell(7, 4).Value = "Name";
+            worksheet.Cell(7, 5).Value = "Marks";
 
-            worksheet.Row(9).Style = headerStyle;
+            worksheet.Row(7).Style = headerStyle;
 
-            var row = 10;
+            var row = 8;
             foreach (var result in results)
             {
-                worksheet.Cell(row, 1).Value = result.RegistrationNum;
-                worksheet.Cell(row, 2).Value = result.FullName;
-                var cell = worksheet.Cell(row, 3);
+                worksheet.Cell(row, 3).Value = result.RegistrationNum;
+                worksheet.Cell(row, 4).Value = result.FullName;
+                var cell = worksheet.Cell(row, 5);
                 cell.Value = result.StudentScore;
                 cell.Style.Protection.Locked = false;
+                cell.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
                 row++;
             }
 
-            worksheet.Column("A").Style.Protection.Locked = true;
-            worksheet.Column("B").Style.Protection.Locked = true;
+            worksheet.Column("C").Style.Protection.Locked = true;
+            worksheet.Column("D").Style.Protection.Locked = true;
             worksheet.Protect("password");
 
             worksheet.Columns().AdjustToContents();
 
-            var range = worksheet.Range("A9:C" + (row - 1));
+            var range = worksheet.Range("C7:E" + (row - 1));
             var table = range.CreateTable();
 
             table.ShowAutoFilter = true;
@@ -213,9 +214,6 @@ public class StudentResultController : BaseController
             var headerRow = table.HeadersRow();
             headerRow.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
             headerRow.Style.Font.Bold = true;
-
-            var dataRows = table.DataRange.Rows();
-            dataRows.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
             using var memoryStream = new MemoryStream();
             workbook.SaveAs(memoryStream);
