@@ -6,9 +6,10 @@
 @using Severity = MudBlazor.Severity
 @inject ISnackbar Snackbar
 
-<MudPopoverProvider />
+
 <MudDialogProvider />
 <MudSnackbarProvider />
+<MudThemeProvider/>
 
 <MudContainer Class="result-container">
     <MudCard Class="mud-card">
@@ -21,7 +22,10 @@
                               Immediate="true"
                               Label="Name" />
 
-                <MudSelect T="int" Label="Type" @bind-Value="model.Type" Class="mb-3">
+
+                
+
+                <MudSelect T="int" Label="Type" @bind-Value="model.Type" Class="mb-3" AnchorOrigin="Origin.BottomCenter">
                     <MudSelectItem Value="1">Inclass</MudSelectItem>
                     <MudSelectItem Value="2">Quiz</MudSelectItem>
                     <MudSelectItem Value="3">Assignment</MudSelectItem>
@@ -29,6 +33,7 @@
                     <MudSelectItem Value="6">End Exam</MudSelectItem>
                     <MudSelectItem Value="5">Other</MudSelectItem>
                 </MudSelect>
+
                 <MudNumericField @bind-Value="model.FinalMarks"
                                  For="@(() => model.FinalMarks)"
                                  Immediate="true"
@@ -38,6 +43,19 @@
                                  For="@(() => model.Marks)"
                                  Immediate="true"
                                  Label="Marks" />
+
+                @* <MudGrid Class="cursor-default justify-center align-center">
+                    <MudItem>
+                        <MudSelect T="int" Label="Type" @bind-Value="model.Type" Class="mb-3" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter">
+                            <MudSelectItem Value="1">Inclass</MudSelectItem>
+                            <MudSelectItem Value="2">Quiz</MudSelectItem>
+                            <MudSelectItem Value="3">Assignment</MudSelectItem>
+                            <MudSelectItem Value="4">Take Home</MudSelectItem>
+                            <MudSelectItem Value="6">End Exam</MudSelectItem>
+                            <MudSelectItem Value="5">Other</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid> *@
             </MudCardContent>
             <MudCardActions Class="mud-card-actions">
                 <MudButton Variant="Variant.Filled"
