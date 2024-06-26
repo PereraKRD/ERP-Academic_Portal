@@ -46,6 +46,8 @@ else
     [Parameter]
     public Guid BatchId { get; set; }
 
+    public String teacherId = "af8ad6c4-46f2-4bf8-9628-9cf34e122893";
+
     private HttpClient Http = new HttpClient();
 
     private List<GetAcademicAdviceesResponse> _acadamicAdvicees;
@@ -59,7 +61,7 @@ else
     {
         try
         {
-            _acadamicAdvicees = await Http.GetFromJsonAsync<List<GetAcademicAdviceesResponse>>($"https://localhost:7007/api/Student/{BatchId}/ad13816d-59c4-4ecf-8ecd-987f6eadd324");
+            _acadamicAdvicees = await Http.GetFromJsonAsync<List<GetAcademicAdviceesResponse>>($"https://localhost:7007/api/Student/{BatchId}/{teacherId}");
         }
         catch (Exception ex)
         {

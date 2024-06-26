@@ -60,7 +60,7 @@ namespace ERP.RequestManagement.DataService.Repositories
             try
             {
                 return _dbSet
-                        .Where(x => x.SenderId == teacherId)
+                        .Where(x => x.SenderId == teacherId && x.Status == 1)
                         .Include(x => x.Sender)
                         .Include(x => x.Reciever)
                     ;
@@ -77,7 +77,7 @@ namespace ERP.RequestManagement.DataService.Repositories
             try
             {
                 return _dbSet
-                        .Where(x => x.RecieverId == teacherId)
+                        .Where(x => x.RecieverId == teacherId && x.Status == 1)
                         .Include(x => x.Sender)
                         .Include(x => x.Reciever)
                     ;
@@ -95,7 +95,7 @@ namespace ERP.RequestManagement.DataService.Repositories
             try
             {
                 return await _dbSet
-                        .Where(x => x.Id == requestId)
+                        .Where(x => x.Id == requestId && x.Status == 1)
                         .Include(x => x.Sender)
                         .Include(x => x.Reciever)
                         .FirstOrDefaultAsync()

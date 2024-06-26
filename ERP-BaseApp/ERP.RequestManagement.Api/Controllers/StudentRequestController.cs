@@ -63,5 +63,21 @@ namespace ERP.RequestManagement.Api.Controllers
             return Ok(results);
         }
 
+        [HttpDelete]
+        [Route("{requestId:guid}")]
+        public async Task<IActionResult> DeleteStudentRequest(Guid requestId)
+        {
+            var request = await _unitOfWork.StudentRequests.GetAsync(requestId);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            await _unitOfWork.StudentRequests.DeleteAsync(requestId);
+            await _unitOfWork.CompleteAsync();
+            return NoContent();
+        }
+
     }
 }

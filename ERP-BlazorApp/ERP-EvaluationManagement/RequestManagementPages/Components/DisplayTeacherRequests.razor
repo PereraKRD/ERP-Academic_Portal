@@ -1,6 +1,8 @@
 ﻿@using ERP_EvaluationManagement.DTOs.Responses
 @using System.Net.Http.Json;
 @inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <MudContainer Class="result-container">
     
@@ -12,7 +14,7 @@
             <MudTh Width="120px">Reciever Name</MudTh>
             <MudTh>Reg No</MudTh>
             <MudTh>Header</MudTh>
-            <MudTh></MudTh>
+            <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate Context="request">
             <MudTd>@request.AddedDate.ToShortDateString()</MudTd>
@@ -20,6 +22,9 @@
                 <MudTd>@request.RecieverName</MudTd>
                 <MudTd>@request.RecieverRegistrationNum</MudTd>
                 <MudTd>@GetTypeAsString(request.Header)</MudTd>
+                <MudTd>
+                    <MudIconButton Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="() => DeleteRequest(request.RequestId)" />
+                </MudTd>
                 <MudTd>
                     <MudButton EndIcon="@Icons.Material.Filled.KeyboardDoubleArrowRight" @onclick="() => ViewModuleInformation(request.SenderId, request.RequestId)">
                         <b><ul style="text-decoration: underline; font-size: 12px;">View details</ul></b>
@@ -34,7 +39,7 @@
 
     <style>
         .result-container {
-            width: 130%; /* or any specific width you desire, e.g., 80%, 1200px, etc. */
+            width: 135%; /* or any specific width you desire, e.g., 80%, 1200px, etc. */
         }
     </style>
 
@@ -45,10 +50,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadModulesAsync();
+        await LoadRequestAsync();
     }
 
-    private async Task LoadModulesAsync()
+    private async Task LoadRequestAsync()
     {
         _teacherRequests = await Http.GetFromJsonAsync<List<GetTeacherMessagesResponse>>($"https://localhost:7256/TeacherRequests/{teacherId}");
         _teacherRequests.Sort((x, y) => y.AddedDate.CompareTo(x.AddedDate));
@@ -57,6 +62,15 @@
     private void ViewModuleInformation(Guid senderId, Guid requestId)
     {
         NavigationManager.NavigateTo($"/RequestManagementTabs/TeacherRequest/{requestId}/{senderId}");
+    }
+
+    async Task DeleteRequest(Guid requeestId)
+    {
+        var parameters = new DialogParameters { ["RequestId"] = requeestId };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteTeacherRequest>("Confirm Delete", parameters);
+        var result = await dialog.Result;
+        await LoadRequestAsync();
+
     }
 
     private string GetTypeAsString(int type)

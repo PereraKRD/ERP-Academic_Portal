@@ -60,7 +60,7 @@ namespace ERP.RequestManagement.DataService.Repositories
             try
             {
                 return _dbSet
-                        .Where(x => x.RecieverId == teacherId)
+                        .Where(x => x.RecieverId == teacherId && x.Status == 1)
                         .Include(x => x.Sender)
                         .Include(x => x.Reciever)
                     ;
